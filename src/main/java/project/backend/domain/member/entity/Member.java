@@ -10,7 +10,7 @@ import project.backend.domain.onboardingmembercategory.entity.OnboardingMemberCa
 import project.backend.domain.ticket.entity.Ticket;
 import project.backend.domain.member.dto.MemberPatchRequestDto;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;

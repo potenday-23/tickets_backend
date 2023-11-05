@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 import project.backend.domain.ticket.entity.Ticket;
 import project.backend.domain.member.entity.Member;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.util.Optional;
 
 @Entity

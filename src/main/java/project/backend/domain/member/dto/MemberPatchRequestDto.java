@@ -3,8 +3,8 @@ package project.backend.domain.member.dto;
 import lombok.*;
 import project.backend.domain.member.entity.SocialType;
 
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 
 
 @Getter

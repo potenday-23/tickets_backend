@@ -1,12 +1,12 @@
 package project.backend.domain.jwt.controller;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import project.backend.domain.jwt.dto.KakaoUserInfo;
@@ -22,7 +22,7 @@ import project.backend.global.error.exception.ErrorCode;
 
 @RestController
 @RequestMapping("/api/auth")
-@Api(tags = "로그인 API")
+@Tag(name = "카테고리 API", description = "Swagger 테스트용 API")
 @Validated
 @AllArgsConstructor
 @Slf4j
@@ -32,21 +32,21 @@ public class JwtController {
     private final JwtService jwtService;
     private final MemberMapper memberMapper;
 
-    @ApiOperation(
-            value = "로그인 & 회원가입 기능(로그인, 회원가입 로직을 따로 나누지 않습니다.)",
-            notes = " - 다음의 링크에서 사용 방법을 확인해 주세요 : https://www.notion.so/sideproject-unione/c9c895d9cc714cee89734d268560fe52")
+    @Operation(
+            summary = "로그인 & 회원가입 기능(로그인, 회원가입 로직을 따로 나누지 않습니다.)",
+            description = " - 다음의 링크에서 사용 방법을 확인해 주세요 : https://www.notion.so/sideproject-unione/c9c895d9cc714cee89734d268560fe52")
     @GetMapping("/kakao/login")
     public ResponseEntity login(@RequestParam(value = "token", required = false) String token,
                                 @RequestParam(value = "code", required = false) String code,
                                 @RequestParam(value = "redirect_url", required = false) String redirect_url) {
 
         // 유저 정보 얻기
-        if(!StringUtils.isEmpty(code)) {
-            if (StringUtils.isEmpty(redirect_url)){
+        if(code != null) {
+            if (redirect_url == null){
                 throw new BusinessException(ErrorCode.MISSING_REDIRECT_REQUEST_PARAM);
             }
             token = jwtService.getKakaoAccessToken(code, redirect_url);
-        } else if(StringUtils.isEmpty(token)) {
+        } else {
             throw new BusinessException(ErrorCode.MISSING_REQUEST_PARAM);
         }
         KakaoUserInfo kakaoUserInfo = jwtService.getKakaoUserInfo(token);

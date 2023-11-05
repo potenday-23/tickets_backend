@@ -1,7 +1,7 @@
 package project.backend.domain.member.controller;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.http.HttpStatus;
@@ -18,14 +18,14 @@ import project.backend.domain.member.service.MemberService;
 import project.backend.domain.onboardingmembercategory.entity.OnboardingMemberCategory;
 import project.backend.global.s3.service.ImageService;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/members")
 @RequiredArgsConstructor
-@Api(tags = "멤버 API")
+@Tag(name = "카테고리 API", description = "Swagger 테스트용 API")
 public class MemberController {
 
     private final MemberService memberService;
@@ -63,9 +63,9 @@ public class MemberController {
         return ResponseEntity.status(HttpStatus.OK).body(memberResponseDtoList);
     }
 
-    @ApiOperation(
-            value = "닉네임 & 프로필 이미지 등록, 온보딩 기능",
-            notes = " - 닉네임 변경 원할 시 : request -> {\"nickname\" : \"가방이\"}\n" +
+    @Operation(
+            summary = "닉네임 & 프로필 이미지 등록, 온보딩 기능",
+            description = " - 닉네임 변경 원할 시 : request -> {\"nickname\" : \"가방이\"}\n" +
                     " - 프로필 이미지 변경 원할 시 : profileImage -> MultipartFile으로 파일 입력 \n" +
                     " - 온보딩 입력 & 수정 원힐 시 : categorys -> [\"기타\", \"영화\"] \n" +
                     " - 아직 중복 검사 로직은 없습니다!\n" +

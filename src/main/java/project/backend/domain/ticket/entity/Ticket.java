@@ -10,7 +10,7 @@ import project.backend.domain.common.entity.BaseEntity;
 import project.backend.domain.ticket.dto.TicketPatchRequestDto;
 import project.backend.domain.member.entity.Member;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;

@@ -8,7 +8,7 @@ import project.backend.domain.memberTicketLike.entity.MemberTicketLike;
 import project.backend.domain.onboardingmembercategory.entity.OnboardingMemberCategory;
 import project.backend.domain.ticket.entity.Ticket;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 

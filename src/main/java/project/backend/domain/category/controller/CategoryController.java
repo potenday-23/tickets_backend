@@ -1,7 +1,7 @@
 package project.backend.domain.category.controller;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,16 +14,16 @@ import project.backend.domain.category.service.CategoryService;
 @RestController
 @RequestMapping("/api/categorys")
 @RequiredArgsConstructor
-@Api(tags = "카테고리 API")
+@Tag(name = "카테고리 API", description = "Swagger 테스트용 API")
 public class CategoryController {
 
     private final CategoryService categoryService;
     private final CategoryMapper categoryMapper;
 
 
-    @ApiOperation(
-            value = "카테고리 목록 조회",
-            notes = "카테고리 목록을 조회한다.")
+    @Operation(
+            summary  = "카테고리 목록 조회",
+            description  = "카테고리 목록을 조회한다.")
     @GetMapping
     public ResponseEntity getCategoryList() {
         return ResponseEntity.status(HttpStatus.OK).body(categoryMapper.categorysToCategoryResponseDtos(categoryService.getCategoryList()));

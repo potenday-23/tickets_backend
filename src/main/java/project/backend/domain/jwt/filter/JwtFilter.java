@@ -17,10 +17,10 @@ import project.backend.global.error.exception.BusinessException;
 import project.backend.global.error.exception.ErrorCode;
 
 import javax.security.sasl.AuthenticationException;
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
@@ -35,7 +35,7 @@ public class JwtFilter extends OncePerRequestFilter {
 
         String path = request.getServletPath();
         log.info(path);
-        if (path.startsWith("/api/auth/kakao/login") || path.startsWith("/swagger-ui/") || path.startsWith("/backoffice")
+        if (path.startsWith("/api/auth/kakao/login") || path.startsWith("/swagger-ui") || path.startsWith("/backoffice")
                 || path.startsWith("/favicon.ico") || path.startsWith("/v3/api-docs") || path.startsWith("/api/tickets")
                 || path.startsWith("/api/tickets/**") || path.startsWith("/api/categorys")) {
             filterChain.doFilter(request, response);

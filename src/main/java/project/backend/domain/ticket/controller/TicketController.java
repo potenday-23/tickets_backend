@@ -1,7 +1,7 @@
 package project.backend.domain.ticket.controller;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +17,7 @@ import project.backend.domain.ticket.service.TicketService;
 import project.backend.domain.ticket.dto.TicketResponseDto;
 import project.backend.global.s3.service.ImageService;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/tickets")
 @RequiredArgsConstructor
-@Api(tags = "티켓 API")
+@Tag(name = "카테고리 API", description = "Swagger 테스트용 API")
 public class TicketController {
 
     private final TicketService ticketService;
@@ -35,9 +35,9 @@ public class TicketController {
     private final JwtService jwtService;
 
 
-    @ApiOperation(
-            value = "티켓 생성하기",
-            notes = " - Header['Authorization'] : AccessToken값 입력\n" +
+    @Operation(
+            summary = "티켓 생성하기",
+            description = " - Header['Authorization'] : AccessToken값 입력\n" +
                     " - image : MultipartFile 입력(사용자가 추가한 이미지)\n" +
                     " - ticketImage : MultipartFile 입력(티켓 완성본 이미지)\n" +
                     " - request : {\n" +
@@ -84,9 +84,9 @@ public class TicketController {
      *
      * @return
      */
-    @ApiOperation(
-            value = "둘러보기 티켓 조회(전체 공개만)",
-            notes = "- ?categorys=영화,뮤지컬\n" +
+    @Operation(
+            summary = "둘러보기 티켓 조회(전체 공개만)",
+            description = "- ?categorys=영화,뮤지컬\n" +
                     "- ?period=week    **[week, month, 6month, day로 조회 가능]**\n" +
                     "- ?start=2023-11-03\n" +
                     "- ?end=2023-11-05\n" +

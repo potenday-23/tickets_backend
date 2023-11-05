@@ -5,7 +5,7 @@ import project.backend.domain.category.entity.Category;
 import project.backend.domain.member.entity.Member;
 import project.backend.domain.ticket.entity.Ticket;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.util.Optional;
 
 @Entity
