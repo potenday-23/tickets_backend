@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/default_layout}">
+
+<!--    css 추가     -->
+<th:block layout:fragment="css">
+</th:block>
+
+<!--    script 추가     -->
+<th:block layout:fragment="script">
+</th:block>
+
+<!-- Content -->
+<div id="members-page" layout:fragment="content">
+
+  <!-- title -->
+  <div class="page-title">
+    <h1>~ 회원 계정 정지</h1>
+  </div>
+
+  <!-- 계정 정지 -->
+  <form th:action="@{/backoffice/members/{memberId}/suspend (memberId=${memberId})}" th:object="${form}" method="post" enctype="multipart/form-data">
+    <div class="form-group" style="margin-bottom: 20px">
+      <label th:for="suspendPeriod">정지 기간</label>
+      <input type="number" th:value="*{suspendPeriod}" th:field="*{suspendPeriod}" class="form-control" placeholder="계정 정지 일수를 선택하세요">
+    </div>
+    <div class="form-group" style="margin-bottom: 20px">
+      <label th:for="subtitle">정지 사유</label>
+      <input type="text" th:value="*{suspendReason}" th:field="*{suspendReason}" class="form-control" placeholder="계정 정지 사유를 입력하세요.">
+    </div>
+    <button style="margin-top: 2rem" type="submit" class="btn" id="suspend-submit">Submit</button>
+  </form>
+
+  <style>
+    #suspend-submit {
+      color: #F683BB;
+    }
+  </style>
+
+</div>
+
+</html>

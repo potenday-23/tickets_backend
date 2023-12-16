@@ -16,7 +16,7 @@ import java.util.Optional;
 public class Notice extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_id")
+    @Column(name = "notice_id")
     public Long id;
 
     @Column(name = "title")
@@ -24,6 +24,8 @@ public class Notice extends BaseEntity {
 
     @Column(name = "content")
     public String content;
+
+
 
     @Builder
     public Notice(String title, String content){

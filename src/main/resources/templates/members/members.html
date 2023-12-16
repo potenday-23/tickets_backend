@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/default_layout}">
+
+<!--    css 추가     -->
+<th:block layout:fragment="css">
+</th:block>
+
+<!--    script 추가     -->
+<th:block layout:fragment="script">
+</th:block>
+
+<!-- Content -->
+<div id="members-page" layout:fragment="content">
+
+    <!-- title -->
+    <div class="page-title">
+        <h1>회원 정보 관리</h1>
+    </div>
+
+    <!--  회원 목록  -->
+    <div style="margin: auto">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>id</th>
+                <th>닉네임</th>
+                <th>이메일</th>
+                <th>프로필</th>
+                <th>가입일자</th>
+                <th>생성 티켓 수</th>
+                <th>계정 정지 기능</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="member : ${members}">
+                <td th:text="${member.id}"></td>
+                <td th:text="${member.nickname}"></td>
+                <td>-</td>
+                <td><a href="#" th:href="${member.profileUrl}"><img th:src="${member.profileUrl}" style="height: 70px"/></a></td>
+                <td th:text="${member.createdDate}"></td>
+                <td th:text="${member.tickets.size()}"></td>
+                <td th:if="${member.suspend}">
+                    <div th:text="${member.suspend.suspendDeadline}"></div>
+                    <div th:text="${member.suspend.suspendReason}"></div>
+                    <a href="#" th:href="@{/backoffice/members/{memberId}/suspend (memberId=${member.id})}">정지 상태 변경</a>
+                </td>
+                <td th:unless="${member.suspend}">
+                    <div>-</div>
+                    <a href="#" th:href="@{/backoffice/members/{memberId}/suspend (memberId=${member.id})}">정지 상태 변경</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <style>
+        #members-page {
+            padding: 30px;
+        }
+
+        .page-title > h1 {
+            text-align: left;
+            font-weight: bolder;
+            font-size: 50px;
+            color: black;
+            margin-bottom: 30px;
+        }
+    </style>
+
+</div>
+
+</html>

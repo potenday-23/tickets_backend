@@ -1,0 +1,75 @@
+<html lagn="ko" xmlns:th="http://www.thymeleaf.org">
+<!--leftFragment 선언-->
+<div style="height: 100%" th:fragment="leftFragment">
+    <section class="navigation" style="height: 100%">
+        <nav style="height: 100%">
+            <div class="nav-logo">
+                <img src="/images/ticats-logo.png" onclick="location.href='/backoffice'">
+            </div>
+            <div class="nav-list">
+                <a href="/#">
+                    <div>통계</div>
+                </a>
+                <a href="/#">
+                    <div>사용자 트래픽</div>
+                </a>
+                <a href="/#">
+                    <div>회원 정보 관리</div>
+                </a>
+                <a href="/#">
+                    <div>탈퇴 관리</div>
+                </a>
+                <a href="/#">
+                    <div>공지사항 관리</div>
+                </a>
+                <a href="/#">
+                    <div>문의하기 관리</div>
+                </a>
+                <a href="/#">
+                    <div>신고하기 관리</div>
+                </a>
+                <a href="/#">
+                    <div>푸시알림</div>
+                </a>
+            </div>
+        </nav>
+    </section>
+
+    <style>
+
+        .nav-logo {
+            margin-top: 15px;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .nav-logo > img {
+            width: 70%;
+            cursor: pointer;
+        }
+
+        .nav-list {
+            margin-top: 30px;
+            list-style-type: none;
+            font-weight: 500;
+        }
+
+        .nav-list > a {
+            display: block;
+            padding: 10px 25px;
+            width: inherit;
+            height: inherit;
+            text-decoration: none;
+            color: black;
+        }
+
+        .nav-list > a:hover {
+            text-decoration: none;
+            color: white;
+            background-color: #F683BB;
+        }
+
+    </style>
+
+</div>
+</html>

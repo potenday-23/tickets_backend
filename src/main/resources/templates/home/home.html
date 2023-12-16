@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/default_layout}">
+
+<!--    css 추가     -->
+<th:block layout:fragment="css">
+</th:block>
+
+<!--    script 추가     -->
+<th:block layout:fragment="script">
+</th:block>
+
+<!-- Content -->
+<div layout:fragment="content">
+
+    <div id="backoffice-main-div">
+        <div>
+            <h4>세상 모든 문화생활을 한 곳에서, <br>🎫티켓 아카이빙 서비스 티캣츠(Ticats) 백오피스 입니다.</h4>
+        </div>
+        <div id="home-gif">
+            <img th:src="@{images/home.gif}">
+        </div>
+        <div id="backoffice-main">
+            <img th:src="@{images/backoffice-main.png}">
+        </div>
+    </div>
+
+    <style>
+        #backoffice-main-div{
+            margin-top: 50px;
+            padding: 40px 20px 20px;
+            text-align: center;
+        }
+
+        #backoffice-main {
+            height: 400px;
+            display: inline-block;
+            text-align: center;
+            margin-top: 60px;
+        }
+
+        #home-gif {
+            height: 400px;
+            display: inline-block;
+            text-align: center;
+            margin-top: 60px;
+            margin-right: 80px;
+        }
+
+        #home-gif > img {
+            height: 100%;
+        }
+
+        #backoffice-main > img {
+            height: 30%;
+        }
+
+        #backoffice-main > img {
+            height: 40%;
+        }
+
+        #home-gif {
+            margin-left: 30px;
+        }
+
+    </style>
+
+</div>
+</html>

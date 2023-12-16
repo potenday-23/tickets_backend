@@ -1,5 +1,11 @@
 spring:
 
+  devtools:
+    livereload:
+      enabled: true
+    restart:
+      enabled: true
+
   servlet:
     multipart:
       max-file-size: 20MB
