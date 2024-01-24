@@ -46,7 +46,7 @@ public class TicketRepositoryImpl implements TicketRepositoryCustom {
                             ticket.title.contains(search),
                             ticket.ticketDate.between(startAndEndList.get(0), startAndEndList.get(1))
                     )
-                    .orderBy(ticket.ticketDate.desc())
+                    .orderBy(ticket.createdDate.desc())
                     .fetch();
         }
 
@@ -57,7 +57,7 @@ public class TicketRepositoryImpl implements TicketRepositoryCustom {
                             ticket.title.contains(search),
                             ticket.ticketDate.between(startAndEndList.get(0), startAndEndList.get(1))
                     )
-                    .orderBy(ticket.ticketDate.desc())
+                    .orderBy(ticket.createdDate.desc())
                     .fetch();
         }
     }
@@ -71,7 +71,7 @@ public class TicketRepositoryImpl implements TicketRepositoryCustom {
                             ticket.title.contains(search),
                             ticket.ticketDate.between(startAndEndList.get(0), startAndEndList.get(1))
                     )
-                    .orderBy(ticket.ticketDate.desc())
+                    .orderBy(ticket.createdDate.desc())
                     .fetch();
         }
 
@@ -82,7 +82,7 @@ public class TicketRepositoryImpl implements TicketRepositoryCustom {
                             ticket.title.contains(search),
                             ticket.ticketDate.between(startAndEndList.get(0), startAndEndList.get(1))
                     )
-                    .orderBy(ticket.ticketDate.desc())
+                    .orderBy(ticket.createdDate.desc())
                     .fetch();
         }
     }
@@ -96,7 +96,7 @@ public class TicketRepositoryImpl implements TicketRepositoryCustom {
                             ticket.ticketDate.between(startAndEndList.get(0), startAndEndList.get(1)),
                             ticket.member.eq(member)
                     )
-                    .orderBy(ticket.ticketDate.desc())
+                    .orderBy(ticket.createdDate.desc())
                     .fetch();
         }
 
@@ -107,7 +107,7 @@ public class TicketRepositoryImpl implements TicketRepositoryCustom {
                             ticket.ticketDate.between(startAndEndList.get(0), startAndEndList.get(1)),
                             ticket.member.eq(member)
                     )
-                    .orderBy(ticket.ticketDate.desc())
+                    .orderBy(ticket.createdDate.desc())
                     .fetch();
         }
     }
