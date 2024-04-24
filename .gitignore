@@ -39,3 +39,6 @@ out/
 ### generated ###
 src/main/generated/
 src/main/generated
+
+### env ###
+.env
