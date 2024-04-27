@@ -17,19 +17,14 @@ import java.util.List;
 public class Place extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
     public Long id;
 
-    @Column(name = "title")
     public String title;
 
-    @Column(name = "address")
     public String address;
 
-    @Column(name = "latitude")
     public String latitude;
 
-    @Column(name = "longitude")
     public String longitude;
 
     @OneToMany(mappedBy = "place", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})

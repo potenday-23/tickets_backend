@@ -8,6 +8,6 @@ import lombok.*;
 @AllArgsConstructor
 public class CulturalEventCategoryResponseDto {
     private String title;
-    private String order;
+    private String ordering;
     private String imageUrl;
 }

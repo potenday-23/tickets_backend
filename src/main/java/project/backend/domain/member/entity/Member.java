@@ -23,7 +23,6 @@ import java.util.Optional;
 public class Member extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) // todo : IDENTITY와 AUTO 차이점이 뭔지?
-    @Column(name = "member_id")
     public Long id;
 
     @Enumerated(value = EnumType.STRING)

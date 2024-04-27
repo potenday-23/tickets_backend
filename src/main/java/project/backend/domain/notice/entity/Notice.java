@@ -16,13 +16,10 @@ import java.util.Optional;
 public class Notice extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "notice_id")
     public Long id;
 
-    @Column(name = "title")
     public String title;
 
-    @Column(name = "content")
     public String content;
 
     @Builder

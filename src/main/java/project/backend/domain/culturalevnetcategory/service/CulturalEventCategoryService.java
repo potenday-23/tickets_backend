@@ -22,7 +22,7 @@ public class CulturalEventCategoryService {
     public CulturalEventCategory createCulturalEventCategory(CulturalEventCategoryPostRequestDto culturalEventCategoryPostRequestDto) {
         CulturalEventCategory culturalEventCategory = CulturalEventCategory.builder()
                 .title(culturalEventCategoryPostRequestDto.getTitle())
-                .order(culturalEventCategoryPostRequestDto.getOrder())
+                .ordering(culturalEventCategoryPostRequestDto.getOrdering())
                 .imageUrl(culturalEventCategoryPostRequestDto.getImageUrl()).build();
         culturalEventCategoryRepository.save(culturalEventCategory);
         return culturalEventCategory;
