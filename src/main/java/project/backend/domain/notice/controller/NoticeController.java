@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
+import project.backend.domain.culturalevent.service.CulturalEventBatchService;
 import project.backend.domain.notice.dto.NoticePostRequestDto;
 import project.backend.domain.notice.dto.NoticeResponseDto;
 import project.backend.domain.notice.dto.NoticePatchRequestDto;
@@ -27,6 +28,7 @@ public class NoticeController {
 
     private final NoticeService noticeService;
     private final NoticeMapper noticeMapper;
+    private final CulturalEventBatchService culturalEventBatchService;
 
 
     @PostMapping
@@ -50,6 +52,7 @@ public class NoticeController {
 
     @GetMapping
     public ResponseEntity getNoticeList() {
+        culturalEventBatchService.interparkGoodsCodeList();
         List<NoticeResponseDto> noticeResponseDtoList = noticeMapper.noticesToNoticeResponseDtos(noticeService.getNoticeList());
         return ResponseEntity.status(HttpStatus.OK).body(noticeResponseDtoList);
     }

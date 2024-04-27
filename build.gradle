@@ -94,6 +94,8 @@ dependencies {
 	// email
 	implementation 'org.springframework.boot:spring-boot-starter-mail'
 
+	// json
+	implementation 'org.json:json:20220924'
 }
 
 tasks.named('test') {
