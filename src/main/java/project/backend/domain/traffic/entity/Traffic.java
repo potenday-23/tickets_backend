@@ -17,14 +17,11 @@ public class Traffic extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "traffic_id")
     public Long id;
 
-    @Column(name = "button_name")
     public String buttonName;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id")
     public Member member;
 
     @Builder

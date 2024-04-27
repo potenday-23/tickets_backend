@@ -15,10 +15,8 @@ public class Version extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "version_id")
     public Long id;
 
-    @Column(name = "version")
     public String version;
 
 

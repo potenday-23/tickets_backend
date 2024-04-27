@@ -22,7 +22,6 @@ import java.util.Optional;
 public class Ticket extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) // todo : IDENTITY와 AUTO 차이점이 뭔지?
-    @Column(name = "ticket_id")
     public Long id;
 
     public String title;
@@ -51,11 +50,9 @@ public class Ticket extends BaseEntity {
     public IsPrivate isPrivate = IsPrivate.PRIVATE;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id")
     public Member member;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "category_id")
     public Category category;
 
     @OneToMany(mappedBy = "ticket", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})

@@ -16,13 +16,10 @@ import java.util.Optional;
 public class Quit extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_id")
     public Long id;
 
-    @Column(name = "title")
     public String reason;
 
-    @Column(name = "content")
     public Integer count;
 
     @Builder

@@ -21,22 +21,18 @@ import java.util.Optional;
 public class Category extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "category_id")
     public Long id;
 
-    @Column(name = "name", unique = true)
+    @Column(unique = true)
     public String name;
 
-    @Column(name = "eng_name", unique = true)
+    @Column(unique = true)
     public String engName;
 
-    @Column(name = "num")
     public Integer num;
 
-    @Column(name = "basic_image")
     public String basicImage;
 
-    @Column(name = "click_image")
     public String clickImage;
 
     @OneToMany(mappedBy = "category", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
