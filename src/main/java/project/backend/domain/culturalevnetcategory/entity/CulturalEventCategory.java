@@ -18,25 +18,21 @@ import java.util.List;
 public class CulturalEventCategory extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
     public Long id;
 
-    @Column(name = "title")
     public String title;
 
-    @Column(name = "order")
-    public String order;
+    public String ordering;
 
-    @Column(name = "imageUrl")
     public String imageUrl;
 
     @OneToMany(mappedBy = "culturalEventCategory", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     public List<CulturalEvent> culturalEvents = new ArrayList<>();
 
     @Builder
-    public CulturalEventCategory(String title, String order, String imageUrl) {
+    public CulturalEventCategory(String title, String ordering, String imageUrl) {
         this.title = title;
-        this.order = order;
+        this.ordering = ordering;
         this.imageUrl = imageUrl;
     }
 }

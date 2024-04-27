@@ -18,17 +18,13 @@ import java.util.List;
 public class TicketingSite extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
     public Long id;
 
-    @Column(name = "platform")
     public String platform;
 
-    @Column(name = "link")
     public String link;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "culturalEventId")
     public CulturalEvent culturalEvent;
 
     @Builder

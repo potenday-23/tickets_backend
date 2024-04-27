@@ -13,7 +13,6 @@ import javax.persistence.*;
 public class LogoutToken {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "logout_token_id")
     public Long id;
 
     public String token;

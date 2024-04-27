@@ -15,10 +15,8 @@ public class Landing extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "landing_id")
     public Long id;
 
-    @Column(name = "email")
     public String email;
 
 

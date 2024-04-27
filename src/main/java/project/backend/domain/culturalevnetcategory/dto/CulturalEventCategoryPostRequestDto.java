@@ -11,6 +11,6 @@ import javax.persistence.Column;
 @AllArgsConstructor
 public class CulturalEventCategoryPostRequestDto {
     private String title;
-    private String order;
+    private String ordering;
     private String imageUrl;
 }
