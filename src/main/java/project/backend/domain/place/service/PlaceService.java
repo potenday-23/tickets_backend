@@ -34,11 +34,16 @@ public class PlaceService {
      * @return Place
      */
     public Place createPlace(PlaceCreateDto placeCreateDto) {
-        Place place = placeRepository
-                .findFirstByAddress(placeCreateDto.getAddress())
-                .orElseGet(() -> placeMapper.placeCreateDtoToPlace(placeCreateDto));
-        placeRepository.save(place);
-        return place;
+        if (placeCreateDto != null) {
+            Place place = placeRepository
+                    .findFirstByAddress(placeCreateDto.getAddress())
+                    .orElseGet(() -> placeMapper.placeCreateDtoToPlace(placeCreateDto));
+            placeRepository.save(place);
+            return place;
+        } else {
+            return null;
+        }
+
     }
 
     public PlaceCreateDto getPlaceCreateDtoFromPlaceCode(String placeCode) {

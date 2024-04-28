@@ -41,6 +41,10 @@ public enum ErrorCode {
     // Notice
     NOTICE_NOT_FOUND(400, "N001", "공지를 찾을 수 없습니다."),
 
+    // Cultural Event Category
+    CULTURAL_EVENT_CATEGORY_NOT_FOUND(400, "CEC001", "문화생활 카테고리를 찾을 수 없습니다."),
+
+
     // Traffic
     VERSION_NOT_FOUND(400, "V001", "버전을 찾을 수 없습니다.")
 

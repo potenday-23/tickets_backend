@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import project.backend.domain.common.entity.BaseEntity;
 import project.backend.domain.culturalevent.entity.CulturalEvent;
+import project.backend.domain.member.entity.SocialType;
 import project.backend.domain.ticket.entity.Ticket;
 
 import javax.persistence.*;
@@ -20,9 +21,10 @@ public class CulturalEventCategory extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long id;
 
-    public String title;
+    @Enumerated(value = EnumType.STRING)
+    public CategoryTitle title;
 
-    public String ordering;
+    public Integer ordering;
 
     public String imageUrl;
 
@@ -30,7 +32,7 @@ public class CulturalEventCategory extends BaseEntity {
     public List<CulturalEvent> culturalEvents = new ArrayList<>();
 
     @Builder
-    public CulturalEventCategory(String title, String ordering, String imageUrl) {
+    public CulturalEventCategory(CategoryTitle title, Integer ordering, String imageUrl) {
         this.title = title;
         this.ordering = ordering;
         this.imageUrl = imageUrl;

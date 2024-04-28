@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.*;
+import project.backend.domain.culturalevnetcategory.entity.CategoryTitle;
 import project.backend.global.config.CustomDateDeserializer;
 
 import java.util.Date;
@@ -43,7 +44,7 @@ public class CulturalEventCreateDto {
     @JsonProperty("summary")
     private String summary;
 
-    @JsonProperty("genreName")
+    @JsonProperty("genreSubName")
     private String genre;
 
     @JsonProperty("contentHtml")
@@ -51,4 +52,6 @@ public class CulturalEventCreateDto {
 
     @JsonProperty("placeCode")
     private String placeCode;
+
+    private CategoryTitle categoryTitle;
 }

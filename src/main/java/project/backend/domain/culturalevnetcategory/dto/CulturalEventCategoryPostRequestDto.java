@@ -1,6 +1,7 @@
 package project.backend.domain.culturalevnetcategory.dto;
 
 import lombok.*;
+import project.backend.domain.culturalevnetcategory.entity.CategoryTitle;
 
 import javax.persistence.Column;
 
@@ -10,7 +11,7 @@ import javax.persistence.Column;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CulturalEventCategoryPostRequestDto {
-    private String title;
-    private String ordering;
+    private CategoryTitle title;
+    private Integer ordering;
     private String imageUrl;
 }

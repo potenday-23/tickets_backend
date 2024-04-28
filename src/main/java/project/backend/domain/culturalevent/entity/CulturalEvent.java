@@ -83,12 +83,27 @@ public class CulturalEvent extends BaseEntity {
     }
 
     public void setPlace(Place place) {
-        if (this.place != null) {
-            if (this.place.getCulturalEvents().contains(this)) {
-                this.place.getCulturalEvents().remove(this);
+        if (place != null) {
+            if (this.place != null) {
+                if (this.place.getCulturalEvents().contains(this)) {
+                    this.place.getCulturalEvents().remove(this);
+                }
             }
+            this.place = Optional.ofNullable(place).orElse(this.place);
+            this.place.getCulturalEvents().add(this);
         }
-        this.place = Optional.ofNullable(place).orElse(this.place);
-        this.place.getCulturalEvents().add(this);
+    }
+
+    public void setCulturalEventCategory(CulturalEventCategory culturalEventCategory) {
+        if (culturalEventCategory != null) {
+            if (this.culturalEventCategory != null) {
+                if (this.culturalEventCategory.getCulturalEvents().contains(this)) {
+                    this.culturalEventCategory.getCulturalEvents().remove(this);
+                }
+            }
+            this.culturalEventCategory = Optional.ofNullable(culturalEventCategory).orElse(this.culturalEventCategory);
+            this.culturalEventCategory.getCulturalEvents().add(this);
+
+        }
     }
 }

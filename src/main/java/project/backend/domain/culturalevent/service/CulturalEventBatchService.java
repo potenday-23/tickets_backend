@@ -16,13 +16,15 @@ import project.backend.domain.culturalevent.dto.CulturalEventCreateDto;
 import project.backend.domain.culturalevent.entity.CulturalEvent;
 import project.backend.domain.culturalevent.mapper.CulturalEventMapper;
 import project.backend.domain.culturalevent.repository.CulturalEventRepository;
+import project.backend.domain.culturalevnetcategory.entity.CategoryTitle;
+import project.backend.domain.culturalevnetcategory.entity.CulturalEventCategory;
+import project.backend.domain.culturalevnetcategory.service.CulturalEventCategoryService;
 import project.backend.domain.place.dto.PlaceCreateDto;
 import project.backend.domain.place.entity.Place;
 import project.backend.domain.place.service.PlaceService;
-import project.backend.domain.ticket.dto.TicketPostRequestDto;
-import project.backend.domain.ticket.entity.Ticket;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -34,12 +36,16 @@ public class CulturalEventBatchService {
     private final CulturalEventRepository culturalEventRepository;
     private final CulturalEventMapper culturalEventMapper;
     private final PlaceService placeService;
+    private final CulturalEventCategoryService culturalEventCategoryService;
 
     public void createCulturalEvents() {
-        List<String> interparkGoodsCodeList = getinterparkGoodsCodeList();
-        for (String goodsCode : interparkGoodsCodeList) {
-            CulturalEventCreateDto culturalEventCreateDto = getDetailCulturalEventFromGoodsCode(goodsCode);
-            createCulturalEvent(culturalEventCreateDto);
+        Map<CategoryTitle, List<String>> interparkGoodsCodeMap = getInterparkGoodsCodeMap();
+        for (CategoryTitle categoryTitle : interparkGoodsCodeMap.keySet()) {
+            for (String goodsCode : interparkGoodsCodeMap.get(categoryTitle)) {
+                CulturalEventCreateDto culturalEventCreateDto = getDetailCulturalEventFromGoodsCode(goodsCode, categoryTitle);
+                createCulturalEvent(culturalEventCreateDto);
+            }
+
         }
     }
 
@@ -61,6 +67,10 @@ public class CulturalEventBatchService {
         Place place = placeService.createPlace(placeCreateDto);
         culturalEvent.setPlace(place);
 
+        // CulturalEventCategory 연관관계 매핑
+        CulturalEventCategory culturalEventCategory = culturalEventCategoryService.verifiedCulturalEventCategoryByTitle(culturalEventCreateDto.getCategoryTitle());
+        culturalEvent.setCulturalEventCategory(culturalEventCategory);
+
         // 저장
         culturalEventRepository.save(culturalEvent);
 
@@ -73,35 +83,41 @@ public class CulturalEventBatchService {
      *
      * @return List
      */
-    public List<String> getinterparkGoodsCodeList() {
+    public Map<CategoryTitle, List<String>> getInterparkGoodsCodeMap() {
         RestTemplate restTemplate = new RestTemplate();
         String baseUrl = "https://tickets.interpark.com/contents/api/goods/genre";
+        Map<CategoryTitle, List<String>> goodsCodeMap = new HashMap<>();
 
-        UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(baseUrl)
-                .queryParam("genre", "MUSICAL")
-                .queryParam("page", "1")
-                .queryParam("pageSize", "1000");
+        for (CategoryTitle categoryTitle : CategoryTitle.values()) {
+            if (categoryTitle != CategoryTitle.MOVIE) {
+                List<String> goodsCodeList = new ArrayList<>();
+                UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(baseUrl)
+                        .queryParam("genre", categoryTitle.getTitleChoice())
+                        .queryParam("page", "1")
+                        .queryParam("pageSize", "1000");
 
-        ResponseEntity<String> response = restTemplate.exchange(
-                uriBuilder.toUriString(),
-                HttpMethod.GET,
-                null,
-                String.class);
+                ResponseEntity<String> response = restTemplate.exchange(
+                        uriBuilder.toUriString(),
+                        HttpMethod.GET,
+                        null,
+                        String.class);
 
-        JSONArray jsonArray = new JSONArray(response.getBody());
-        List<String> goodsCodes = new ArrayList<>();
+                JSONArray jsonArray = new JSONArray(response.getBody());
 
-        for (int i = 0; i < jsonArray.length(); i++) {
-            JSONObject jsonObject = jsonArray.getJSONObject(i);
-            goodsCodes.add(jsonObject.getString("goodsCode"));
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    JSONObject jsonObject = jsonArray.getJSONObject(i);
+                    goodsCodeList.add(jsonObject.getString("goodsCode"));
+                }
+                goodsCodeMap.put(categoryTitle, goodsCodeList);
+            }
         }
-        return goodsCodes;
+        return goodsCodeMap;
     }
 
     /**
      * goodsCode로 세부 정보 찾기
      */
-    public CulturalEventCreateDto getDetailCulturalEventFromGoodsCode(String goodsCode) {
+    public CulturalEventCreateDto getDetailCulturalEventFromGoodsCode(String goodsCode, CategoryTitle categoryTitle) {
         RestTemplate restTemplate = new RestTemplate();
         String culturalEventDetailUrl = "https://api-ticketfront.interpark.com/v1/goods/" + goodsCode + "/summary";
 
@@ -118,7 +134,11 @@ public class CulturalEventBatchService {
         Map<String, Object> data = (Map<String, Object>) responseBody.get("data");
         ObjectMapper mapper = new ObjectMapper();
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        return mapper.convertValue(data, CulturalEventCreateDto.class);
+        CulturalEventCreateDto culturalEventCreateDto = mapper.convertValue(data, CulturalEventCreateDto.class);
+
+        // category Title 설정
+        culturalEventCreateDto.setCategoryTitle(categoryTitle);
+        return culturalEventCreateDto;
     }
 
 }
