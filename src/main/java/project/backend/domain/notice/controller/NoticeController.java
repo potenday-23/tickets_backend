@@ -15,6 +15,7 @@ import project.backend.domain.notice.dto.NoticePatchRequestDto;
 import project.backend.domain.notice.entity.Notice;
 import project.backend.domain.notice.mapper.NoticeMapper;
 import project.backend.domain.notice.service.NoticeService;
+import project.backend.domain.place.service.PlaceService;
 import project.backend.global.error.exception.BusinessException;
 import project.backend.global.error.exception.ErrorCode;
 
@@ -29,6 +30,7 @@ public class NoticeController {
     private final NoticeService noticeService;
     private final NoticeMapper noticeMapper;
     private final CulturalEventBatchService culturalEventBatchService;
+    private final PlaceService placeService;
 
 
     @PostMapping
@@ -52,7 +54,8 @@ public class NoticeController {
 
     @GetMapping
     public ResponseEntity getNoticeList() {
-        culturalEventBatchService.interparkGoodsCodeList();
+        culturalEventBatchService.createCulturalEvents();
+        placeService.getPlaceCreateDtoFromPlaceCode("23001100");
         List<NoticeResponseDto> noticeResponseDtoList = noticeMapper.noticesToNoticeResponseDtos(noticeService.getNoticeList());
         return ResponseEntity.status(HttpStatus.OK).body(noticeResponseDtoList);
     }

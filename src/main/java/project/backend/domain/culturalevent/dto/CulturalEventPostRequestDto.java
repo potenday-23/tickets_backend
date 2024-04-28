@@ -3,6 +3,7 @@ package project.backend.domain.culturalevent.dto;
 import lombok.*;
 
 import javax.persistence.Column;
+import java.time.LocalDate;
 import java.util.Date;
 
 @Getter

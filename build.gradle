@@ -96,6 +96,10 @@ dependencies {
 
 	// json
 	implementation 'org.json:json:20220924'
+
+	// json -> LocalDate
+	implementation 'com.fasterxml.jackson.core:jackson-databind:2.13.5'
+	implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310"
 }
 
 tasks.named('test') {

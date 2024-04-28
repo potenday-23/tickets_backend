@@ -7,13 +7,17 @@ import lombok.RequiredArgsConstructor;
 import project.backend.domain.category.entity.Category;
 import project.backend.domain.common.entity.BaseEntity;
 import project.backend.domain.culturalevnetcategory.entity.CulturalEventCategory;
+import project.backend.domain.member.dto.MemberPatchRequestDto;
+import project.backend.domain.member.entity.Member;
 import project.backend.domain.place.entity.Place;
 import project.backend.domain.ticketingsite.entity.TicketingSite;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Entity
 @Getter
@@ -41,6 +45,7 @@ public class CulturalEvent extends BaseEntity {
 
     public String genre;
 
+    @Column(columnDefinition = "TEXT")
     public String information;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -75,5 +80,15 @@ public class CulturalEvent extends BaseEntity {
         this.summary = summary;
         this.genre = genre;
         this.information = information;
+    }
+
+    public void setPlace(Place place) {
+        if (this.place != null) {
+            if (this.place.getCulturalEvents().contains(this)) {
+                this.place.getCulturalEvents().remove(this);
+            }
+        }
+        this.place = Optional.ofNullable(place).orElse(this.place);
+        this.place.getCulturalEvents().add(this);
     }
 }
