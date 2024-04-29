@@ -24,6 +24,7 @@
 ## Code Convention
 - Dto는 Create, Retrieve, List Dto로 네이밍 한다.(ex. CulturalEventCreateDto)
 - CRUD가 아닌 DTO는 [엔티티명] + [행위] + [Dto] 로 네이밍한다.
+- list형 변수는 ~~List로 네이밍한다.(단, RESTFul의 원칙에 따라 api 엔드포인트의 끝은 s로 끝낸다.)
 
 ## Installation
 1. 환경변수 설정

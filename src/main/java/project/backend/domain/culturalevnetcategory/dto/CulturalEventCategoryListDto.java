@@ -6,8 +6,9 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CulturalEventCategoryResponseDto {
-    private String title;
-    private Integer ordering;
-    private String imageUrl;
+public class CulturalEventCategoryListDto {
+
+    private Integer id;
+    private String type;
+    private String name;
 }

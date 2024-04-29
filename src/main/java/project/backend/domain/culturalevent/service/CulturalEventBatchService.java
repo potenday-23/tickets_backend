@@ -89,10 +89,10 @@ public class CulturalEventBatchService {
         Map<CategoryTitle, List<String>> goodsCodeMap = new HashMap<>();
 
         for (CategoryTitle categoryTitle : CategoryTitle.values()) {
-            if (categoryTitle != CategoryTitle.MOVIE) {
+            if (categoryTitle != CategoryTitle.MOVIE && categoryTitle != categoryTitle.ALL) {
                 List<String> goodsCodeList = new ArrayList<>();
                 UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(baseUrl)
-                        .queryParam("genre", categoryTitle.getTitleChoice())
+                        .queryParam("genre", categoryTitle.getType())
                         .queryParam("page", "1")
                         .queryParam("pageSize", "1000");
 

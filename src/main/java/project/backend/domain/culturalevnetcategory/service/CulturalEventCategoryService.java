@@ -1,6 +1,7 @@
 package project.backend.domain.culturalevnetcategory.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import project.backend.domain.culturalevnetcategory.dto.CulturalEventCategoryPostRequestDto;
@@ -34,7 +35,7 @@ public class CulturalEventCategoryService {
     }
 
     public List<CulturalEventCategory> getCulturalEventCategoryList() {
-        return culturalEventCategoryRepository.findAll();
+        return culturalEventCategoryRepository.findAll(Sort.by(Sort.Direction.ASC, "ordering"));
     }
     public CulturalEventCategory verifiedCulturalEventCategoryByTitle(CategoryTitle title) {
         return culturalEventCategoryRepository.findFirstByTitle(title).orElseThrow(() -> new BusinessException(ErrorCode.CULTURAL_EVENT_CATEGORY_NOT_FOUND));

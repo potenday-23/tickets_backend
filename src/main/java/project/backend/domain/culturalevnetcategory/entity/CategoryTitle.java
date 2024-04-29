@@ -4,18 +4,23 @@ import lombok.Getter;
 
 @Getter
 public enum CategoryTitle {
-    DRAMA("DRAMA", "연극"),
-    MUSICAL("MUSICAL", "뮤지컬"),
-    CONCERT("CONCERT", "콘서트"),
-    EXHIBIT("EXHIBIT", "전시회"),
-    MOVIE("MOVIE", "영화");
+    // 메인 카테고리
+    ALL("ALL", "전체", 1),
 
-    private final String titleChoice;
-    private final String title;
+    // 문화 생활 카테고리
+    MUSICAL("MUSICAL", "뮤지컬", 2),
+    DRAMA("DRAMA", "연극", 3),
+    CONCERT("CONCERT", "콘서트", 4),
+    EXHIBIT("EXHIBIT", "전시회", 5),
+    MOVIE("MOVIE", "영화", 6);
 
-    CategoryTitle(String titleChoice, String title) {
-        this.titleChoice = titleChoice;
-        this.title = title;
+    private final String type;
+    private final String name;
+    private final Integer ordering;
+
+    CategoryTitle(String type, String name, Integer ordering) {
+        this.type = type;
+        this.name = name;
+        this.ordering = ordering;
     }
-
 }
