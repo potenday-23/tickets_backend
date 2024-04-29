@@ -3,7 +3,6 @@ package project.backend.domain.culturaleventlike.mapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 import project.backend.domain.culturaleventlike.dto.CulturalEventLikePatchRequestDto;
-import project.backend.domain.culturaleventlike.dto.CulturalEventLikePostRequestDto;
 import project.backend.domain.culturaleventlike.dto.CulturalEventLikeResponseDto;
 import project.backend.domain.culturaleventlike.entity.CulturalEventLike;
 
@@ -11,7 +10,6 @@ import java.util.List;
 
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface CulturalEventLikeMapper {
-    CulturalEventLike culturalEventLikePostRequestDtoToCulturalEventLike(CulturalEventLikePostRequestDto culturalEventLikePostRequestDto);
 
     CulturalEventLike culturalEventLikePatchRequestDtoToCulturalEventLike(CulturalEventLikePatchRequestDto culturalEventLikePatchRequestDto);
 
