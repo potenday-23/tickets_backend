@@ -21,6 +21,10 @@
 데이터베이스 및 테스트: ![Static Badge](https://img.shields.io/badge/MySQL-8-blue) ![Static Badge](https://img.shields.io/badge/JUnit-Green) <br/>
 배포 : ![Static Badge](https://img.shields.io/badge/LINUX-039BC6) ![Static Badge](https://img.shields.io/badge/AWS-Orange) <br/>
 
+## Code Convention
+- Dto는 Create, Retrieve, List Dto로 네이밍 한다.(ex. CulturalEventCreateDto)
+- CRUD가 아닌 DTO는 [엔티티명] + [행위] + [Dto] 로 네이밍한다.
+
 ## Installation
 1. 환경변수 설정
    - TICKETS_DB_URL : MySQL 데이터베이스 URL
