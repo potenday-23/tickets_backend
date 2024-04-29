@@ -8,7 +8,7 @@ import lombok.*;
 @Setter
 public class PlaceCreateDto {
     @JsonProperty("placeName")
-    private String title;
+    private String name;
 
     @JsonProperty("placeAddress")
     private String address;

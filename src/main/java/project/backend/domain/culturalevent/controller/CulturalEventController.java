@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
 import project.backend.domain.culturalevent.dto.CulturalEventListDto;
 import project.backend.domain.culturalevent.dto.CulturalEventResponseDto;
@@ -16,6 +17,8 @@ import project.backend.domain.notice.dto.NoticeResponseDto;
 import project.backend.domain.notice.mapper.NoticeMapper;
 import project.backend.domain.notice.service.NoticeService;
 import project.backend.domain.place.service.PlaceService;
+import project.backend.global.error.exception.BusinessException;
+import project.backend.global.error.exception.ErrorCode;
 
 import java.util.List;
 

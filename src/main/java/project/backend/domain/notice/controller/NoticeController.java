@@ -55,7 +55,6 @@ public class NoticeController {
     @GetMapping
     public ResponseEntity getNoticeList() {
         culturalEventBatchService.createCulturalEvents();
-        placeService.getPlaceCreateDtoFromPlaceCode("23001100");
         List<NoticeResponseDto> noticeResponseDtoList = noticeMapper.noticesToNoticeResponseDtos(noticeService.getNoticeList());
         return ResponseEntity.status(HttpStatus.OK).body(noticeResponseDtoList);
     }

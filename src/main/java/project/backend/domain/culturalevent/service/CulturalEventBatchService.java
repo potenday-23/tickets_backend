@@ -94,7 +94,7 @@ public class CulturalEventBatchService {
                 UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(baseUrl)
                         .queryParam("genre", categoryTitle.getType())
                         .queryParam("page", "1")
-                        .queryParam("pageSize", "1000");
+                        .queryParam("pageSize", "50");
 
                 ResponseEntity<String> response = restTemplate.exchange(
                         uriBuilder.toUriString(),

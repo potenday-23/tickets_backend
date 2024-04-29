@@ -26,12 +26,21 @@ public class CulturalEventService {
 
     public List<CulturalEvent> getCulturalEventList(CategoryTitle type, int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
-        if (type == CategoryTitle.ALL) {
+        if (type == CategoryTitle.ALL || type == null) {
             return culturalEventRepository.findAll(pageable).getContent();
         } else {
             CulturalEventCategory culturalEventCategory = culturalEventCategoryService.verifiedCulturalEventCategoryByTitle(type);
             return culturalEventRepository.findAllByCulturalEventCategory(pageable, culturalEventCategory).getContent();
         }
+    }
+
+    public CulturalEvent getCulturalEvent(Long id) {
+        return verifiedCulturalEvent(id);
+    }
+
+    public void like(Long id) {
+        CulturalEvent culturalEvent = getCulturalEvent(id);
+
     }
 
     public CulturalEvent createCulturalEvent(CulturalEventPostRequestDto culturalEventPostRequestDto) {
@@ -50,9 +59,6 @@ public class CulturalEventService {
         return culturalEvent;
     }
 
-    public CulturalEvent getCulturalEvent(Long id) {
-        return verifiedCulturalEvent(id);
-    }
 
     public void deleteCulturalEvent(Long id) {
         culturalEventRepository.delete(verifiedCulturalEvent(id));

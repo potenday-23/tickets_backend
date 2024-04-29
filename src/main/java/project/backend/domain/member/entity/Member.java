@@ -4,6 +4,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import project.backend.domain.culturaleventlike.entity.CulturalEventLike;
 import project.backend.domain.memberTicketLike.entity.MemberTicketLike;
 import project.backend.domain.common.entity.BaseEntity;
 import project.backend.domain.onboardingmembercategory.entity.OnboardingMemberCategory;
@@ -52,6 +53,9 @@ public class Member extends BaseEntity {
 
     @OneToMany(mappedBy = "member", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     public List<OnboardingMemberCategory> onboardingMemberCategories = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    public List<CulturalEventLike> culturalEventLikeList = new ArrayList<>();
 
     @OneToMany(mappedBy = "member", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private List<Traffic> traffics = new ArrayList<>();

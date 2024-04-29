@@ -4,9 +4,9 @@ import lombok.Getter;
 
 @Getter
 public enum CulturalEventStatus {
-    PERFORMING("공연중"),
-    SCHEDULED("공연예정"),
-    END("공연마감");
+    OPENING("진행중"),
+    UPCOMING("진행예정"),
+    CLOSED("마감");
 
     private final String status;
 

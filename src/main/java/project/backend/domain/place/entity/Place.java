@@ -19,7 +19,7 @@ public class Place extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long id;
 
-    public String title;
+    public String name;
 
     public String address;
 
@@ -31,8 +31,8 @@ public class Place extends BaseEntity {
     public List<CulturalEvent> culturalEvents = new ArrayList<>();
 
     @Builder
-    public Place(String title, String address, String latitude, String longitude) {
-        this.title = title;
+    public Place(String name, String address, String latitude, String longitude) {
+        this.name = name;
         this.address = address;
         this.latitude = latitude;
         this.longitude = longitude;

@@ -5,14 +5,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import project.backend.domain.jwt.service.JwtService;
 import project.backend.domain.member.entity.Member;
-import project.backend.domain.member.service.MemberService;
-import project.backend.domain.memberTicketLike.dto.MemberTicketLikePostRequestDto;
-import project.backend.domain.memberTicketLike.dto.MemberTicketLikeResponseDto;
-import project.backend.domain.memberTicketLike.mapper.MemberTicketLikeMapper;
 import project.backend.domain.memberTicketLike.entity.MemberTicketLike;
 import project.backend.domain.memberTicketLike.repository.MemberTicketLikeRepository;
 import project.backend.domain.ticket.entity.Ticket;
-import project.backend.domain.ticket.repository.TicketRepository;
 import project.backend.domain.ticket.service.TicketService;
 import project.backend.global.error.exception.BusinessException;
 import project.backend.global.error.exception.ErrorCode;
@@ -25,11 +20,8 @@ import java.util.List;
 @Transactional
 public class MemberTicketLikeService {
     private final MemberTicketLikeRepository memberTicketLikeRepository;
-    private final MemberTicketLikeMapper memberTicketLikeMapper;
-    private final MemberService memberService;
     private final TicketService ticketService;
     private final JwtService jwtService;
-    private final TicketRepository ticketRepository;
 
     public Boolean changeMemberTicketLike(Long ticketId, String accessToken){
 
