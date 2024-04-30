@@ -4,17 +4,14 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import project.backend.domain.category.entity.Category;
 import project.backend.domain.common.entity.BaseEntity;
 import project.backend.domain.culturaleventlike.entity.CulturalEventLike;
 import project.backend.domain.culturalevnetcategory.entity.CulturalEventCategory;
-import project.backend.domain.member.dto.MemberPatchRequestDto;
-import project.backend.domain.member.entity.Member;
 import project.backend.domain.place.entity.Place;
 import project.backend.domain.ticketingsite.entity.TicketingSite;
 
 import javax.persistence.*;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -36,15 +33,15 @@ public class CulturalEvent extends BaseEntity {
 
     public Date endDate;
 
-    public Date ticketOpenDate;
-
-    public Date bookingOpenDate;
+    public LocalDateTime ticketOpenDate;
 
     public String runningTime;
 
     public String summary;
 
     public String genre;
+
+    public String viewRateName;
 
     @Column(columnDefinition = "TEXT")
     public String information;
@@ -68,23 +65,23 @@ public class CulturalEvent extends BaseEntity {
             String thumbnailImageUrl,
             Date startDate,
             Date endDate,
-            Date ticketOpenDate,
-            Date bookingOpenDate,
+            LocalDateTime ticketOpenDate,
             String runningTime,
             String summary,
             String genre,
-            String information
+            String information,
+            String viewRateName
     ) {
         this.title = title;
         this.thumbnailImageUrl = thumbnailImageUrl;
         this.startDate = startDate;
         this.endDate = endDate;
         this.ticketOpenDate = ticketOpenDate;
-        this.bookingOpenDate = bookingOpenDate;
         this.runningTime = runningTime;
         this.summary = summary;
         this.genre = genre;
         this.information = information;
+        this.viewRateName = viewRateName;
     }
 
 

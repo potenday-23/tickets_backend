@@ -1,12 +1,13 @@
 package project.backend.domain.culturalevent.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.*;
 import project.backend.domain.culturalevnetcategory.entity.CategoryTitle;
 import project.backend.global.config.CustomDateDeserializer;
+import project.backend.global.config.CustomDateTimeDeserializer;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Getter
@@ -31,12 +32,8 @@ public class CulturalEventCreateDto {
     private Date endDate;
 
     @JsonProperty("ticketOpenDate")
-    @JsonDeserialize(using = CustomDateDeserializer.class)
-    private Date ticketOpenDate;
-
-    @JsonProperty("bookingOpenDate")
-    @JsonDeserialize(using = CustomDateDeserializer.class)
-    private Date bookingOpenDate;
+    @JsonDeserialize(using = CustomDateTimeDeserializer.class)
+    private LocalDateTime ticketOpenDate;
 
     @JsonProperty("runningTime")
     private String runningTime;
@@ -49,6 +46,9 @@ public class CulturalEventCreateDto {
 
     @JsonProperty("contentHtml")
     private String information;
+
+    @JsonProperty("viewRateName")
+    private String viewRateName;
 
     @JsonProperty("placeCode")
     private String placeCode;

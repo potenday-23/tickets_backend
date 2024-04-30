@@ -3,6 +3,7 @@ import lombok.*;
 import project.backend.domain.culturalevent.entity.CulturalEventStatus;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Getter
@@ -18,6 +19,7 @@ public class CulturalEventListDto {
     private String placeName;
     private Date startDate;
     private Date endDate;
-    private Boolean isLiked; // 없는 것
-    private String status;
+    private LocalDateTime ticketOpenDate;
+    private Boolean isLiked; // TODO : 구현 이전
+    private Boolean isOpened;
 }

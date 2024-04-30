@@ -50,7 +50,6 @@ public class CulturalEventService {
                 .startDate(culturalEventPostRequestDto.getStartDate())
                 .endDate(culturalEventPostRequestDto.getEndDate())
                 .ticketOpenDate(culturalEventPostRequestDto.getTicketOpenDate())
-                .bookingOpenDate(culturalEventPostRequestDto.getBookingOpenDate())
                 .runningTime(culturalEventPostRequestDto.getRunningTime())
                 .summary(culturalEventPostRequestDto.getSummary())
                 .genre(culturalEventPostRequestDto.getGenre())
