@@ -5,7 +5,6 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
 import project.backend.domain.culturalevent.dto.CulturalEventListDto;
 import project.backend.domain.culturalevent.dto.CulturalEventRetrieveDto;
@@ -13,10 +12,6 @@ import project.backend.domain.culturalevent.entity.CulturalEvent;
 import project.backend.domain.culturalevent.mapper.CulturalEventMapper;
 import project.backend.domain.culturalevent.service.CulturalEventService;
 import project.backend.domain.culturalevnetcategory.entity.CategoryTitle;
-import project.backend.domain.ticket.dto.TicketResponseDto;
-import project.backend.domain.ticket.entity.Ticket;
-import project.backend.global.error.exception.BusinessException;
-import project.backend.global.error.exception.ErrorCode;
 
 import javax.validation.constraints.Positive;
 import java.util.List;
@@ -50,3 +45,5 @@ public class CulturalEventController {
         return ResponseEntity.status(HttpStatus.OK).body(culturalEventRetrieveDto);
     }
 }
+
+

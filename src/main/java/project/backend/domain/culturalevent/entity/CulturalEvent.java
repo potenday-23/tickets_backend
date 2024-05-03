@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import project.backend.domain.common.entity.BaseEntity;
 import project.backend.domain.culturaleventlike.entity.CulturalEventLike;
 import project.backend.domain.culturalevnetcategory.entity.CulturalEventCategory;
+import project.backend.domain.culturalevnetinfo.entity.CulturalEventInfo;
 import project.backend.domain.place.entity.Place;
 import project.backend.domain.ticketingsite.entity.TicketingSite;
 
@@ -53,11 +54,13 @@ public class CulturalEvent extends BaseEntity {
     public Place place;
 
     @OneToMany(mappedBy = "culturalEvent", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
-    public List<TicketingSite> culturalEvents = new ArrayList<>();
+    public List<TicketingSite> ticketingSiteList = new ArrayList<>();
 
     @OneToMany(mappedBy = "culturalEvent", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     public List<CulturalEventLike> culturalEventLikeList = new ArrayList<>();
 
+    @OneToMany(mappedBy = "culturalEvent", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    public List<CulturalEventInfo> culturalEvnetInfoList = new ArrayList<>();
 
     @Builder
     public CulturalEvent(

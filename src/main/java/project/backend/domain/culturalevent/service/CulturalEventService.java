@@ -55,6 +55,10 @@ public class CulturalEventService {
                 .genre(culturalEventPostRequestDto.getGenre())
                 .information(culturalEventPostRequestDto.getInformation()).build();
         culturalEventRepository.save(culturalEvent);
+
+
+
+
         return culturalEvent;
     }
 

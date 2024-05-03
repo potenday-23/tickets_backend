@@ -19,6 +19,9 @@ import project.backend.domain.culturalevent.repository.CulturalEventRepository;
 import project.backend.domain.culturalevnetcategory.entity.CategoryTitle;
 import project.backend.domain.culturalevnetcategory.entity.CulturalEventCategory;
 import project.backend.domain.culturalevnetcategory.service.CulturalEventCategoryService;
+import project.backend.domain.culturalevnetinfo.dto.CulturalEventInfoCreateDto;
+import project.backend.domain.culturalevnetinfo.entity.CulturalEventInfo;
+import project.backend.domain.culturalevnetinfo.service.CulturalEventInfoService;
 import project.backend.domain.place.dto.PlaceCreateDto;
 import project.backend.domain.place.entity.Place;
 import project.backend.domain.place.service.PlaceService;
@@ -37,6 +40,7 @@ public class CulturalEventBatchService {
     private final CulturalEventMapper culturalEventMapper;
     private final PlaceService placeService;
     private final CulturalEventCategoryService culturalEventCategoryService;
+    private final CulturalEventInfoService culturalEventInfoService;
 
     public void createCulturalEvents() {
         Map<CategoryTitle, List<String>> interparkGoodsCodeMap = getInterparkGoodsCodeMap();
@@ -62,10 +66,18 @@ public class CulturalEventBatchService {
                 .findFirstByTitle(culturalEventCreateDto.getTitle())
                 .orElseGet(() -> culturalEventMapper.culturalEventCreateDtoToCulturalEvent(culturalEventCreateDto));
 
-        // place 연관관계 매핑
+        // Place 연관관계 매핑
         PlaceCreateDto placeCreateDto = placeService.getPlaceCreateDtoFromPlaceCode(culturalEventCreateDto.getPlaceCode());
         Place place = placeService.createPlace(placeCreateDto);
         culturalEvent.setPlace(place);
+
+        // CulturalEventInfo 연관관계 매핑
+        List<String> imageUrlList = culturalEventInfoService.extractImageUrlList(culturalEventCreateDto.getInformation());
+        for (int i = 0; i < imageUrlList.size(); i++) {
+            CulturalEventInfoCreateDto culturalEventInfoCreateDto = CulturalEventInfoCreateDto.builder().imageUrl(imageUrlList.get(i)).ordering(i).build();
+            CulturalEventInfo culturalEventInfo = culturalEventInfoService.createCulturalEventInfo(culturalEventInfoCreateDto);
+            culturalEventInfo.setCulturalEvent(culturalEvent);
+        }
 
         // CulturalEventCategory 연관관계 매핑
         CulturalEventCategory culturalEventCategory = culturalEventCategoryService.verifiedCulturalEventCategoryByTitle(culturalEventCreateDto.getCategoryTitle());
