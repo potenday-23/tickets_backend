@@ -68,7 +68,7 @@ public class CulturalEventService {
     }
 
     private CulturalEvent verifiedCulturalEvent(Long id) {
-        return culturalEventRepository.findById(id).orElseThrow(() -> new BusinessException(ErrorCode.NOTICE_NOT_FOUND));
+        return culturalEventRepository.findById(id).orElseThrow(() -> new BusinessException(ErrorCode.CULTURAL_EVENT));
     }
 
 }

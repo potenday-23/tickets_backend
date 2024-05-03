@@ -25,6 +25,8 @@ import project.backend.domain.culturalevnetinfo.service.CulturalEventInfoService
 import project.backend.domain.place.dto.PlaceCreateDto;
 import project.backend.domain.place.entity.Place;
 import project.backend.domain.place.service.PlaceService;
+import project.backend.domain.ticketingsite.entity.TicketingSite;
+import project.backend.domain.ticketingsite.service.TicketingSiteService;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -41,13 +43,17 @@ public class CulturalEventBatchService {
     private final PlaceService placeService;
     private final CulturalEventCategoryService culturalEventCategoryService;
     private final CulturalEventInfoService culturalEventInfoService;
+    private final TicketingSiteService ticketingSiteService;
 
+    /**
+     * CulturalEvent 생성
+     */
     public void createCulturalEvents() {
         Map<CategoryTitle, List<String>> interparkGoodsCodeMap = getInterparkGoodsCodeMap();
         for (CategoryTitle categoryTitle : interparkGoodsCodeMap.keySet()) {
             for (String goodsCode : interparkGoodsCodeMap.get(categoryTitle)) {
                 CulturalEventCreateDto culturalEventCreateDto = getDetailCulturalEventFromGoodsCode(goodsCode, categoryTitle);
-                createCulturalEvent(culturalEventCreateDto);
+                createCulturalEvent(goodsCode, culturalEventCreateDto);
             }
 
         }
@@ -59,7 +65,7 @@ public class CulturalEventBatchService {
      * @param culturalEventCreateDto
      * @return Place
      */
-    public CulturalEvent createCulturalEvent(CulturalEventCreateDto culturalEventCreateDto) {
+    public CulturalEvent createCulturalEvent(String goodsCode, CulturalEventCreateDto culturalEventCreateDto) {
 
         // CulturalEvent 중복 확인 및 생헝
         CulturalEvent culturalEvent = culturalEventRepository
@@ -82,6 +88,10 @@ public class CulturalEventBatchService {
         // CulturalEventCategory 연관관계 매핑
         CulturalEventCategory culturalEventCategory = culturalEventCategoryService.verifiedCulturalEventCategoryByTitle(culturalEventCreateDto.getCategoryTitle());
         culturalEvent.setCulturalEventCategory(culturalEventCategory);
+
+        // TicketingSite 연관관계 매핑
+        TicketingSite ticketingSite = ticketingSiteService.createTicketingSite(goodsCode);
+        ticketingSite.setCulturalEvent(culturalEvent);
 
         // 저장
         culturalEventRepository.save(culturalEvent);
@@ -150,6 +160,7 @@ public class CulturalEventBatchService {
 
         // category Title 설정
         culturalEventCreateDto.setCategoryTitle(categoryTitle);
+        culturalEventCreateDto.setThumbnailImageUrl("https:" + culturalEventCreateDto.getThumbnailImageUrl());
         return culturalEventCreateDto;
     }
 

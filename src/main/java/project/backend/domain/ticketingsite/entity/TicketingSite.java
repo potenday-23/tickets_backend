@@ -11,6 +11,7 @@ import project.backend.domain.culturalevnetcategory.entity.CulturalEventCategory
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Entity
 @Getter
@@ -20,7 +21,8 @@ public class TicketingSite extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long id;
 
-    public String platform;
+    @Enumerated(value = EnumType.STRING)
+    public Platform platform;
 
     public String link;
 
@@ -28,8 +30,19 @@ public class TicketingSite extends BaseEntity {
     public CulturalEvent culturalEvent;
 
     @Builder
-    public TicketingSite(String platform, String link) {
+    public TicketingSite(Platform platform, String link) {
         this.platform = platform;
         this.link = link;
+    }
+
+    // == 연관관계 매핑 == //
+    public void setCulturalEvent(CulturalEvent culturalEvent) {
+        if (this.culturalEvent != null) {
+            if (this.culturalEvent.getTicketingSiteList().contains(this)) {
+                this.culturalEvent.getTicketingSiteList().remove(this);
+            }
+        }
+        this.culturalEvent = Optional.ofNullable(culturalEvent).orElse(this.culturalEvent);
+        this.culturalEvent.getTicketingSiteList().add(this);
     }
 }

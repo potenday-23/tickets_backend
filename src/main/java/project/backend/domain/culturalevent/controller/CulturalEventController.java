@@ -12,6 +12,8 @@ import project.backend.domain.culturalevent.entity.CulturalEvent;
 import project.backend.domain.culturalevent.mapper.CulturalEventMapper;
 import project.backend.domain.culturalevent.service.CulturalEventService;
 import project.backend.domain.culturalevnetcategory.entity.CategoryTitle;
+import project.backend.domain.culturalevnetinfo.service.CulturalEventInfoService;
+import project.backend.domain.ticketingsite.mapper.TicketingSiteMapper;
 
 import javax.validation.constraints.Positive;
 import java.util.List;
@@ -24,6 +26,8 @@ public class CulturalEventController {
 
     private final CulturalEventService culturalEventService;
     private final CulturalEventMapper culturalEventMapper;
+    private final CulturalEventInfoService culturalEventInfoService;
+    private final TicketingSiteMapper ticketingSiteMapper;
 
     @ApiOperation(value = "문화생활 리스트 조회")
     @GetMapping
@@ -42,6 +46,11 @@ public class CulturalEventController {
     public ResponseEntity getCulturalEvent(@Positive @PathVariable Long id) {
         CulturalEvent culturalEvent = culturalEventService.getCulturalEvent(id);
         CulturalEventRetrieveDto culturalEventRetrieveDto = culturalEventMapper.culturalEventToCulturalEventRetrieveDto(culturalEvent);
+        // information 추가
+        culturalEventRetrieveDto.setInformationList(culturalEventInfoService.getImageUrlList(culturalEvent));
+
+        // ticketingSite 추가
+        culturalEventRetrieveDto.setTicketingSiteList(ticketingSiteMapper.ticketingSiteListToTicketingSiteListDtos(culturalEvent.getTicketingSiteList()));
         return ResponseEntity.status(HttpStatus.OK).body(culturalEventRetrieveDto);
     }
 }

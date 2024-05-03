@@ -7,6 +7,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import project.backend.domain.culturalevent.entity.CulturalEvent;
 import project.backend.domain.culturalevnetinfo.dto.CulturalEventInfoCreateDto;
 import project.backend.domain.culturalevnetinfo.entity.CulturalEventInfo;
 import project.backend.domain.culturalevnetinfo.mapper.CulturalEventInfoMapper;
@@ -32,6 +33,16 @@ public class CulturalEventInfoService {
             String src = img.attr("src");
             imageUrlList.add(src);
         }
+        return imageUrlList;
+    }
+
+    public List<String> getImageUrlList(CulturalEvent culturalEvent) {
+        List<String> imageUrlList = new ArrayList<>();
+
+        for (CulturalEventInfo culturalEventInfo: culturalEvent.getCulturalEvnetInfoList()) {
+            imageUrlList.add(culturalEventInfo.getImageUrl());
+        }
+
         return imageUrlList;
     }
 
