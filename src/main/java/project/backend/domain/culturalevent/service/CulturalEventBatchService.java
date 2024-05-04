@@ -16,6 +16,7 @@ import project.backend.domain.culturalevent.dto.CulturalEventCreateDto;
 import project.backend.domain.culturalevent.entity.CulturalEvent;
 import project.backend.domain.culturalevent.mapper.CulturalEventMapper;
 import project.backend.domain.culturalevent.repository.CulturalEventRepository;
+import project.backend.domain.culturaleventevalutaion.service.CulturalEventEvaluationService;
 import project.backend.domain.culturalevnetcategory.entity.CategoryTitle;
 import project.backend.domain.culturalevnetcategory.entity.CulturalEventCategory;
 import project.backend.domain.culturalevnetcategory.service.CulturalEventCategoryService;
@@ -44,6 +45,7 @@ public class CulturalEventBatchService {
     private final CulturalEventCategoryService culturalEventCategoryService;
     private final CulturalEventInfoService culturalEventInfoService;
     private final TicketingSiteService ticketingSiteService;
+    private final CulturalEventEvaluationService culturalEventEvaluationService;
 
     /**
      * CulturalEvent 생성
@@ -94,7 +96,10 @@ public class CulturalEventBatchService {
         ticketingSite.setCulturalEvent(culturalEvent);
 
         // 저장
-        culturalEventRepository.save(culturalEvent);
+        CulturalEvent savedCulturalEvent = culturalEventRepository.save(culturalEvent);
+
+        // CulturalEventEvaluation 연관관계 매핑
+        culturalEventEvaluationService.createCulturalEventEvaluations(goodsCode, savedCulturalEvent);
 
         return culturalEvent;
     }
@@ -116,7 +121,7 @@ public class CulturalEventBatchService {
                 UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(baseUrl)
                         .queryParam("genre", categoryTitle.getType())
                         .queryParam("page", "1")
-                        .queryParam("pageSize", "50");
+                        .queryParam("pageSize", "10");
 
                 ResponseEntity<String> response = restTemplate.exchange(
                         uriBuilder.toUriString(),

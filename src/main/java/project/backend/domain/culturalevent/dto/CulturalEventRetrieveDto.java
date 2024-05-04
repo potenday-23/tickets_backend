@@ -16,8 +16,6 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 public class CulturalEventRetrieveDto {
-    private final CulturalEventService culturalEventService;
-
     private Long id;
     private String title;
     private String thumbnailImageUrl;
@@ -27,7 +25,6 @@ public class CulturalEventRetrieveDto {
     private LocalDate endDate;
     private LocalDateTime ticketOpenDate;
     private List<TicketingSiteListDto> ticketingSiteList;
-    // TODO : 예매 사이트, 시놉시스 추가해야함
     private String runningTime;
     private String summary;
     private String genre;
