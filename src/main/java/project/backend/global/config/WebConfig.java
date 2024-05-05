@@ -14,11 +14,4 @@ public class WebConfig implements WebMvcConfigurer {
                 .allowedOriginPatterns("*")
                 .allowedMethods("*");
     }
-
-    @Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/swagger-ui/**")
-                .addResourceLocations("classpath:/META-INF/resources/docs/");
-    }
-}
 }
