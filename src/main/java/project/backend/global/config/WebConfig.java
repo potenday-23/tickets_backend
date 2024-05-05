@@ -9,7 +9,7 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOrigins("*")
+                .allowedOrigins("https://www.ticats.site", "https://ticats.site")
                 .allowedMethods("*")
                 .allowCredentials(true) // 쿠키 정책 허용
                 .maxAge(3600);
