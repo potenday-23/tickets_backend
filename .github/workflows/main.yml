@@ -53,8 +53,9 @@ jobs:
           key: ${{ secrets.KEY }}
           envs: GITHUB_SHA
           script: |
-            echo "${{ secrets.DOCKER_PASSWORD }}" | sudo docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
-            sudo docker rm -f $(docker ps -qa)
-            sudo docker pull ${{ secrets.DOCKER_USERNAME }}/ticats
-            sudo docker run -d -p 8080:8080 ${{ secrets.DOCKER_USERNAME }}/ticats:latest
+            sudo docker stop gabang2/ticats
+            sudo docker rm gabang2/ticats
+            sudo docker image rm gabang2/ticats:latest
+            sudo docker pull gabang2/ticats:latest
+            sudo docker run -d -p 8080:8080 gabang2/ticats:latest
             sudo docker image prune -f
