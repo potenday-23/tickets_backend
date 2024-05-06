@@ -29,7 +29,7 @@ public class CulturalEventController {
     private final CulturalEventInfoService culturalEventInfoService;
     private final TicketingSiteMapper ticketingSiteMapper;
 
-    @ApiOperation(value = "문화생활 리스트 조회")
+    @ApiOperation(value = "문화생활 리스트 조회.")
     @GetMapping
     public ResponseEntity getCulturalEventList(
             @RequestParam() CategoryTitle type,

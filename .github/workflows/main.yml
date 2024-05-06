@@ -60,3 +60,4 @@ jobs:
             sudo docker pull ${{ secrets.DOCKER_USERNAME }}/ticats
             sudo docker-compose -f ~/tickets_backend/docker-compose.yml up -d
             sudo docker image prune -f
+            ~/deploy.sh
