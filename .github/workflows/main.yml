@@ -43,8 +43,8 @@ jobs:
           key: ${{ secrets.KEY }}
           envs: GITHUB_SHA
           script: |
-            sudo docker stop gabang2/ticats
-            sudo docker rm gabang2/ticats
+            sudo docker stop ticats
+            sudo docker rm ticats
             sudo docker image rm gabang2/ticats:latest
             sudo docker pull gabang2/ticats:latest
-            sudo docker run -d -p 8080:8080 ${{ secrets.ENVS }} gabang2/ticats:latest
+            sudo docker run -d -p 8080:8080 --name ticats ${{ secrets.ENVS }} gabang2/ticats:latest
