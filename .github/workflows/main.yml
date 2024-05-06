@@ -21,13 +21,6 @@ jobs:
           java-version: '11'
           distribution: "adopt"
 
-      - name: Make application.yml
-        run: |
-          cd ./src/main/resources
-          touch ./application.yml
-          echo "${{ secrets.PROPERTIES }}" > ./application.yml
-        shell: bash
-
       - name: Build with Gradle
         run: |
           chmod +x ./gradlew
@@ -41,9 +34,6 @@ jobs:
           docker build -f Dockerfile -t ${{ secrets.DOCKER_USERNAME }}/ticats .
           docker push ${{ secrets.DOCKER_USERNAME }}/ticats
 
-      # appleboy/ssh-action@master 액션을 사용하여 지정한 서버에 ssh로 접속하고, script를 실행합니다.
-      # script의 내용은 도커의 기존 프로세스들을 제거하고, docker repo로부터 방금 위에서 push한 내용을 pull 받아 실행하는 것입니다.
-      # 실행 시, docker-compose를 사용합니다.
       - name: Deploy to server
         uses: appleboy/ssh-action@master
         id: deploy
@@ -58,4 +48,3 @@ jobs:
             sudo docker image rm gabang2/ticats:latest
             sudo docker pull gabang2/ticats:latest
             sudo docker run -d -p 8080:8080 gabang2/ticats:latest
-            sudo docker image prune -f
