@@ -18,4 +18,5 @@ public class CulturalEventEvaluationListDto {
     private Integer score;
     private EvaluationType type;
     private Long culturalEventId;
+    private String culturalEventTitle;
 }

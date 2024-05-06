@@ -18,6 +18,7 @@ import java.util.List;
 public interface CulturalEventEvaluationMapper {
 
     @Mapping(source = "culturalEvent.id", target = "culturalEventId")
+    @Mapping(source = "culturalEvent.title", target = "culturalEventTitle")
     CulturalEventEvaluationListDto culturalEventEvaluationToCulturalEventEvaluationListDto(CulturalEventEvaluation CulturalEventEvaluation);
 
     List<CulturalEventEvaluationListDto> culturalEventEvaluationToCulturalEventEvaluationListDtos(List<CulturalEventEvaluation> CulturalEventEvaluationList);
