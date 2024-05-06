@@ -56,5 +56,5 @@ jobs:
             echo "${{ secrets.DOCKER_PASSWORD }}" | sudo docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
             sudo docker rm -f $(docker ps -qa)
             sudo docker pull ${{ secrets.DOCKER_USERNAME }}/ticats
-            sudo docker run -d -p 80:8080 ${{ secrets.DOCKER_REPO }}
+            sudo docker run -d -p 8080:8080 ${{ secrets.DOCKER_REPO }}
             sudo docker image prune -f
