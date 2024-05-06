@@ -12,15 +12,15 @@ spring:
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: ${secret.TICKETS_DB_URL}
-    username: ${secret.TICKETS_DB_USER}
-    password: ${secret.TICKETS_DB_PW}
+    url: ${secrets.TICKETS_DB_URL}
+    username: ${secrets.TICKETS_DB_USER}
+    password: ${secrets.TICKETS_DB_PW}
 
   mail:
     host: smtp.gmail.com
     port: 587
-    username: ${secret.TICKETS_GMAIL}
-    password: ${secret.TICKETS_GMAIL_PW}
+    username: ${secrets.TICKETS_GMAIL}
+    password: ${secrets.TICKETS_GMAIL_PW}
     properties:
       mail:
         smtp:
@@ -53,8 +53,8 @@ cloud:
     s3:
       bucket: tickets2323
     credentials:
-      access-key: ${secret.TICKETS_S3_ACCESS}
-      secret-key: ${TICKETS_S3_SECRET}
+      access-key: ${secrets.TICKETS_S3_ACCESS}
+      secret-key: ${secrets.TICKETS_S3_SECRET}
     region:
       static: ap-northeast-2
       auto: false
@@ -66,9 +66,9 @@ logging:
     project.backend: debug
 
 jwt:
-  secret: ${secret.TICKETS_SECRET}
+  secret: ${secrets.TICKETS_SECRET}
   kakao:
-    client_id: ${secret.TICKETS_CLIENT}
+    client_id: ${secrets.TICKETS_CLIENT}
 
 server:
   port: 8080
