@@ -1,6 +1,5 @@
 package project.backend.domain.culturaleventevalutaion.service;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.json.JSONArray;
@@ -17,8 +16,6 @@ import project.backend.domain.culturalevent.entity.CulturalEvent;
 import project.backend.domain.culturaleventevalutaion.entity.CulturalEventEvaluation;
 import project.backend.domain.culturaleventevalutaion.entity.EvaluationType;
 import project.backend.domain.culturaleventevalutaion.repository.CulturalEventEvaluationRepository;
-import project.backend.domain.culturalevnetcategory.entity.CategoryTitle;
-import project.backend.domain.culturalevnetcategory.entity.CulturalEventCategory;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -53,7 +50,7 @@ public class CulturalEventEvaluationService {
         ObjectMapper objectMapper = new ObjectMapper();
         List<CulturalEventEvaluation> evaluations = new ArrayList<>();
 
-        String baseUrl = "https://api-ticketfront.interpark.com/v1/boards?best=false&notice=false&page=1&pageSize=1&sort=DESC_WRITE_DATE";
+        String baseUrl = "https://api-ticketfront.interpark.com/v1/boards?best=false&notice=false&page=1&pageSize=60&sort=DESC_WRITE_DATE";
 
         // 관람평(62)
         UriComponentsBuilder expectEvaluationUriBuilder = UriComponentsBuilder.fromHttpUrl(baseUrl)
@@ -88,6 +85,7 @@ public class CulturalEventEvaluationService {
 
 
         // 기대평 (boardNo : 10)
+        baseUrl = "https://api-ticketfront.interpark.com/v1/boards?best=false&notice=false&page=1&pageSize=40&sort=DESC_WRITE_DATE";
         UriComponentsBuilder reviewEvaluationUriBuilder = UriComponentsBuilder.fromHttpUrl(baseUrl)
                 .queryParam("boardNo", "10")
                 .queryParam("goodsCode", goodsCode);

@@ -79,14 +79,6 @@ public class CulturalEventBatchService {
         Place place = placeService.createPlace(placeCreateDto);
         culturalEvent.setPlace(place);
 
-        // CulturalEventInfo 연관관계 매핑
-        List<String> imageUrlList = culturalEventInfoService.extractImageUrlList(culturalEventCreateDto.getInformation());
-        for (int i = 0; i < imageUrlList.size(); i++) {
-            CulturalEventInfoCreateDto culturalEventInfoCreateDto = CulturalEventInfoCreateDto.builder().imageUrl(imageUrlList.get(i)).ordering(i).build();
-            CulturalEventInfo culturalEventInfo = culturalEventInfoService.createCulturalEventInfo(culturalEventInfoCreateDto);
-            culturalEventInfo.setCulturalEvent(culturalEvent);
-        }
-
         // CulturalEventCategory 연관관계 매핑
         CulturalEventCategory culturalEventCategory = culturalEventCategoryService.verifiedCulturalEventCategoryByTitle(culturalEventCreateDto.getCategoryTitle());
         culturalEvent.setCulturalEventCategory(culturalEventCategory);
@@ -100,6 +92,14 @@ public class CulturalEventBatchService {
 
         // CulturalEventEvaluation 연관관계 매핑
         culturalEventEvaluationService.createCulturalEventEvaluations(goodsCode, savedCulturalEvent);
+
+        // CulturalEventInfo 연관관계 매핑
+        List<String> imageUrlList = culturalEventInfoService.extractImageUrlList(culturalEventCreateDto.getInformation());
+        for (int i = 0; i < imageUrlList.size(); i++) {
+            CulturalEventInfoCreateDto culturalEventInfoCreateDto = CulturalEventInfoCreateDto.builder().imageUrl(imageUrlList.get(i)).ordering(i).build();
+            CulturalEventInfo culturalEventInfo = culturalEventInfoService.createCulturalEventInfo(culturalEventInfoCreateDto);
+            culturalEventInfo.setCulturalEvent(culturalEvent);
+        }
 
         return culturalEvent;
     }
@@ -121,7 +121,7 @@ public class CulturalEventBatchService {
                 UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(baseUrl)
                         .queryParam("genre", categoryTitle.getType())
                         .queryParam("page", "1")
-                        .queryParam("pageSize", "10");
+                        .queryParam("pageSize", "1000");
 
                 ResponseEntity<String> response = restTemplate.exchange(
                         uriBuilder.toUriString(),
