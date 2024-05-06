@@ -47,4 +47,4 @@ jobs:
             sudo docker rm gabang2/ticats
             sudo docker image rm gabang2/ticats:latest
             sudo docker pull gabang2/ticats:latest
-            sudo docker run -d -p 8080:8080 gabang2/ticats:latest
+            sudo docker run -d -p 8080:8080 gabang2/ticats:latest ${{ secrets.ENVS }}
