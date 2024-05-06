@@ -53,6 +53,7 @@ jobs:
           key: ${{ secrets.KEY }}
           envs: GITHUB_SHA
           script: |
+            ssh -o StrictHostKeyChecking=no ubuntu@${{ secrets.HOST }} "echo 'SSH connection established'"
             scp docker-compose.yml ubuntu@${{ secrets.HOST }}:~/
             echo "${{ secrets.DOCKER_PASSWORD }}" | sudo docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
             sudo docker rm -f $(docker ps -qa)
