@@ -42,7 +42,7 @@ public class SwaggerConfig {
     }
 
     private ApiKey apiKey() {
-        return new ApiKey("apiKey", "내가 지정한 jwt header key name", "header");
+        return new ApiKey("JWT Token", "Authorization", "header");
     }
 
     private ApiInfo apiInfo() {
