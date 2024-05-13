@@ -37,12 +37,12 @@ public class SwaggerConfig {
                 .consumes(singleton("application/json"))
                 .useDefaultResponseMessages(false)
                 .select()
-                .apis(withMethodAnnotation(ApiOperation.class))
+                .apis(RequestHandlerSelectors.basePackage("project.backend.domain"))
                 .build();
     }
 
     private ApiKey apiKey() {
-        return new ApiKey("JWT Token", "Authorization", "header");
+        return new ApiKey("Authorization", "Baerer", "header");
     }
 
     private ApiInfo apiInfo() {
