@@ -42,7 +42,7 @@ public class SwaggerConfig {
     }
 
     private ApiKey apiKey() {
-        return new ApiKey("Authorization", "Baerer", "header");
+        return new ApiKey("Authorization", "Authorization", "header");
     }
 
     private ApiInfo apiInfo() {
@@ -64,6 +64,6 @@ public class SwaggerConfig {
         AuthorizationScope authorizationScope = new AuthorizationScope("global", "accessEverything");
         AuthorizationScope[] authorizationScopes = new AuthorizationScope[1];
         authorizationScopes[0] = authorizationScope;
-        return singletonList(new SecurityReference("apiKey", authorizationScopes));
+        return singletonList(new SecurityReference("Authorization", authorizationScopes));
     }
 }
