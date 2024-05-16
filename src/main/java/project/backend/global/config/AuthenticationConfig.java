@@ -10,6 +10,9 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import project.backend.domain.jwt.filter.JwtExceptionFilter;
+import project.backend.domain.jwt.filter.JwtFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -42,8 +45,8 @@ public class AuthenticationConfig {
                 //.authorizeRequests(authorize -> authorize.antMatchers("/api/auth/login", "/swagger-ui/**", "/v3/api-docs", "/swagger-resources/**", "/backoffice/**", "/v3/api-docs/", "/api/tickets", "/api/tickets/**", "/api/categorys", "/api/members").permitAll())
                 .authorizeRequests(authorize -> authorize.anyRequest().permitAll())
                 //.authorizeRequests(authorize -> authorize.anyRequest().authenticated())
-                //.addFilterBefore(new JwtFilter(secretKey), UsernamePasswordAuthenticationFilter.class)
-                //.addFilterBefore(new JwtExceptionFilter(), JwtFilter.class)
+                .addFilterBefore(new JwtFilter(secretKey), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(new JwtExceptionFilter(), JwtFilter.class)
                 .build()
                 ;
     }

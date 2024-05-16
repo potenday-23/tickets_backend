@@ -14,6 +14,7 @@ import project.backend.domain.culturalevent.service.CulturalEventService;
 import project.backend.domain.culturalevnetcategory.entity.CategoryTitle;
 import project.backend.domain.culturalevnetinfo.service.CulturalEventInfoService;
 import project.backend.domain.ticketingsite.mapper.TicketingSiteMapper;
+import project.backend.domain.member.service.MemberJwtService;
 
 import javax.validation.constraints.Positive;
 import java.util.List;
@@ -28,6 +29,7 @@ public class CulturalEventController {
     private final CulturalEventMapper culturalEventMapper;
     private final CulturalEventInfoService culturalEventInfoService;
     private final TicketingSiteMapper ticketingSiteMapper;
+    private final MemberJwtService memberJwtService;
 
     @ApiOperation(value = "문화생활 리스트 조회")
     @GetMapping

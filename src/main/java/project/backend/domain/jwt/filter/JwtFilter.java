@@ -35,9 +35,14 @@ public class JwtFilter extends OncePerRequestFilter {
 
         String path = request.getServletPath();
         log.info(path);
+        if (request.getHeader(HttpHeaders.AUTHORIZATION) == null) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
         if (path.startsWith("/api/auth/login") || path.startsWith("/swagger-ui/") || path.startsWith("/backoffice")
                 || path.startsWith("/favicon.ico") || path.startsWith("/v3/api-docs") || path.startsWith("/api/tickets")
-                || path.startsWith("/api/tickets/**") || path.startsWith("/api/categorys") || path.startsWith("/api/members")) {
+                || path.startsWith("/api/tickets/**") || path.startsWith("/api/categorys")) {
             filterChain.doFilter(request, response);
             return;
         }

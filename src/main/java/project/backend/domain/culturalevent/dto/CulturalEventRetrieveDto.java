@@ -1,9 +1,6 @@
 package project.backend.domain.culturalevent.dto;
 
 import lombok.*;
-import project.backend.domain.culturalevent.service.CulturalEventService;
-import project.backend.domain.culturalevnetinfo.dto.CulturalEventInfoResponseDto;
-import project.backend.domain.culturalevnetinfo.entity.CulturalEventInfo;
 import project.backend.domain.place.dto.PlaceRetrieveDto;
 import project.backend.domain.ticketingsite.dto.TicketingSiteListDto;
 
@@ -28,5 +25,6 @@ public class CulturalEventRetrieveDto {
     private String runningTime;
     private String summary;
     private String genre;
+    private String viewRateName;
     private List<String> informationList;
 }
