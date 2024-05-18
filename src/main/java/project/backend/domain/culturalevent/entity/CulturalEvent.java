@@ -45,6 +45,10 @@ public class CulturalEvent extends BaseEntity {
 
     public String viewRateName;
 
+    public Integer likeCount = 0;
+
+    public Integer visitCount = 0;
+
     @Column(columnDefinition = "TEXT")
     public String information;
 
@@ -116,5 +120,21 @@ public class CulturalEvent extends BaseEntity {
             this.culturalEventCategory.getCulturalEvents().add(this);
 
         }
+    }
+
+    public void increaseLikeCount() {
+        this.likeCount = this.likeCount + 1;
+    }
+
+    public void decreaseLikeCount() {
+        this.likeCount = this.likeCount - 1;
+    }
+
+    public void increaseVisitCount() {
+        this.visitCount = this.visitCount + 1;
+    }
+
+    public void decreaseVisitCount() {
+        this.visitCount = this.visitCount - 1;
     }
 }

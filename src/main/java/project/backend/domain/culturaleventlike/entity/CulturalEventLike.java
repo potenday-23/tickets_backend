@@ -1,17 +1,16 @@
 package project.backend.domain.culturaleventlike.entity;
 
 import lombok.*;
-import project.backend.domain.category.entity.Category;
 import project.backend.domain.common.entity.BaseEntity;
+import project.backend.domain.culturaleventlike.CulturalEventLikeListener;
 import project.backend.domain.culturalevent.entity.CulturalEvent;
-import project.backend.domain.culturaleventlike.dto.CulturalEventLikePatchRequestDto;
-import project.backend.domain.culturalevnetcategory.entity.CulturalEventCategory;
 import project.backend.domain.member.entity.Member;
 
 import javax.persistence.*;
 import java.util.Optional;
 
 @Entity
+@EntityListeners(CulturalEventLikeListener.class)
 @Getter
 @NoArgsConstructor
 public class CulturalEventLike extends BaseEntity {
@@ -41,5 +40,10 @@ public class CulturalEventLike extends BaseEntity {
         this.member.getCulturalEventLikeList().add(this);
         this.culturalEvent = Optional.ofNullable(culturalEvent).orElse(this.culturalEvent);
         this.culturalEvent.getCulturalEventLikeList().add(this);
+    }
+
+    public void deleteCulturalEventLike() {
+        this.member.getCulturalEventLikeList().remove(this);
+        this.culturalEvent.getCulturalEventLikeList().remove(this);
     }
 }

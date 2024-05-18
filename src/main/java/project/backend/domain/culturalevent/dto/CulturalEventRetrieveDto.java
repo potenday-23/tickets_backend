@@ -26,5 +26,7 @@ public class CulturalEventRetrieveDto {
     private String summary;
     private String genre;
     private String viewRateName;
+    private Integer likeCount;
+    private Integer visitCount;
     private List<String> informationList;
 }

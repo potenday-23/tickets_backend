@@ -29,7 +29,6 @@ public class CulturalEventController {
     private final CulturalEventMapper culturalEventMapper;
     private final CulturalEventInfoService culturalEventInfoService;
     private final TicketingSiteMapper ticketingSiteMapper;
-    private final MemberJwtService memberJwtService;
 
     @ApiOperation(value = "문화생활 리스트 조회")
     @GetMapping
@@ -54,6 +53,20 @@ public class CulturalEventController {
         // ticketingSite 추가
         culturalEventRetrieveDto.setTicketingSiteList(ticketingSiteMapper.ticketingSiteListToTicketingSiteListDtos(culturalEvent.getTicketingSiteList()));
         return ResponseEntity.status(HttpStatus.OK).body(culturalEventRetrieveDto);
+    }
+
+    @ApiOperation(value = "문화생활 좋아요")
+    @PostMapping("/{id}/like")
+    public ResponseEntity likeCulturalEvent(@Positive @PathVariable Long id) {
+        culturalEventService.like(id);
+        return ResponseEntity.status(HttpStatus.OK).body(null);
+    }
+
+    @ApiOperation(value = "문화생활 좋아요 취소")
+    @PostMapping("/{id}/unlike")
+    public ResponseEntity unLikeCulturalEvent(@Positive @PathVariable Long id) {
+        culturalEventService.unLike(id);
+        return ResponseEntity.status(HttpStatus.OK).body(null);
     }
 }
 

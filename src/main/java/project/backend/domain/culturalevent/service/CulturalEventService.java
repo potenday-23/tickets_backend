@@ -1,21 +1,24 @@
 package project.backend.domain.culturalevent.service;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import project.backend.domain.culturalevent.dto.CulturalEventPostRequestDto;
 import project.backend.domain.culturalevent.entity.CulturalEvent;
 import project.backend.domain.culturalevent.repository.CulturalEventRepository;
+import project.backend.domain.culturaleventlike.entity.CulturalEventLike;
+import project.backend.domain.culturaleventlike.repository.CulturalEventLikeRepository;
 import project.backend.domain.culturalevnetcategory.entity.CategoryTitle;
 import project.backend.domain.culturalevnetcategory.entity.CulturalEventCategory;
 import project.backend.domain.culturalevnetcategory.service.CulturalEventCategoryService;
+import project.backend.domain.member.entity.Member;
+import project.backend.domain.member.service.MemberJwtService;
 import project.backend.global.error.exception.BusinessException;
 import project.backend.global.error.exception.ErrorCode;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -23,6 +26,8 @@ import java.util.List;
 public class CulturalEventService {
     private final CulturalEventRepository culturalEventRepository;
     private final CulturalEventCategoryService culturalEventCategoryService;
+    private final CulturalEventLikeRepository culturalEventLikeRepository;
+    private final MemberJwtService memberJwtService;
 
     public List<CulturalEvent> getCulturalEventList(CategoryTitle type, int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
@@ -38,37 +43,35 @@ public class CulturalEventService {
         return verifiedCulturalEvent(id);
     }
 
+    public Optional<CulturalEventLike> findMemberLike(Member member, CulturalEvent culturalEvent) {
+        return culturalEvent.getCulturalEventLikeList().stream().filter(culturalEventLike -> culturalEventLike.member == member).findFirst();
+    }
+
     public void like(Long id) {
+        Member member = memberJwtService.getMember();
         CulturalEvent culturalEvent = getCulturalEvent(id);
 
+        if (findMemberLike(member, culturalEvent).isPresent()) {
+            return;
+        }
+
+        CulturalEventLike culturalEventLike = new CulturalEventLike();
+        culturalEventLike.setCulturalEventLike(memberJwtService.getMember(), getCulturalEvent(id));
+        culturalEventLikeRepository.save(culturalEventLike);
     }
 
-    public CulturalEvent createCulturalEvent(CulturalEventPostRequestDto culturalEventPostRequestDto) {
-        CulturalEvent culturalEvent = CulturalEvent.builder()
-                .title(culturalEventPostRequestDto.getTitle())
-                .thumbnailImageUrl(culturalEventPostRequestDto.getThumbnailImageUrl())
-                .startDate(culturalEventPostRequestDto.getStartDate())
-                .endDate(culturalEventPostRequestDto.getEndDate())
-                .ticketOpenDate(culturalEventPostRequestDto.getTicketOpenDate())
-                .runningTime(culturalEventPostRequestDto.getRunningTime())
-                .summary(culturalEventPostRequestDto.getSummary())
-                .genre(culturalEventPostRequestDto.getGenre())
-                .information(culturalEventPostRequestDto.getInformation()).build();
-        culturalEventRepository.save(culturalEvent);
+    public void unLike(Long id) {
+        Member member = memberJwtService.getMember();
+        CulturalEvent culturalEvent = getCulturalEvent(id);
+        Optional<CulturalEventLike> culturalEventLike = findMemberLike(member, culturalEvent);
 
-
-
-
-        return culturalEvent;
-    }
-
-
-    public void deleteCulturalEvent(Long id) {
-        culturalEventRepository.delete(verifiedCulturalEvent(id));
+        if (culturalEventLike.isEmpty()) {
+            return;
+        }
+        culturalEventLikeRepository.delete(culturalEventLike.get());
     }
 
     private CulturalEvent verifiedCulturalEvent(Long id) {
         return culturalEventRepository.findById(id).orElseThrow(() -> new BusinessException(ErrorCode.CULTURAL_EVENT));
     }
-
 }
