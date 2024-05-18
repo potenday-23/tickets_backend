@@ -60,19 +60,18 @@ public class CulturalEventController {
 
         // Member
         Member member = memberJwtService.getMember();
-
         CulturalEvent culturalEvent = culturalEventService.getCulturalEvent(id);
-        CulturalEventRetrieveDto culturalEventRetrieveDto = culturalEventMapper.culturalEventToCulturalEventRetrieveDto(culturalEvent);
 
-        // Like와 Open 정보
+        // Make Visit
+        culturalEventService.visit(culturalEvent);
+
+        // CulturalEventRetrieveDto
+        CulturalEventRetrieveDto culturalEventRetrieveDto = culturalEventMapper.culturalEventToCulturalEventRetrieveDto(culturalEvent);
         culturalEventRetrieveDto.setIsLiked(member);
         culturalEventRetrieveDto.setIsOpened();
-
-        // information 추가
         culturalEventRetrieveDto.setInformationList(culturalEventInfoService.getImageUrlList(culturalEvent));
-
-        // ticketingSite 추가
         culturalEventRetrieveDto.setTicketingSiteList(ticketingSiteMapper.ticketingSiteListToTicketingSiteListDtos(culturalEvent.getTicketingSiteList()));
+
         return ResponseEntity.status(HttpStatus.OK).body(culturalEventRetrieveDto);
     }
 

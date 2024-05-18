@@ -1,6 +1,6 @@
-package project.backend.domain.culturaleventlike;
+package project.backend.domain.like;
 
-import project.backend.domain.culturaleventlike.entity.CulturalEventLike;
+import project.backend.domain.like.entity.CulturalEventLike;
 
 import javax.persistence.PrePersist;
 import javax.persistence.PreRemove;

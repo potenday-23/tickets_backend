@@ -7,18 +7,24 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import project.backend.domain.culturalevent.entity.CulturalEvent;
 import project.backend.domain.culturalevent.repository.CulturalEventRepository;
-import project.backend.domain.culturaleventlike.entity.CulturalEventLike;
-import project.backend.domain.culturaleventlike.repository.CulturalEventLikeRepository;
+import project.backend.domain.like.entity.CulturalEventLike;
+import project.backend.domain.like.repository.CulturalEventLikeRepository;
 import project.backend.domain.culturalevnetcategory.entity.CategoryTitle;
 import project.backend.domain.culturalevnetcategory.entity.CulturalEventCategory;
 import project.backend.domain.culturalevnetcategory.service.CulturalEventCategoryService;
 import project.backend.domain.member.entity.Member;
 import project.backend.domain.member.service.MemberJwtService;
+import project.backend.domain.visit.entity.CulturalEventVisit;
+import project.backend.domain.visit.repository.CulturalEventVisitRepository;
 import project.backend.global.error.exception.BusinessException;
 import project.backend.global.error.exception.ErrorCode;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+
+import static org.springframework.data.jpa.domain.AbstractAuditable_.createdDate;
 
 @Service
 @RequiredArgsConstructor
@@ -28,6 +34,7 @@ public class CulturalEventService {
     private final CulturalEventCategoryService culturalEventCategoryService;
     private final CulturalEventLikeRepository culturalEventLikeRepository;
     private final MemberJwtService memberJwtService;
+    private final CulturalEventVisitRepository culturalEventVisitRepository;
 
     public List<CulturalEvent> getCulturalEventList(CategoryTitle type, int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
@@ -52,7 +59,7 @@ public class CulturalEventService {
         }
 
         CulturalEventLike culturalEventLike = new CulturalEventLike();
-        culturalEventLike.setCulturalEventLike(memberJwtService.getMember(), getCulturalEvent(id));
+        culturalEventLike.setCulturalEventLike(member, getCulturalEvent(id));
         culturalEventLikeRepository.save(culturalEventLike);
     }
 
@@ -65,6 +72,28 @@ public class CulturalEventService {
             return;
         }
         culturalEventLikeRepository.delete(culturalEventLike.get());
+    }
+
+    public void visit(CulturalEvent culturalEvent) {
+
+        Member member = memberJwtService.getMember();
+        if (member == null) {
+            return;
+        }
+
+        // Variables
+        LocalDateTime now = LocalDateTime.now();
+        Optional<CulturalEventVisit> optionalCulturalEventVisit = culturalEvent.findMemberVisit(member);
+
+        // 3시간 이내에 방문한 적 있다면 집계 x
+        if (optionalCulturalEventVisit.isPresent() && Duration.between(optionalCulturalEventVisit.get().getCreatedDate(), now).toHours() <= 3) {
+            return;
+        }
+
+        // CulturalEventVisit 생성
+        CulturalEventVisit culturalEventVisit = new CulturalEventVisit();
+        culturalEventVisit.setCulturalEventVisit(member, culturalEvent);
+        culturalEventVisitRepository.save(culturalEventVisit);
     }
 
     private CulturalEvent verifiedCulturalEvent(Long id) {

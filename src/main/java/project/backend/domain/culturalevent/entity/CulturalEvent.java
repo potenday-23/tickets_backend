@@ -6,12 +6,13 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import project.backend.domain.common.entity.BaseEntity;
 import project.backend.domain.culturaleventevalutaion.entity.CulturalEventEvaluation;
-import project.backend.domain.culturaleventlike.entity.CulturalEventLike;
+import project.backend.domain.like.entity.CulturalEventLike;
 import project.backend.domain.culturalevnetcategory.entity.CulturalEventCategory;
 import project.backend.domain.culturalevnetinfo.entity.CulturalEventInfo;
 import project.backend.domain.member.entity.Member;
 import project.backend.domain.place.entity.Place;
 import project.backend.domain.ticketingsite.entity.TicketingSite;
+import project.backend.domain.visit.entity.CulturalEventVisit;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -67,6 +68,9 @@ public class CulturalEvent extends BaseEntity {
 
     @OneToMany(mappedBy = "culturalEvent", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     public List<CulturalEventLike> culturalEventLikeList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "culturalEvent", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    public List<CulturalEventVisit> culturalEventVisitList = new ArrayList<>();
 
     @OneToMany(mappedBy = "culturalEvent", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     public List<CulturalEventInfo> culturalEvnetInfoList = new ArrayList<>();
@@ -127,6 +131,10 @@ public class CulturalEvent extends BaseEntity {
         return this.getCulturalEventLikeList().stream().filter(culturalEventLike -> culturalEventLike.member == member).findFirst();
     }
 
+    public Optional<CulturalEventVisit> findMemberVisit(Member member) {
+        return this.getCulturalEventVisitList().stream().filter(culturalEventVisit -> culturalEventVisit.member == member).findFirst();
+    }
+
     public void increaseLikeCount() {
         this.likeCount = this.likeCount + 1;
     }
@@ -137,9 +145,5 @@ public class CulturalEvent extends BaseEntity {
 
     public void increaseVisitCount() {
         this.visitCount = this.visitCount + 1;
-    }
-
-    public void decreaseVisitCount() {
-        this.visitCount = this.visitCount - 1;
     }
 }

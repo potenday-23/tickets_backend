@@ -1,12 +1,8 @@
 package project.backend.domain.culturalevent.dto;
 
 import lombok.*;
-import project.backend.domain.culturalevent.entity.CulturalEvent;
-import project.backend.domain.culturalevent.entity.CulturalEventStatus;
-import project.backend.domain.culturaleventlike.entity.CulturalEventLike;
 import project.backend.domain.member.entity.Member;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Objects;

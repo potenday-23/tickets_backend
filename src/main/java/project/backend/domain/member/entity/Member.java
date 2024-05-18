@@ -4,13 +4,14 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import project.backend.domain.culturaleventlike.entity.CulturalEventLike;
+import project.backend.domain.like.entity.CulturalEventLike;
 import project.backend.domain.memberTicketLike.entity.MemberTicketLike;
 import project.backend.domain.common.entity.BaseEntity;
 import project.backend.domain.onboardingmembercategory.entity.OnboardingMemberCategory;
 import project.backend.domain.ticket.entity.Ticket;
 import project.backend.domain.member.dto.MemberPatchRequestDto;
 import project.backend.domain.traffic.entity.Traffic;
+import project.backend.domain.visit.entity.CulturalEventVisit;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -56,6 +57,9 @@ public class Member extends BaseEntity {
 
     @OneToMany(mappedBy = "member", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     public List<CulturalEventLike> culturalEventLikeList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    public List<CulturalEventVisit> culturalEventVisitList = new ArrayList<>();
 
     @OneToMany(mappedBy = "member", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private List<Traffic> traffics = new ArrayList<>();

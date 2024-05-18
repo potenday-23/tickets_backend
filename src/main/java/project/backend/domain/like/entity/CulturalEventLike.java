@@ -1,8 +1,8 @@
-package project.backend.domain.culturaleventlike.entity;
+package project.backend.domain.like.entity;
 
 import lombok.*;
 import project.backend.domain.common.entity.BaseEntity;
-import project.backend.domain.culturaleventlike.CulturalEventLikeListener;
+import project.backend.domain.like.CulturalEventLikeListener;
 import project.backend.domain.culturalevent.entity.CulturalEvent;
 import project.backend.domain.member.entity.Member;
 
