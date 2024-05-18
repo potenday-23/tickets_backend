@@ -34,19 +34,20 @@ public class CulturalEventController {
     private final MemberJwtService memberJwtService;
 
     @ApiOperation(value = "문화생활 리스트 조회",
-            notes = " - ordering : point(인기순)")
+            notes = " - ordering : ticketOpenDate(마감 다가온 순) | -point(인기순)")
     @GetMapping
     public ResponseEntity getCulturalEventList(
-            @RequestParam() CategoryTitle type,
+            @RequestParam(required = false) CategoryTitle type,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
-            @RequestParam(required = false) String ordering
+            @RequestParam(required = false) String ordering,
+            @RequestParam(required = false) Boolean isOpened
             ) {
         // Member
         Member member = memberJwtService.getMember();
 
         // Response
-        List<CulturalEvent> culturalEventList = culturalEventService.getCulturalEventList(type, page, size, ordering);
+        List<CulturalEvent> culturalEventList = culturalEventService.getCulturalEventList(page, size, type, ordering, isOpened);
         List<CulturalEventListDto> culturalEventResponseDtoList = culturalEventMapper
                 .culturalEventToCulturalEventListDtos(culturalEventList);
         culturalEventResponseDtoList.forEach(dto -> {

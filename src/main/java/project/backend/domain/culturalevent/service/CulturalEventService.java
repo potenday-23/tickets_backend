@@ -36,14 +36,8 @@ public class CulturalEventService {
     private final MemberJwtService memberJwtService;
     private final CulturalEventVisitRepository culturalEventVisitRepository;
 
-    public List<CulturalEvent> getCulturalEventList(CategoryTitle type, int page, int size, String ordering) {
-        Pageable pageable = PageRequest.of(page, size, createSort(ordering));
-        if (type == CategoryTitle.ALL || type == null) {
-            return culturalEventRepository.findAll(pageable).getContent();
-        } else {
-            CulturalEventCategory culturalEventCategory = culturalEventCategoryService.verifiedCulturalEventCategoryByTitle(type);
-            return culturalEventRepository.findAllByCulturalEventCategory(pageable, culturalEventCategory).getContent();
-        }
+    public List<CulturalEvent> getCulturalEventList(int page, int size, CategoryTitle category, String ordering, Boolean isOpened) {
+        return culturalEventRepository.getCulturalEventList(page, size, category, ordering, isOpened);
     }
 
     public CulturalEvent getCulturalEvent(Long id) {
