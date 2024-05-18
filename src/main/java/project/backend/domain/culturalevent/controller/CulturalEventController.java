@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import project.backend.domain.culturalevent.dto.CulturalEventListDto;
 import project.backend.domain.culturalevent.dto.CulturalEventRetrieveDto;
@@ -77,6 +78,7 @@ public class CulturalEventController {
 
     @ApiOperation(value = "문화생활 좋아요")
     @PostMapping("/{id}/like")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity likeCulturalEvent(@Positive @PathVariable Long id) {
         culturalEventService.like(id);
         return ResponseEntity.status(HttpStatus.OK).body(null);
@@ -84,6 +86,7 @@ public class CulturalEventController {
 
     @ApiOperation(value = "문화생활 좋아요 취소")
     @PostMapping("/{id}/unlike")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity unLikeCulturalEvent(@Positive @PathVariable Long id) {
         culturalEventService.unLike(id);
         return ResponseEntity.status(HttpStatus.OK).body(null);
