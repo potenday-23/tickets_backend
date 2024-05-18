@@ -33,7 +33,8 @@ public class CulturalEventController {
     private final TicketingSiteMapper ticketingSiteMapper;
     private final MemberJwtService memberJwtService;
 
-    @ApiOperation(value = "문화생활 리스트 조회")
+    @ApiOperation(value = "문화생활 리스트 조회",
+            notes = " - ordering : point(인기순)")
     @GetMapping
     public ResponseEntity getCulturalEventList(
             @RequestParam() CategoryTitle type,
