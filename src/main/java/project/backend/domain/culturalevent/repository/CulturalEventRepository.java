@@ -14,6 +14,4 @@ public interface CulturalEventRepository extends JpaRepository<CulturalEvent, Lo
     Page<CulturalEvent> findAll(Pageable pageable);
 
     Page<CulturalEvent> findAllByCulturalEventCategory(Pageable pageable, CulturalEventCategory culturalEventCategory);
-
-
 }

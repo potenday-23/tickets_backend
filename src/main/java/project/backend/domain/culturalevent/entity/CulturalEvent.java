@@ -51,6 +51,8 @@ public class CulturalEvent extends BaseEntity {
 
     public Integer visitCount = 0;
 
+    public Integer point = 0;
+
     @Column(columnDefinition = "TEXT")
     public String information;
 
@@ -137,13 +139,16 @@ public class CulturalEvent extends BaseEntity {
 
     public void increaseLikeCount() {
         this.likeCount = this.likeCount + 1;
+        this.point = this.point + 2;
     }
 
     public void decreaseLikeCount() {
         this.likeCount = this.likeCount - 1;
+        this.point = this.point - 2;
     }
 
     public void increaseVisitCount() {
         this.visitCount = this.visitCount + 1;
+        this.point = this.point + 1;
     }
 }

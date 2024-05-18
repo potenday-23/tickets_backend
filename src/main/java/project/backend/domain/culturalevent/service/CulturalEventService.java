@@ -3,6 +3,7 @@ package project.backend.domain.culturalevent.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import project.backend.domain.culturalevent.entity.CulturalEvent;
@@ -24,7 +25,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
-import static org.springframework.data.jpa.domain.AbstractAuditable_.createdDate;
 
 @Service
 @RequiredArgsConstructor
@@ -36,8 +36,8 @@ public class CulturalEventService {
     private final MemberJwtService memberJwtService;
     private final CulturalEventVisitRepository culturalEventVisitRepository;
 
-    public List<CulturalEvent> getCulturalEventList(CategoryTitle type, int page, int size) {
-        Pageable pageable = PageRequest.of(page, size);
+    public List<CulturalEvent> getCulturalEventList(CategoryTitle type, int page, int size, String ordering) {
+        Pageable pageable = PageRequest.of(page, size, createSort(ordering));
         if (type == CategoryTitle.ALL || type == null) {
             return culturalEventRepository.findAll(pageable).getContent();
         } else {
@@ -98,5 +98,12 @@ public class CulturalEventService {
 
     private CulturalEvent verifiedCulturalEvent(Long id) {
         return culturalEventRepository.findById(id).orElseThrow(() -> new BusinessException(ErrorCode.CULTURAL_EVENT));
+    }
+
+    private Sort createSort(String ordering) {
+        if (ordering == null || ordering.isEmpty()) {
+            return Sort.by(Sort.Direction.ASC, "id");
+        }
+        return Sort.by(Sort.Direction.DESC, ordering);
     }
 }

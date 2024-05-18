@@ -38,13 +38,14 @@ public class CulturalEventController {
     public ResponseEntity getCulturalEventList(
             @RequestParam() CategoryTitle type,
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size
-    ) {
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(required = false) String ordering
+            ) {
         // Member
         Member member = memberJwtService.getMember();
 
         // Response
-        List<CulturalEvent> culturalEventList = culturalEventService.getCulturalEventList(type, page, size);
+        List<CulturalEvent> culturalEventList = culturalEventService.getCulturalEventList(type, page, size, ordering);
         List<CulturalEventListDto> culturalEventResponseDtoList = culturalEventMapper
                 .culturalEventToCulturalEventListDtos(culturalEventList);
         culturalEventResponseDtoList.forEach(dto -> {
