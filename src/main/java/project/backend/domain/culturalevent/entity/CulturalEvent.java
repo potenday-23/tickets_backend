@@ -9,6 +9,7 @@ import project.backend.domain.culturaleventevalutaion.entity.CulturalEventEvalua
 import project.backend.domain.culturaleventlike.entity.CulturalEventLike;
 import project.backend.domain.culturalevnetcategory.entity.CulturalEventCategory;
 import project.backend.domain.culturalevnetinfo.entity.CulturalEventInfo;
+import project.backend.domain.member.entity.Member;
 import project.backend.domain.place.entity.Place;
 import project.backend.domain.ticketingsite.entity.TicketingSite;
 
@@ -120,6 +121,10 @@ public class CulturalEvent extends BaseEntity {
             this.culturalEventCategory.getCulturalEvents().add(this);
 
         }
+    }
+
+    public Optional<CulturalEventLike> findMemberLike(Member member) {
+        return this.getCulturalEventLikeList().stream().filter(culturalEventLike -> culturalEventLike.member == member).findFirst();
     }
 
     public void increaseLikeCount() {

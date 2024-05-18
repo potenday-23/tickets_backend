@@ -13,6 +13,7 @@ import project.backend.domain.culturalevent.mapper.CulturalEventMapper;
 import project.backend.domain.culturalevent.service.CulturalEventService;
 import project.backend.domain.culturalevnetcategory.entity.CategoryTitle;
 import project.backend.domain.culturalevnetinfo.service.CulturalEventInfoService;
+import project.backend.domain.member.entity.Member;
 import project.backend.domain.ticketingsite.mapper.TicketingSiteMapper;
 import project.backend.domain.member.service.MemberJwtService;
 
@@ -29,6 +30,7 @@ public class CulturalEventController {
     private final CulturalEventMapper culturalEventMapper;
     private final CulturalEventInfoService culturalEventInfoService;
     private final TicketingSiteMapper ticketingSiteMapper;
+    private final MemberJwtService memberJwtService;
 
     @ApiOperation(value = "문화생활 리스트 조회")
     @GetMapping
@@ -37,16 +39,34 @@ public class CulturalEventController {
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size
     ) {
-        List<CulturalEventListDto> CulturalEventResponseDtoList = culturalEventMapper
-                .culturalEventToCulturalEventListDtos(culturalEventService.getCulturalEventList(type, page, size));
-        return ResponseEntity.status(HttpStatus.OK).body(CulturalEventResponseDtoList);
+        // Member
+        Member member = memberJwtService.getMember();
+
+        // Response
+        List<CulturalEvent> culturalEventList = culturalEventService.getCulturalEventList(type, page, size);
+        List<CulturalEventListDto> culturalEventResponseDtoList = culturalEventMapper
+                .culturalEventToCulturalEventListDtos(culturalEventList);
+        culturalEventResponseDtoList.forEach(dto -> {
+            dto.setIsOpened();
+            dto.setIsLiked(member);
+        });
+        return ResponseEntity.status(HttpStatus.OK).body(culturalEventResponseDtoList);
     }
 
     @ApiOperation(value = "문화생활 객체 조회")
     @GetMapping("/{id}")
     public ResponseEntity getCulturalEvent(@Positive @PathVariable Long id) {
+
+        // Member
+        Member member = memberJwtService.getMember();
+
         CulturalEvent culturalEvent = culturalEventService.getCulturalEvent(id);
         CulturalEventRetrieveDto culturalEventRetrieveDto = culturalEventMapper.culturalEventToCulturalEventRetrieveDto(culturalEvent);
+
+        // Like와 Open 정보
+        culturalEventRetrieveDto.setIsLiked(member);
+        culturalEventRetrieveDto.setIsOpened();
+
         // information 추가
         culturalEventRetrieveDto.setInformationList(culturalEventInfoService.getImageUrlList(culturalEvent));
 

@@ -43,15 +43,11 @@ public class CulturalEventService {
         return verifiedCulturalEvent(id);
     }
 
-    public Optional<CulturalEventLike> findMemberLike(Member member, CulturalEvent culturalEvent) {
-        return culturalEvent.getCulturalEventLikeList().stream().filter(culturalEventLike -> culturalEventLike.member == member).findFirst();
-    }
-
     public void like(Long id) {
         Member member = memberJwtService.getMember();
         CulturalEvent culturalEvent = getCulturalEvent(id);
 
-        if (findMemberLike(member, culturalEvent).isPresent()) {
+        if (culturalEvent.findMemberLike(member).isPresent()) {
             return;
         }
 
@@ -63,7 +59,7 @@ public class CulturalEventService {
     public void unLike(Long id) {
         Member member = memberJwtService.getMember();
         CulturalEvent culturalEvent = getCulturalEvent(id);
-        Optional<CulturalEventLike> culturalEventLike = findMemberLike(member, culturalEvent);
+        Optional<CulturalEventLike> culturalEventLike = culturalEvent.findMemberLike(member);
 
         if (culturalEventLike.isEmpty()) {
             return;
