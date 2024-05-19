@@ -18,6 +18,7 @@ import project.backend.global.error.exception.ErrorCode;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,8 +32,8 @@ public class CulturalEventService {
     private final MemberJwtService memberJwtService;
     private final CulturalEventVisitRepository culturalEventVisitRepository;
 
-    public List<CulturalEvent> getCulturalEventList(int page, int size, CategoryTitle category, String ordering, Boolean isOpened, Double latitude, Double longitude) {
-        return culturalEventRepository.getCulturalEventList(page, size, category, ordering, isOpened, latitude, longitude);
+    public List<CulturalEvent> getCulturalEventList(int page, int size, List<CategoryTitle> categories, String ordering, Boolean isOpened, Double latitude, Double longitude) {
+        return culturalEventRepository.getCulturalEventList(page, size, categories, ordering, isOpened, latitude, longitude);
     }
 
     public CulturalEvent getCulturalEvent(Long id) {
@@ -87,12 +88,5 @@ public class CulturalEventService {
 
     private CulturalEvent verifiedCulturalEvent(Long id) {
         return culturalEventRepository.findById(id).orElseThrow(() -> new BusinessException(ErrorCode.CULTURAL_EVENT));
-    }
-
-    private Sort createSort(String ordering) {
-        if (ordering == null || ordering.isEmpty()) {
-            return Sort.by(Sort.Direction.ASC, "id");
-        }
-        return Sort.by(Sort.Direction.DESC, ordering);
     }
 }

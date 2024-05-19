@@ -74,15 +74,18 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-validation'
 
     // QueryDsl
-    implementation "com.querydsl:querydsl-jpa"
-    implementation "com.querydsl:querydsl-core"
-    implementation "com.querydsl:querydsl-collections"
-    annotationProcessor "com.querydsl:querydsl-apt:${dependencyManagement.importedProperties['querydsl.version']}:jpa"
-    // querydsl JPAAnnotationProcessor 사용 지정
+    implementation "com.querydsl:querydsl-jpa:$queryDslVersion"
+    implementation "com.querydsl:querydsl-core:$queryDslVersion"
+    implementation "com.querydsl:querydsl-collections:$queryDslVersion"
+    implementation "com.querydsl:querydsl-sql:$queryDslVersion" // QueryDSL SQL 모듈 추가
+    implementation "com.querydsl:querydsl-sql-codegen:$queryDslVersion" // QueryDSL SQL 코드 생성기 추가
+    annotationProcessor "com.querydsl:querydsl-apt:$queryDslVersion:jpa"
+    compileOnly "com.querydsl:querydsl-apt:$queryDslVersion:jpa"
+    annotationProcessor "com.querydsl:querydsl-apt:$queryDslVersion:jpa"
+
+    // java.lang.NoClassDefFoundError 대응 코드
     annotationProcessor "jakarta.annotation:jakarta.annotation-api"
-    // java.lang.NoClassDefFoundError (javax.annotation.Generated) 대응 코드
     annotationProcessor "jakarta.persistence:jakarta.persistence-api"
-    // java.lang.NoClassDefFoundError (javax.annotation.Entity) 대응 코드
 
     // image resizing
     implementation group: 'org.imgscalr', name: 'imgscalr-lib', version: '4.2'
