@@ -11,8 +11,7 @@ public enum CategoryTitle {
     MUSICAL("MUSICAL", "뮤지컬", 2),
     DRAMA("DRAMA", "연극", 3),
     CONCERT("CONCERT", "콘서트", 4),
-    EXHIBIT("EXHIBIT", "전시회", 5),
-    MOVIE("MOVIE", "영화", 6);
+    EXHIBIT("EXHIBIT", "전시회", 5);
 
     private final String type;
     private final String name;

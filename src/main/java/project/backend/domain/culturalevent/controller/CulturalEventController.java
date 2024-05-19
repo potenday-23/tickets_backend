@@ -12,7 +12,6 @@ import project.backend.domain.culturalevent.dto.CulturalEventRetrieveDto;
 import project.backend.domain.culturalevent.entity.CulturalEvent;
 import project.backend.domain.culturalevent.mapper.CulturalEventMapper;
 import project.backend.domain.culturalevent.service.CulturalEventService;
-import project.backend.domain.ticketingsite.service.TicketingSiteService;
 import project.backend.domain.culturalevnetcategory.entity.CategoryTitle;
 import project.backend.domain.culturalevnetinfo.service.CulturalEventInfoService;
 import project.backend.domain.member.entity.Member;
@@ -33,10 +32,11 @@ public class CulturalEventController {
     private final CulturalEventInfoService culturalEventInfoService;
     private final TicketingSiteMapper ticketingSiteMapper;
     private final MemberJwtService memberJwtService;
-    private final TicketingSiteService ticketingSiteService;
 
     @ApiOperation(value = "문화생활 리스트 조회",
-            notes = " - ordering : ticketOpenDate(마감 다가온 순) | -point(인기순)")
+            notes = "`ordering` : ticketOpenDate(마감 다가온 순) | -point(인기순)\n" +
+                    "`latitude` : 입력시 반경 50km 이내 문화생활\n" +
+                    "`longitude` : 입력시 반경 50km 이내 문화생활")
     @GetMapping
     public ResponseEntity getCulturalEventList(
             @RequestParam(required = false) CategoryTitle type,

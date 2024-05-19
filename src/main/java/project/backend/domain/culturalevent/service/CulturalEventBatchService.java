@@ -124,7 +124,7 @@ public class CulturalEventBatchService {
         Map<CategoryTitle, List<String>> goodsCodeMap = new HashMap<>();
 
         for (CategoryTitle categoryTitle : CategoryTitle.values()) {
-            if (categoryTitle != CategoryTitle.MOVIE && categoryTitle != categoryTitle.ALL) {
+            if (categoryTitle != categoryTitle.ALL) {
                 List<String> goodsCodeList = new ArrayList<>();
                 UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(baseUrl)
                         .queryParam("genre", categoryTitle.getType())
