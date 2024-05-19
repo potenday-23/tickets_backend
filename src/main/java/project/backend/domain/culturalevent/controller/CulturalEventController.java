@@ -47,7 +47,6 @@ public class CulturalEventController {
             @RequestParam(required = false) Double latitude,
             @RequestParam(required = false) Double longitude
             ) {
-        String link = ticketingSiteService.getMelonLink("청춘썸머나잇dfgdfgdfgdfsdsfdsfsd2024");
         // Member
         Member member = memberJwtService.getMember();
 

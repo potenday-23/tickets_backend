@@ -51,11 +51,12 @@ public class CulturalEventRepositoryImpl implements CulturalEventRepositoryCusto
         if (latitude != null && longitude != null) {
             double radiusInKm = 50.0;
 
-            double latDistance = Math.toRadians(radiusInKm / 6371.0);
-            double lonDistance = Math.toRadians(radiusInKm / (6371.0 * Math.cos(Math.toRadians(latitude))));
+            double radiusInDegrees = radiusInKm / 111.0;
 
-            culturalEventJPAQuery.where(culturalEvent.place.latitude.between(latitude - latDistance, latitude + latDistance)
-                    .and(culturalEvent.place.longitude.between(longitude - lonDistance, longitude + lonDistance)));
+            culturalEventJPAQuery.where(
+                    culturalEvent.place.latitude.between(latitude - radiusInDegrees, latitude + radiusInDegrees)
+                            .and(culturalEvent.place.longitude.between(longitude - radiusInDegrees, longitude + radiusInDegrees))
+            );
         }
 
         // page, size 적용
