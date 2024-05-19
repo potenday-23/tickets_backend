@@ -12,6 +12,7 @@ import project.backend.domain.culturalevent.dto.CulturalEventRetrieveDto;
 import project.backend.domain.culturalevent.entity.CulturalEvent;
 import project.backend.domain.culturalevent.mapper.CulturalEventMapper;
 import project.backend.domain.culturalevent.service.CulturalEventService;
+import project.backend.domain.ticketingsite.service.TicketingSiteService;
 import project.backend.domain.culturalevnetcategory.entity.CategoryTitle;
 import project.backend.domain.culturalevnetinfo.service.CulturalEventInfoService;
 import project.backend.domain.member.entity.Member;
@@ -32,6 +33,7 @@ public class CulturalEventController {
     private final CulturalEventInfoService culturalEventInfoService;
     private final TicketingSiteMapper ticketingSiteMapper;
     private final MemberJwtService memberJwtService;
+    private final TicketingSiteService ticketingSiteService;
 
     @ApiOperation(value = "문화생활 리스트 조회",
             notes = " - ordering : ticketOpenDate(마감 다가온 순) | -point(인기순)")
@@ -43,6 +45,7 @@ public class CulturalEventController {
             @RequestParam(required = false) String ordering,
             @RequestParam(required = false) Boolean isOpened
             ) {
+        String link = ticketingSiteService.getMelonLink("청춘썸머나잇dfgdfgdfgdfsdsfdsfsd2024");
         // Member
         Member member = memberJwtService.getMember();
 

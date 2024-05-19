@@ -5,6 +5,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -29,10 +32,9 @@ import project.backend.domain.place.service.PlaceService;
 import project.backend.domain.ticketingsite.entity.TicketingSite;
 import project.backend.domain.ticketingsite.service.TicketingSiteService;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import javax.swing.text.html.Option;
+import java.io.IOException;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -68,12 +70,16 @@ public class CulturalEventBatchService {
      * @return Place
      */
     public CulturalEvent createCulturalEvent(String goodsCode, CulturalEventCreateDto culturalEventCreateDto) {
+        CulturalEvent culturalEvent;
 
         // CulturalEvent 중복 확인 및 생헝
-        CulturalEvent culturalEvent = culturalEventRepository
-                .findFirstByTitle(culturalEventCreateDto.getTitle())
-                .orElseGet(() -> culturalEventMapper.culturalEventCreateDtoToCulturalEvent(culturalEventCreateDto));
-
+        Optional<CulturalEvent> optionalCulturalEvent = culturalEventRepository.findFirstByTitle(culturalEventCreateDto.getTitle());
+        if (optionalCulturalEvent.isPresent()) {
+            culturalEvent = optionalCulturalEvent.get();
+            return culturalEvent;
+        } else {
+            culturalEvent = culturalEventMapper.culturalEventCreateDtoToCulturalEvent(culturalEventCreateDto);
+        }
         // Place 연관관계 매핑
         PlaceCreateDto placeCreateDto = placeService.getPlaceCreateDtoFromPlaceCode(culturalEventCreateDto.getPlaceCode());
         Place place = placeService.createPlace(placeCreateDto);
@@ -84,8 +90,10 @@ public class CulturalEventBatchService {
         culturalEvent.setCulturalEventCategory(culturalEventCategory);
 
         // TicketingSite 연관관계 매핑
-        TicketingSite ticketingSite = ticketingSiteService.createTicketingSite(goodsCode);
-        ticketingSite.setCulturalEvent(culturalEvent);
+        List<TicketingSite> ticketingSiteList = ticketingSiteService.createTicketingSite(goodsCode, culturalEvent.getTitle());
+        ticketingSiteList.stream().forEach(ticketingSite -> {
+            ticketingSite.setCulturalEvent(culturalEvent);
+        });
 
         // 저장
         CulturalEvent savedCulturalEvent = culturalEventRepository.save(culturalEvent);
@@ -120,8 +128,8 @@ public class CulturalEventBatchService {
                 List<String> goodsCodeList = new ArrayList<>();
                 UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(baseUrl)
                         .queryParam("genre", categoryTitle.getType())
-                        .queryParam("page", "1")
-                        .queryParam("pageSize", "1000");
+                        .queryParam("page", "2")
+                        .queryParam("pageSize", "20");
 
                 ResponseEntity<String> response = restTemplate.exchange(
                         uriBuilder.toUriString(),
@@ -168,5 +176,6 @@ public class CulturalEventBatchService {
         culturalEventCreateDto.setThumbnailImageUrl("https:" + culturalEventCreateDto.getThumbnailImageUrl());
         return culturalEventCreateDto;
     }
-
 }
+
+
