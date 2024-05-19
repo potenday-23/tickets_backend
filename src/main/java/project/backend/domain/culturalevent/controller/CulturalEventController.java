@@ -43,14 +43,16 @@ public class CulturalEventController {
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(required = false) String ordering,
-            @RequestParam(required = false) Boolean isOpened
+            @RequestParam(required = false) Boolean isOpened,
+            @RequestParam(required = false) Double latitude,
+            @RequestParam(required = false) Double longitude
             ) {
         String link = ticketingSiteService.getMelonLink("청춘썸머나잇dfgdfgdfgdfsdsfdsfsd2024");
         // Member
         Member member = memberJwtService.getMember();
 
         // Response
-        List<CulturalEvent> culturalEventList = culturalEventService.getCulturalEventList(page, size, type, ordering, isOpened);
+        List<CulturalEvent> culturalEventList = culturalEventService.getCulturalEventList(page, size, type, ordering, isOpened, latitude, longitude);
         List<CulturalEventListDto> culturalEventResponseDtoList = culturalEventMapper
                 .culturalEventToCulturalEventListDtos(culturalEventList);
         culturalEventResponseDtoList.forEach(dto -> {

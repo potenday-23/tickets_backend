@@ -12,6 +12,6 @@ import javax.persistence.Column;
 public class PlacePostRequestDto {
     private String title;
     private String address;
-    private String latitude;
-    private String longitude;
+    private Double latitude;
+    private Double longitude;
 }

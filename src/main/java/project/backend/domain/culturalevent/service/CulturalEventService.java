@@ -1,8 +1,6 @@
 package project.backend.domain.culturalevent.service;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,8 +9,6 @@ import project.backend.domain.culturalevent.repository.CulturalEventRepository;
 import project.backend.domain.like.entity.CulturalEventLike;
 import project.backend.domain.like.repository.CulturalEventLikeRepository;
 import project.backend.domain.culturalevnetcategory.entity.CategoryTitle;
-import project.backend.domain.culturalevnetcategory.entity.CulturalEventCategory;
-import project.backend.domain.culturalevnetcategory.service.CulturalEventCategoryService;
 import project.backend.domain.member.entity.Member;
 import project.backend.domain.member.service.MemberJwtService;
 import project.backend.domain.visit.entity.CulturalEventVisit;
@@ -31,13 +27,12 @@ import java.util.Optional;
 @Transactional
 public class CulturalEventService {
     private final CulturalEventRepository culturalEventRepository;
-    private final CulturalEventCategoryService culturalEventCategoryService;
     private final CulturalEventLikeRepository culturalEventLikeRepository;
     private final MemberJwtService memberJwtService;
     private final CulturalEventVisitRepository culturalEventVisitRepository;
 
-    public List<CulturalEvent> getCulturalEventList(int page, int size, CategoryTitle category, String ordering, Boolean isOpened) {
-        return culturalEventRepository.getCulturalEventList(page, size, category, ordering, isOpened);
+    public List<CulturalEvent> getCulturalEventList(int page, int size, CategoryTitle category, String ordering, Boolean isOpened, Double latitude, Double longitude) {
+        return culturalEventRepository.getCulturalEventList(page, size, category, ordering, isOpened, latitude, longitude);
     }
 
     public CulturalEvent getCulturalEvent(Long id) {

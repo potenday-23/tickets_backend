@@ -19,7 +19,7 @@ public class CulturalEventRepositoryImpl implements CulturalEventRepositoryCusto
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public List<CulturalEvent> getCulturalEventList(int page, int size, CategoryTitle category, String ordering, Boolean isOpened) {
+    public List<CulturalEvent> getCulturalEventList(int page, int size, CategoryTitle category, String ordering, Boolean isOpened, Double latitude, Double longitude) {
         LocalDateTime now = LocalDateTime.now();
         JPAQuery<CulturalEvent> culturalEventJPAQuery = queryFactory.selectFrom(culturalEvent);
 
@@ -27,7 +27,8 @@ public class CulturalEventRepositoryImpl implements CulturalEventRepositoryCusto
         if (ordering != null) {
             if (ordering.equals("-point")) {
                 culturalEventJPAQuery.orderBy(culturalEvent.point.desc());
-            } if (ordering.equals("ticketOpenDate")) {
+            }
+            if (ordering.equals("ticketOpenDate")) {
                 culturalEventJPAQuery.orderBy(culturalEvent.ticketOpenDate.asc());
             }
         }
@@ -44,6 +45,17 @@ public class CulturalEventRepositoryImpl implements CulturalEventRepositoryCusto
         // category 있을 경우
         if (!(category == CategoryTitle.ALL || category == null)) {
             culturalEventJPAQuery.where(culturalEvent.culturalEventCategory.title.eq(category));
+        }
+
+        // latitude(위도), longitude(경도) 있을 경우
+        if (latitude != null && longitude != null) {
+            double radiusInKm = 50.0;
+
+            double latDistance = Math.toRadians(radiusInKm / 6371.0);
+            double lonDistance = Math.toRadians(radiusInKm / (6371.0 * Math.cos(Math.toRadians(latitude))));
+
+            culturalEventJPAQuery.where(culturalEvent.place.latitude.between(latitude - latDistance, latitude + latDistance)
+                    .and(culturalEvent.place.longitude.between(longitude - lonDistance, longitude + lonDistance)));
         }
 
         // page, size 적용

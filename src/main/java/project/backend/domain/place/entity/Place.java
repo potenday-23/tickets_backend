@@ -23,15 +23,15 @@ public class Place extends BaseEntity {
 
     public String address;
 
-    public String latitude;
+    public Double latitude;
 
-    public String longitude;
+    public Double longitude;
 
     @OneToMany(mappedBy = "place", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     public List<CulturalEvent> culturalEvents = new ArrayList<>();
 
     @Builder
-    public Place(String name, String address, String latitude, String longitude) {
+    public Place(String name, String address, Double latitude, Double longitude) {
         this.name = name;
         this.address = address;
         this.latitude = latitude;
