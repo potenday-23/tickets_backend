@@ -34,9 +34,9 @@ public class CulturalEventController {
     private final MemberJwtService memberJwtService;
 
     @ApiOperation(value = "문화생활 리스트 조회",
-            notes = "`ordering` : ticketOpenDate(마감 다가온 순) | -point(인기순) | updatedDate(최근순) | recommend(추천순)\n" +
-                    "`latitude` : 입력시 반경 50km 이내 문화생활\n" +
-                    "`longitude` : 입력시 반경 50km 이내 문화생활")
+            notes = "`ordering` : ticketOpenDate(오픈 다가온 순) | -point(인기순) | -updatedDate(최근순) | recommend(추천순) | endDate(공연마감순)\n" +
+                    "`latitude` : 입력시 추천순 정렬에 반경 50km 이내 문화생활 적용\n" +
+                    "`longitude` : 입력시 추천순 정렬에 반경 50km 이내 문화생활 적용")
     @GetMapping
     public ResponseEntity getCulturalEventList(
             @RequestParam(defaultValue = "0") int page,

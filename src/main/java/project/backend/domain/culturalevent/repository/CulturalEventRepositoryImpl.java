@@ -15,7 +15,10 @@ import project.backend.domain.member.entity.Member;
 import project.backend.domain.member.service.MemberJwtService;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import static project.backend.domain.culturalevent.entity.QCulturalEvent.culturalEvent;
@@ -28,8 +31,16 @@ public class CulturalEventRepositoryImpl implements CulturalEventRepositoryCusto
 
     @Override
     public List<CulturalEvent> getCulturalEventList(int page, int size, List<CategoryTitle> categories, String ordering, Boolean isOpened, Double latitude, Double longitude) {
+        // 현재 시간
         LocalDateTime now = LocalDateTime.now();
+        ZonedDateTime zonedDateTime = now.atZone(ZoneId.systemDefault());
+        Date dateNow = Date.from(zonedDateTime.toInstant());
+
+        /// Query 객체
         JPAQuery<CulturalEvent> culturalEventJPAQuery = queryFactory.selectFrom(culturalEvent);
+
+        // 지난 문화생활 제외
+        culturalEventJPAQuery.where(culturalEvent.endDate.after(dateNow));
 
         // ordering 있을 경우
         if (ordering != null) {
@@ -37,12 +48,24 @@ public class CulturalEventRepositoryImpl implements CulturalEventRepositoryCusto
                 culturalEventJPAQuery.orderBy(culturalEvent.point.desc());
             } else if (ordering.equals("ticketOpenDate")) {
                 culturalEventJPAQuery.orderBy(culturalEvent.ticketOpenDate.asc());
-            } else if (ordering.equals("updatedDate")) {
+            } else if (ordering.equals("-updatedDate")) {
                 culturalEventJPAQuery.orderBy(culturalEvent.updatedDate.desc());
+            } else if (ordering.equals("endDate")) {
+                culturalEventJPAQuery.orderBy(culturalEvent.endDate.asc());
             } else if (ordering.equals("recommend")) {
-                List<Long> recommendOrdering = requestRecommend(latitude, longitude, getMemberCulturalEventList()); // [200L, 201L, 202L, ...]
-                OrderSpecifier<Double> orderSpecifier = createWeightOrderSpecifier(recommendOrdering);
-                culturalEventJPAQuery.orderBy(orderSpecifier);
+                // latitude(위도), longitude(경도) 있을 경우
+                if (latitude != null && longitude != null) {
+                    double radiusInKm = 50.0;
+                    double radiusInDegrees = radiusInKm / 111.0;
+
+                    culturalEventJPAQuery.where(
+                            culturalEvent.place.latitude.between(latitude - radiusInDegrees, latitude + radiusInDegrees)
+                                    .and(culturalEvent.place.longitude.between(longitude - radiusInDegrees, longitude + radiusInDegrees))
+                    );
+                }
+//                List<Long> recommendOrdering = requestRecommend(latitude, longitude, getMemberCulturalEventList()); // [200L, 201L, 202L, ...]
+//                OrderSpecifier<Double> orderSpecifier = createWeightOrderSpecifier(recommendOrdering);
+//                culturalEventJPAQuery.orderBy(orderSpecifier);
             }
         }
 
@@ -56,19 +79,8 @@ public class CulturalEventRepositoryImpl implements CulturalEventRepositoryCusto
         }
 
         // category 있을 경우
-        if (!(categories.isEmpty() || categories.contains(CategoryTitle.ALL))) {
+        if (!(categories == null || categories.contains(CategoryTitle.ALL))) {
             culturalEventJPAQuery.where(culturalEvent.culturalEventCategory.title.in(categories));
-        }
-
-        // latitude(위도), longitude(경도) 있을 경우
-        if (latitude != null && longitude != null) {
-            double radiusInKm = 50.0;
-            double radiusInDegrees = radiusInKm / 111.0;
-
-            culturalEventJPAQuery.where(
-                    culturalEvent.place.latitude.between(latitude - radiusInDegrees, latitude + radiusInDegrees)
-                            .and(culturalEvent.place.longitude.between(longitude - radiusInDegrees, longitude + radiusInDegrees))
-            );
         }
 
         // page, size 적용
