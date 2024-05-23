@@ -20,6 +20,7 @@ import project.backend.domain.member.service.MemberService;
 import project.backend.global.error.exception.BusinessException;
 import project.backend.global.error.exception.ErrorCode;
 import project.backend.global.s3.service.ImageService;
+import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -28,7 +29,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/members")
 @RequiredArgsConstructor
-@Api(tags = "멤버 API")
+@Api(tags = "B. 멤버 API")
 public class MemberController {
 
     private final MemberService memberService;
@@ -56,6 +57,7 @@ public class MemberController {
         return new ResponseEntity<>(memberRetrieveDto, HttpStatus.OK);
     }
 
+    @ApiIgnore
     @GetMapping("/{memberId}") // todo : 관리자 권한 있어야 실행 가능한 것으로 바꾸기
     public ResponseEntity getMember(
             @RequestHeader(value = "Authorization", required = false) String accessToken,
@@ -64,6 +66,7 @@ public class MemberController {
         return ResponseEntity.status(HttpStatus.OK).body(memberResponseDto);
     }
 
+    @ApiIgnore
     @ApiOperation(
             value = "통계 조회",
             notes = " - Authorization 토큰 필수\n" +
@@ -80,6 +83,7 @@ public class MemberController {
         return ResponseEntity.status(HttpStatus.OK).body(memberStatisticsResponseDtoList);
     }
 
+    @ApiIgnore
     @ApiOperation(
             value = "월별 통계 여부 조회",
             notes = " - Authorization 토큰 필수")
@@ -94,6 +98,7 @@ public class MemberController {
         return ResponseEntity.status(HttpStatus.OK).body(memberStatisticsResponseDtoList);
     }
 
+    @ApiIgnore
     @ApiOperation(
             value = "My Page - [닉네임, 프로필, 내 티켓, 통계 보기, 좋아요한 티켓 수]",
             notes = " - Authorization 토큰 필수")
@@ -108,6 +113,7 @@ public class MemberController {
         return ResponseEntity.status(HttpStatus.OK).body(memberMyPageResponseDto);
     }
 
+    @ApiIgnore
     @ApiOperation(
             value = "Member 조회 & 닉네임 조회(중복 검사)",
             notes = "1. AccessToken으로 조회할 경우 : Header의 Authorization에 accessToken을 넣어주세요.\n" +
@@ -142,6 +148,7 @@ public class MemberController {
         return ResponseEntity.status(HttpStatus.OK).body(memberResponseDto);
     }
 
+    @ApiIgnore
     @GetMapping("/list")
     public ResponseEntity getMemberList(
             @RequestHeader(value = "Authorization", required = false) String accessToken) {
@@ -152,6 +159,7 @@ public class MemberController {
         return ResponseEntity.status(HttpStatus.OK).body(memberResponseDtoList);
     }
 
+    @ApiIgnore
     @ApiOperation(
             value = "닉네임 & 프로필 이미지 등록, 온보딩 기능",
             notes = " - 닉네임 변경 원할 시 : request -> {\"nickname\" : \"가방이\", \"marketingAgree\":\"AGREE\", \"pushAgree\":\"DISAGREE\"}\n" +
@@ -189,6 +197,7 @@ public class MemberController {
         return ResponseEntity.status(HttpStatus.OK).body(memberResponseDto);
     }
 
+    @ApiIgnore
     @ApiOperation(value = "회원 탈퇴")
     @DeleteMapping
     public ResponseEntity deleteMember(
@@ -200,6 +209,7 @@ public class MemberController {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
     }
 
+    @ApiIgnore
     @ApiOperation(value = "로그아웃")
     @GetMapping("/logout")
     public ResponseEntity logoutMember(
