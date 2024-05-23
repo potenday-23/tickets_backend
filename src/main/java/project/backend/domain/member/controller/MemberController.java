@@ -38,6 +38,24 @@ public class MemberController {
     private final LogoutTokenService logoutTokenService;
     private final CategoryService categoryService;
 
+    @ApiOperation(value = "회원가입 & 로그인",
+            notes = "`email` : required False\n" +
+                    "`socialId` : required True\n" +
+                    "`socialType` : required True")
+    @PostMapping("/login")
+    public ResponseEntity login(@Valid @RequestBody MemberLoginDto request) {
+        // Member 확인
+        Member member = memberService.getMemberBySocial(request.socialId, request.socialType, request.email);
+
+        // accessToken과 refreshToken 발급
+        String accessToken = jwtService.getAccessToken(member);
+
+        // 응답
+        MemberRetrieveDto memberRetrieveDto = memberMapper.memberToMemberRetrieveDto(member);
+        memberRetrieveDto.setAccessToken(accessToken);
+        return new ResponseEntity<>(memberRetrieveDto, HttpStatus.OK);
+    }
+
     @GetMapping("/{memberId}") // todo : 관리자 권한 있어야 실행 가능한 것으로 바꾸기
     public ResponseEntity getMember(
             @RequestHeader(value = "Authorization", required = false) String accessToken,
@@ -49,12 +67,12 @@ public class MemberController {
     @ApiOperation(
             value = "통계 조회",
             notes = " - Authorization 토큰 필수\n" +
-                    " - month=2023-10(yyyy-mm형식)\n" )
+                    " - month=2023-10(yyyy-mm형식)\n")
     @GetMapping("/statistics")
     public ResponseEntity getStatistics(
             @RequestHeader(value = "Authorization", required = false) String accessToken,
             @RequestParam(required = false) String month) {
-        if (ObjectUtils.isEmpty(accessToken)){
+        if (ObjectUtils.isEmpty(accessToken)) {
             throw new BusinessException(ErrorCode.MISSING_REQUEST);
         }
         Member member = jwtService.getMemberFromAccessToken(accessToken);
@@ -68,7 +86,7 @@ public class MemberController {
     @GetMapping("/year-statistics")
     public ResponseEntity getYearStatistics(
             @RequestHeader(value = "Authorization", required = false) String accessToken) {
-        if (ObjectUtils.isEmpty(accessToken)){
+        if (ObjectUtils.isEmpty(accessToken)) {
             throw new BusinessException(ErrorCode.MISSING_REQUEST);
         }
         Member member = jwtService.getMemberFromAccessToken(accessToken);
@@ -82,7 +100,7 @@ public class MemberController {
     @GetMapping("/my-page")
     public ResponseEntity getMyPage(
             @RequestHeader(value = "Authorization", required = false) String accessToken) {
-        if (ObjectUtils.isEmpty(accessToken)){
+        if (ObjectUtils.isEmpty(accessToken)) {
             throw new BusinessException(ErrorCode.MISSING_REQUEST);
         }
         Member member = jwtService.getMemberFromAccessToken(accessToken);
@@ -127,7 +145,7 @@ public class MemberController {
     @GetMapping("/list")
     public ResponseEntity getMemberList(
             @RequestHeader(value = "Authorization", required = false) String accessToken) {
-        if (ObjectUtils.isEmpty(accessToken)){
+        if (ObjectUtils.isEmpty(accessToken)) {
             throw new BusinessException(ErrorCode.MISSING_REQUEST);
         }
         List<MemberResponseDto> memberResponseDtoList = memberMapper.membersToMemberResponseDtos(memberService.getMemberList());
@@ -148,7 +166,7 @@ public class MemberController {
             @Valid @RequestPart(value = "request", required = false) MemberPatchRequestDto request,
             @RequestPart(value = "categorys", required = false) List<String> categorys
     ) {
-        if (ObjectUtils.isEmpty(accessToken)){
+        if (ObjectUtils.isEmpty(accessToken)) {
             throw new BusinessException(ErrorCode.MISSING_REQUEST);
         }
 
@@ -175,7 +193,7 @@ public class MemberController {
     @DeleteMapping
     public ResponseEntity deleteMember(
             @RequestHeader(value = "Authorization", required = false) String accessToken) {
-        if (ObjectUtils.isEmpty(accessToken)){
+        if (ObjectUtils.isEmpty(accessToken)) {
             throw new BusinessException(ErrorCode.MISSING_REQUEST);
         }
         memberService.deleteMember(jwtService.getMemberFromAccessToken(accessToken).getId());
@@ -186,7 +204,7 @@ public class MemberController {
     @GetMapping("/logout")
     public ResponseEntity logoutMember(
             @RequestHeader(value = "Authorization", required = false) String accessToken) { // todo : header 안 넣으면 나오는 에러 문구 수정하기
-        if (ObjectUtils.isEmpty(accessToken)){
+        if (ObjectUtils.isEmpty(accessToken)) {
             throw new BusinessException(ErrorCode.MISSING_REQUEST);
         }
         logoutTokenService.memberLogout(accessToken);

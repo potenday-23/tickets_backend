@@ -72,7 +72,7 @@ public class JwtController {
         memberService.verifiedNickname(request.nickname);
 
         // socialId, socialType기준 Member 반환, 없다면 새로 생성
-        Member member = memberService.getMemberBySocial(request.socialId, request.socialType);
+        Member member = memberService.getMemberBySocial(request.socialId, request.socialType, "offbeat1020@naver.com");
 
         // profile Url 설정
         if (profileImage != null) {

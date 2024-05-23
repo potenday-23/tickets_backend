@@ -2,10 +2,7 @@ package project.backend.domain.member.mapper;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
-import project.backend.domain.member.dto.MemberMyPageResponseDto;
-import project.backend.domain.member.dto.MemberPatchRequestDto;
-import project.backend.domain.member.dto.MemberPostRequestDto;
-import project.backend.domain.member.dto.MemberResponseDto;
+import project.backend.domain.member.dto.*;
 import project.backend.domain.member.entity.Member;
 
 import java.util.List;
@@ -17,6 +14,8 @@ public interface MemberMapper {
     Member memberPatchRequestDtoToMember(MemberPatchRequestDto memberPatchRequestDto);
 
     MemberResponseDto memberToMemberResponseDto(Member member);
+
+    MemberRetrieveDto memberToMemberRetrieveDto(Member member);
 
     MemberMyPageResponseDto MemberToMemberMyPageResponseDto(Member member);
 

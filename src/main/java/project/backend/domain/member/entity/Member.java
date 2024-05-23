@@ -34,11 +34,15 @@ public class Member extends BaseEntity {
 
     public String nickname;
 
+    public String email;
+
     public LocalDateTime nicknameChangeDate;
 
     public String profileUrl;
 
     public String refreshToken;
+
+    public Boolean isSignup = false;
 
     @Enumerated(EnumType.STRING)
     public Agree marketingAgree = Agree.DISAGREE;
@@ -65,7 +69,7 @@ public class Member extends BaseEntity {
     private List<Traffic> traffics = new ArrayList<>();
 
     @Builder
-    public Member(SocialType socialType, String socialId, String nickname, String profileUrl, String refreshToken, Agree marketingAgree, Agree pushAgree){
+    public Member(SocialType socialType, String socialId, String nickname, String profileUrl, String refreshToken, Agree marketingAgree, Agree pushAgree) {
         this.socialType = socialType;
         this.socialId = socialId;
         this.nickname = nickname;
@@ -76,7 +80,7 @@ public class Member extends BaseEntity {
     }
 
     // Patch
-    public Member patchMember(MemberPatchRequestDto memberPatchRequestDto){
+    public Member patchMember(MemberPatchRequestDto memberPatchRequestDto) {
         this.nickname = Optional.ofNullable(memberPatchRequestDto.getNickname()).orElse(this.nickname);
         this.profileUrl = Optional.ofNullable(memberPatchRequestDto.getProfileUrl()).orElse(this.profileUrl);
         this.refreshToken = Optional.ofNullable(memberPatchRequestDto.getRefreshToken()).orElse(this.refreshToken);

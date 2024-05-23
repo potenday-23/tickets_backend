@@ -70,7 +70,20 @@ dependencies {
     // S3
     implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
 
-    // validation
+    // validation    @ApiOperation(value = "회원가입 & 로그인")
+    //    @PostMapping("/login")
+    //    public ResponseEntity login(@Valid @RequestBody MemberLoginDto request) {
+    //        // Member 확인
+    //        Member member = memberService.getMemberBySocial(request.socialId, request.socialType, request.email);
+    //
+    //        // accessToken과 refreshToken 발급
+    //        String accessToken = jwtService.getAccessToken(member);
+    //
+    //        // 응답
+    //        MemberRetrieveDto memberRetrieveDto = memberMapper.memberToMemberRetrieveDto(member);
+    //        memberRetrieveDto.setAccessToken(accessToken);
+    //        return new ResponseEntity<>(memberRetrieveDto, HttpStatus.OK);
+    //    }
     implementation 'org.springframework.boot:spring-boot-starter-validation'
 
     // QueryDsl

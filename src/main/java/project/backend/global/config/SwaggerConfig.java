@@ -24,15 +24,15 @@ import static java.util.Collections.singletonList;
 import static springfox.documentation.builders.RequestHandlerSelectors.withMethodAnnotation;
 
 @Configuration
+@EnableSwagger2
 public class SwaggerConfig {
 
-    // Docket 설정
     @Bean
     public Docket restApi() {
         return new Docket(DocumentationType.SWAGGER_2)
-                .apiInfo(apiInfo()) // optional
+                .apiInfo(apiInfo())
                 .securitySchemes(singletonList(apiKey()))
-                .securityContexts(singletonList(securityContext())) // Security 관련 설정
+                .securityContexts(singletonList(securityContext()))
                 .produces(singleton("application/json"))
                 .consumes(singleton("application/json"))
                 .useDefaultResponseMessages(false)
