@@ -18,7 +18,6 @@ public class MemberLoginDto {
 
     @NotNull(message = "socialType은 필수값입니다.")
     @Schema(description = "소셜 유형", example = "KAKAO", required = true)
-//    @ValidEnum(enumClass = SocialType.class, message = "유효한 socialType을 입력해야 합니다.")
     public SocialType socialType;
 
     @Email(message = "유효한 이메일 형식을 입력해야 합니다.")

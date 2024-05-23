@@ -60,12 +60,19 @@ public class MemberController {
     @PostMapping("/signup")
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity signup(@Valid @RequestBody MemberSignupDto request) {
-        // todo : access token 필수
+        // TODO : 닉네임 중복 체크
         Member member = memberService.setMemberSignup(request);
 
         // 응답
         MemberRetrieveDto memberRetrieveDto = memberMapper.memberToMemberRetrieveDto(member);
         return new ResponseEntity<>(memberRetrieveDto, HttpStatus.OK);
+    }
+
+    @ApiOperation(value = "닉네임 유효성 검사")
+    @PostMapping("/nickname-validation")
+    public ResponseEntity nicknameValidation(@Valid @RequestBody MemberNicknameValidationDto request) {
+        memberService.verifiedNickname(request.nickname);
+        return ResponseEntity.status(HttpStatus.OK).body(null);
     }
 
     @ApiIgnore
