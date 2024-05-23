@@ -64,26 +64,17 @@ dependencies {
     implementation 'mysql:mysql-connector-java:8.0.33'
 
     // Swagger
-    implementation group: 'io.springfox', name: 'springfox-boot-starter', version: '3.0.0'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'io.springfox:springfox-boot-starter:3.0.0'
+    implementation 'io.springfox:springfox-swagger2:3.0.0'
     implementation 'io.springfox:springfox-swagger-ui:3.0.0'
+    implementation 'javax.validation:validation-api:2.0.1.Final'
+    implementation 'org.hibernate.validator:hibernate-validator:6.1.7.Final'
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
     // S3
     implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
-
-    // validation    @ApiOperation(value = "회원가입 & 로그인")
-    //    @PostMapping("/login")
-    //    public ResponseEntity login(@Valid @RequestBody MemberLoginDto request) {
-    //        // Member 확인
-    //        Member member = memberService.getMemberBySocial(request.socialId, request.socialType, request.email);
-    //
-    //        // accessToken과 refreshToken 발급
-    //        String accessToken = jwtService.getAccessToken(member);
-    //
-    //        // 응답
-    //        MemberRetrieveDto memberRetrieveDto = memberMapper.memberToMemberRetrieveDto(member);
-    //        memberRetrieveDto.setAccessToken(accessToken);
-    //        return new ResponseEntity<>(memberRetrieveDto, HttpStatus.OK);
-    //    }
     implementation 'org.springframework.boot:spring-boot-starter-validation'
 
     // QueryDsl

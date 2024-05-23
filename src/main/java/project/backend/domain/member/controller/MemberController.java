@@ -39,10 +39,7 @@ public class MemberController {
     private final LogoutTokenService logoutTokenService;
     private final CategoryService categoryService;
 
-    @ApiOperation(value = "회원가입 & 로그인",
-            notes = "`email` : required False\n" +
-                    "`socialId` : required True\n" +
-                    "`socialType` : required True")
+    @ApiOperation(value = "회원가입 & 로그인")
     @PostMapping("/login")
     public ResponseEntity login(@Valid @RequestBody MemberLoginDto request) {
         // Member 확인

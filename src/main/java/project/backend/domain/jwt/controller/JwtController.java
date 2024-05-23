@@ -10,10 +10,8 @@ import org.springframework.util.ObjectUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import project.backend.domain.category.dto.CategoryResponseDto;
 import project.backend.domain.category.entity.Category;
 import project.backend.domain.category.repository.CategoryRepository;
-import project.backend.domain.category.service.CategoryService;
 import project.backend.domain.jwt.dto.JwtRequestDto;
 import project.backend.domain.jwt.response.JwtResponse;
 import project.backend.domain.jwt.response.TokenResponse;
@@ -28,9 +26,6 @@ import project.backend.global.error.exception.ErrorCode;
 import project.backend.global.s3.service.ImageService;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 

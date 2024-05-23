@@ -47,7 +47,6 @@ public enum ErrorCode {
     // Cultural Event Category
     CULTURAL_EVENT_CATEGORY_NOT_FOUND(404, "CEC001", "문화생활 카테고리를 찾을 수 없습니다."),
 
-
     // Traffic
     VERSION_NOT_FOUND(404, "V001", "버전을 찾을 수 없습니다.")
 
