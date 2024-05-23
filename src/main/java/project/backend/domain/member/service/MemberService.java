@@ -4,10 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import project.backend.domain.category.service.CategoryService;
-import project.backend.domain.member.dto.MemberMyPageResponseDto;
-import project.backend.domain.member.dto.MemberPatchRequestDto;
-import project.backend.domain.member.dto.MemberStatisticsResponseDto;
-import project.backend.domain.member.dto.MemberYearStatisticsResponseDto;
+import project.backend.domain.member.dto.*;
 import project.backend.domain.member.entity.Agree;
 import project.backend.domain.member.entity.SocialType;
 import project.backend.domain.member.entity.Member;
@@ -32,7 +29,7 @@ public class MemberService {
     private final CategoryService categoryService;
     private final OnboardingMemberCategoryService onboardingMemberCategoryService;
     private final TicketRepository ticketRepository;
-    private final MemberTicketLikeRepository memberTicketLikeRepository;
+    private final MemberJwtService memberJwtService;
 
 
     /**
@@ -63,9 +60,7 @@ public class MemberService {
     public Member createMember(String socialId, SocialType socialType) {
         Member member = Member.builder()
                 .socialId(socialId)
-                .socialType(socialType)
-                .marketingAgree(Agree.DISAGREE)
-                .pushAgree(Agree.DISAGREE).build();
+                .socialType(socialType).build();
         memberRepository.save(member);
         return member;
     }
@@ -81,6 +76,21 @@ public class MemberService {
         if (nickname != null && memberRepository.findAllByNickname(nickname).size() > 0) {
             throw new BusinessException(ErrorCode.NICKNAME_DUPLICATE);
         }
+    }
+
+    /**
+     * 회원가입
+     *
+     * @param memberSignupDto
+     * @return Member
+     */
+    public Member setMemberSignup(MemberSignupDto memberSignupDto) {
+        Member member = memberJwtService.getMember();
+
+        member.signupMember(memberSignupDto);
+        memberRepository.save(member);
+
+        return member;
     }
 
     @Transactional(readOnly = true)
@@ -100,15 +110,6 @@ public class MemberService {
 
     public Member patchMember(Long id, MemberPatchRequestDto memberPatchRequestDto) {
         Member member = verifiedMember(id);
-//        Boolean isNicknameChange = !(memberPatchRequestDto.getNickname() == null);
-//        Boolean isNotOneMonthBefore = member.getNicknameChangeDate() != null ? !member.getNicknameChangeDate().isBefore(LocalDateTime.now().minusMonths(1)) : false;
-//
-//        if (isNicknameChange) {
-//            if (isNotOneMonthBefore) {
-//                throw new BusinessException(ErrorCode.MEMBER_NICKNAME_CHANGE_MONTH);
-//            }
-//            member.nicknameChangeDate = LocalDateTime.now();
-//        }
         member.patchMember(memberPatchRequestDto);
         memberRepository.save(member);
         return member;

@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -39,9 +40,10 @@ public class MemberController {
     private final LogoutTokenService logoutTokenService;
     private final CategoryService categoryService;
 
-    @ApiOperation(value = "회원가입 & 로그인")
+    @ApiOperation(value = "로그인")
     @PostMapping("/login")
     public ResponseEntity login(@Valid @RequestBody MemberLoginDto request) {
+
         // Member 확인
         Member member = memberService.getMemberBySocial(request.socialId, request.socialType, request.email);
 
@@ -51,6 +53,18 @@ public class MemberController {
         // 응답
         MemberRetrieveDto memberRetrieveDto = memberMapper.memberToMemberRetrieveDto(member);
         memberRetrieveDto.setAccessToken(accessToken);
+        return new ResponseEntity<>(memberRetrieveDto, HttpStatus.OK);
+    }
+
+    @ApiOperation(value = "회원가입 정보 작성")
+    @PostMapping("/signup")
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity signup(@Valid @RequestBody MemberSignupDto request) {
+        // todo : access token 필수
+        Member member = memberService.setMemberSignup(request);
+
+        // 응답
+        MemberRetrieveDto memberRetrieveDto = memberMapper.memberToMemberRetrieveDto(member);
         return new ResponseEntity<>(memberRetrieveDto, HttpStatus.OK);
     }
 
