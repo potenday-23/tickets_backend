@@ -118,6 +118,5 @@ public class CulturalEventEvaluationService {
         }
 
         List<CulturalEventEvaluation> culturalEventEvaluationList = culturalEventEvaluationRepository.saveAll(evaluations);
-//        evaluations.forEach(evaluation -> evaluation.setCulturalEvent(culturalEvent));
     }
 }

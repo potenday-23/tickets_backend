@@ -56,6 +56,12 @@ public class CulturalEvent extends BaseEntity {
     @Column(columnDefinition = "TEXT")
     public String information;
 
+    @Column(columnDefinition = "TEXT")
+    public String topic;
+
+    @Column(columnDefinition = "TEXT")
+    public String sentiment;
+
     @ManyToOne(fetch = FetchType.LAZY)
     public CulturalEventCategory culturalEventCategory;
 

@@ -5,9 +5,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -32,8 +29,6 @@ import project.backend.domain.place.service.PlaceService;
 import project.backend.domain.ticketingsite.entity.TicketingSite;
 import project.backend.domain.ticketingsite.service.TicketingSiteService;
 
-import javax.swing.text.html.Option;
-import java.io.IOException;
 import java.util.*;
 
 @Service
@@ -176,6 +171,15 @@ public class CulturalEventBatchService {
         culturalEventCreateDto.setThumbnailImageUrl("https:" + culturalEventCreateDto.getThumbnailImageUrl());
         return culturalEventCreateDto;
     }
+
+    /**
+     * 기대평 기반 감정 저장
+     */
+    public void setKeywordSentiment(String goodsCode) {
+        // GET 하는 내용
+
+    }
+
 }
 
 
