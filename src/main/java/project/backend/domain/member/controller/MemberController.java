@@ -75,6 +75,13 @@ public class MemberController {
         return ResponseEntity.status(HttpStatus.OK).body(null);
     }
 
+    @ApiOperation(value = "FCM 토큰 등록")
+    @PostMapping("/fcm-token")
+    public ResponseEntity setFcmToken(@Valid @RequestBody MemberFcmTokenDto request) {
+        memberService.setFcmToken(request.fcmToken);
+        return ResponseEntity.status(HttpStatus.OK).body(null);
+    }
+
     @ApiIgnore
     @GetMapping("/{memberId}") // todo : 관리자 권한 있어야 실행 가능한 것으로 바꾸기
     public ResponseEntity getMember(

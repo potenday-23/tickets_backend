@@ -4,7 +4,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
-import project.backend.domain.member.entity.GENDER;
+import project.backend.domain.member.entity.Gender;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
@@ -32,7 +32,7 @@ public class MemberSignupDto {
 
     @NotNull(message = "nickname은 필수값입니다.")
     @Schema(description = "성별", example = "FEMALE", required = true)
-    public GENDER gender;
+    public Gender gender;
 
     @Schema(description = "마케팅 정보 수신 및 이용 동의", example = "true", required = false)
     public Boolean isMarketingAgree;

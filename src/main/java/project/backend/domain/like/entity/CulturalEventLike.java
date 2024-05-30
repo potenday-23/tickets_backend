@@ -5,6 +5,7 @@ import project.backend.domain.common.entity.BaseEntity;
 import project.backend.domain.like.CulturalEventLikeListener;
 import project.backend.domain.culturalevent.entity.CulturalEvent;
 import project.backend.domain.member.entity.Member;
+import project.backend.domain.notification.entity.Notification;
 
 import javax.persistence.*;
 import java.util.Optional;
@@ -23,6 +24,9 @@ public class CulturalEventLike extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     public CulturalEvent culturalEvent;
+
+    @OneToOne(mappedBy = "culturalEventLike", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    private Notification notification;
 
     // == 연관관계 매핑 == //
     public void setCulturalEventLike(Member member, CulturalEvent culturalEvent) {

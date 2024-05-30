@@ -5,20 +5,16 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import project.backend.domain.category.service.CategoryService;
 import project.backend.domain.member.dto.*;
-import project.backend.domain.member.entity.Agree;
 import project.backend.domain.member.entity.SocialType;
 import project.backend.domain.member.entity.Member;
 import project.backend.domain.member.mapper.MemberMapper;
 import project.backend.domain.member.repository.MemberRepository;
-import project.backend.domain.memberTicketLike.repository.MemberTicketLikeRepository;
 import project.backend.domain.onboardingmembercategory.service.OnboardingMemberCategoryService;
 import project.backend.domain.ticket.repository.TicketRepository;
 import project.backend.global.error.exception.BusinessException;
 import project.backend.global.error.exception.ErrorCode;
 
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -92,6 +88,18 @@ public class MemberService {
 
         return member;
     }
+
+    /**
+     * FCM 토큰 등록
+     * @param fcmToken
+     * @return Member
+     */
+    public void setFcmToken(String fcmToken) {
+        Member member = memberJwtService.getMember();
+        member.fcmToken = fcmToken;
+        memberRepository.save(member);
+    }
+
 
     @Transactional(readOnly = true)
     public Member getMemberBySocialIdAndSocialType(String socialId, SocialType socialType) {

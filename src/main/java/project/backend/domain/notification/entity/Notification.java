@@ -1,11 +1,11 @@
-package project.backend.domain.notice.entity;
+package project.backend.domain.notification.entity;
 
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import project.backend.domain.common.entity.BaseEntity;
-import project.backend.domain.notice.dto.NoticePatchRequestDto;
+import project.backend.domain.like.entity.CulturalEventLike;
 
 import javax.persistence.*;
 import java.util.Optional;
@@ -13,7 +13,7 @@ import java.util.Optional;
 @Entity
 @Getter
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
-public class Notice extends BaseEntity {
+public class Notification extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long id;
@@ -22,16 +22,14 @@ public class Notice extends BaseEntity {
 
     public String content;
 
+    @OneToOne
+    @JoinColumn(name = "cultural_event_like_id")
+    private CulturalEventLike culturalEventLike;
+
     @Builder
-    public Notice(String title, String content){
+    public Notification(String title, String content, CulturalEventLike culturalEventLike) {
         this.title = title;
         this.content = content;
-    }
-
-    // Patch
-    public Notice patchNotice(NoticePatchRequestDto noticePatchRequestDto){
-        this.title = Optional.ofNullable(noticePatchRequestDto.getTitle()).orElse(this.title);
-        this.content = Optional.ofNullable(noticePatchRequestDto.getContent()).orElse(this.content);
-        return this;
+        this.culturalEventLike = culturalEventLike;
     }
 }

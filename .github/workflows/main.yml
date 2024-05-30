@@ -26,8 +26,14 @@ jobs:
           chmod +x ./gradlew
           ./gradlew clean build -x test
 
-      # dockerfile을 통해 이미지를 빌드하고, 이를 docker repo로 push 합니다.
-      # 이 때 사용되는 ${{ secrets.DOCKER_REPO }}/directors-dev 가 위에서 만든 도커 repository 입니다.
+      - name: create firebase key
+        run: |
+          cd ./src/main/resources
+          ls -a .
+          touch ./firebase-service-key.json
+          echo "${{ secrets.FIREBASE_KEY }}" > ./firebase-service-key.json
+        shell: bash
+
       - name: Docker build & push to docker repo
         run: |
           docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
@@ -43,8 +49,8 @@ jobs:
           key: ${{ secrets.KEY }}
           envs: GITHUB_SHA
           script: |
-            sudo docker stop ticats
-            sudo docker rm ticats
-            sudo docker image rm gabang2/ticats:latest
-            sudo docker pull gabang2/ticats:latest
-            sudo docker run -d -p 8080:8080 --name ticats ${{ secrets.ENVS }} gabang2/ticats:latest
+            sudo docker stop ticats || true
+            sudo docker rm ticats || true
+            sudo docker image rm ${{ secrets.DOCKER_USERNAME }}/ticats:latest || true
+            sudo docker pull ${{ secrets.DOCKER_USERNAME }}/ticats:latest
+            sudo docker run -d -p 8080:8080 --name ticats -v ${{ secrets.DOCKER_USERNAME }}/ticats:latest

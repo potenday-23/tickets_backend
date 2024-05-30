@@ -42,3 +42,9 @@ src/main/generated
 
 ### env ###
 .env
+
+### static ###
+src/main/java/project/backend/domain/notice
+src/main/resources/static
+src/main/resources/templates
+src/main/resources/firebase-service-key.json

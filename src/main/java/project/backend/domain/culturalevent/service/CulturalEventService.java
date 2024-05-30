@@ -11,6 +11,7 @@ import project.backend.domain.like.repository.CulturalEventLikeRepository;
 import project.backend.domain.culturalevnetcategory.entity.CategoryTitle;
 import project.backend.domain.member.entity.Member;
 import project.backend.domain.member.service.MemberJwtService;
+import project.backend.domain.notification.service.NotificationService;
 import project.backend.domain.visit.entity.CulturalEventVisit;
 import project.backend.domain.visit.repository.CulturalEventVisitRepository;
 import project.backend.global.error.exception.BusinessException;
@@ -31,6 +32,7 @@ public class CulturalEventService {
     private final CulturalEventLikeRepository culturalEventLikeRepository;
     private final MemberJwtService memberJwtService;
     private final CulturalEventVisitRepository culturalEventVisitRepository;
+    private final NotificationService notificationService;
 
     public List<CulturalEvent> getCulturalEventList(int page, int size, List<CategoryTitle> categories, String ordering, Boolean isOpened, Double latitude, Double longitude) {
         return culturalEventRepository.getCulturalEventList(page, size, categories, ordering, isOpened, latitude, longitude);
@@ -51,17 +53,29 @@ public class CulturalEventService {
         CulturalEventLike culturalEventLike = new CulturalEventLike();
         culturalEventLike.setCulturalEventLike(member, getCulturalEvent(id));
         culturalEventLikeRepository.save(culturalEventLike);
+
+        // Set Ticket Open Notification
+        LocalDateTime ticketOpenDate = culturalEventLike.getCulturalEvent().getTicketOpenDate();
+        LocalDateTime currentTimePlus30Minutes = LocalDateTime.now().plusMinutes(30);
+
+        if (ticketOpenDate.isAfter(currentTimePlus30Minutes)) {
+            notificationService.createCulturalEventLikeNotification(culturalEventLike);
+        }
     }
 
     public void unLike(Long id) {
+
         Member member = memberJwtService.getMember();
         CulturalEvent culturalEvent = getCulturalEvent(id);
-        Optional<CulturalEventLike> culturalEventLike = culturalEvent.findMemberLike(member);
+        Optional<CulturalEventLike> culturalEventLikeOptional = culturalEvent.findMemberLike(member);
 
-        if (culturalEventLike.isEmpty()) {
+        if (culturalEventLikeOptional.isEmpty()) {
             return;
         }
-        culturalEventLikeRepository.delete(culturalEventLike.get());
+
+        CulturalEventLike culturalEventLike = culturalEventLikeOptional.get();
+        notificationService.deleteCulturalEventLikeNotification(culturalEventLike);
+        culturalEventLikeRepository.delete(culturalEventLike);
     }
 
     public void visit(CulturalEvent culturalEvent) {
