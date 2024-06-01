@@ -115,6 +115,11 @@ public class CulturalEventRepositoryImpl implements CulturalEventRepositoryCusto
         // 인기순
         culturalEventJPAQuery.orderBy(culturalEvent.point.desc());
 
+        // page, size 적용
+        Pageable pageable = PageRequest.of(page, size);
+        culturalEventJPAQuery.offset(pageable.getOffset());
+        culturalEventJPAQuery.limit(pageable.getPageSize());
+
         return culturalEventJPAQuery.fetch();
     }
 
