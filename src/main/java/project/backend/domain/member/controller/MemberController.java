@@ -30,7 +30,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/members")
 @RequiredArgsConstructor
-@Api(tags = "B. 멤버 API")
+@Api(tags = "B. 멤버")
 public class MemberController {
 
     private final MemberService memberService;

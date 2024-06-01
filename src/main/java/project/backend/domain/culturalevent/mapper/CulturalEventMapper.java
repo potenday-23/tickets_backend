@@ -7,6 +7,7 @@ import org.mapstruct.factory.Mappers;
 import project.backend.domain.culturalevent.dto.CulturalEventCreateDto;
 import project.backend.domain.culturalevent.dto.CulturalEventListDto;
 import project.backend.domain.culturalevent.dto.CulturalEventRetrieveDto;
+import project.backend.domain.culturalevent.dto.CulturalEventSearchListDto;
 import project.backend.domain.culturalevent.entity.CulturalEvent;
 import project.backend.domain.culturalevnetinfo.entity.CulturalEventInfo;
 import project.backend.domain.member.entity.Member;
@@ -29,6 +30,7 @@ public interface CulturalEventMapper {
     CulturalEventListDto culturalEventToCulturalEventListDto(CulturalEvent culturalEvent);
 
     List<CulturalEventListDto> culturalEventToCulturalEventListDtos(List<CulturalEvent> culturalEventList);
+    List<CulturalEventSearchListDto> culturalEventToCulturalEventSearchListDtos(List<CulturalEvent> culturalEventList);
 
 
 }

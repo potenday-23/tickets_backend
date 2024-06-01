@@ -23,6 +23,7 @@ public class MemberSignupDto {
     public String nickname;
 
     @Email(message = "유효한 이메일 형식을 입력해야 합니다.")
+    @Size(max = 40, message = "이메일은 최대 40글자까지 작성이 가능해요.")
     @Schema(description = "이메일", example = "ticats@gmail.com", required = true)
     public String email;
 

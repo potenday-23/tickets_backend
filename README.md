@@ -36,7 +36,6 @@
    - TICKETS_S3_SECRET : S3 Secret key 정보
    - TICKETS_SECRET : JWT Secret 키 정보
    - TICKETS_CLIENT : KAKAO Client 정보(현재 비활성화)
-   - TICATS_SSL_PW : ssl 인증서의 pw 정보
 2. Ticats 어플리케이션 백엔드 build
     ```bash
     ./gradlew bootjar

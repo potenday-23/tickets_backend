@@ -1,5 +1,6 @@
 package project.backend.domain.culturalevent.repository;
 
+import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.CaseBuilder;
 import com.querydsl.core.types.dsl.NumberTemplate;
@@ -93,6 +94,32 @@ public class CulturalEventRepositoryImpl implements CulturalEventRepositoryCusto
     }
 
     @Override
+    public List<CulturalEvent> getCulturalEventSearchList(int page, int size, String keyword) {
+
+        // 현재 시간
+        LocalDateTime now = LocalDateTime.now();
+        ZonedDateTime zonedDateTime = now.atZone(ZoneId.systemDefault());
+        Date dateNow = Date.from(zonedDateTime.toInstant());
+
+        // Query 객체
+        JPAQuery<CulturalEvent> culturalEventJPAQuery = queryFactory.selectFrom(culturalEvent);
+
+        // 지난 문화생활 제외
+        culturalEventJPAQuery.where(culturalEvent.endDate.after(dateNow));
+
+        // keyword 검색
+        if (keyword != null && !keyword.isEmpty()) {
+            culturalEventJPAQuery.where(culturalEvent.title.contains(keyword));
+        }
+
+        // 인기순
+        culturalEventJPAQuery.orderBy(culturalEvent.point.desc());
+
+        return culturalEventJPAQuery.fetch();
+    }
+
+
+    @Override
     public List<CulturalEvent> getMemberCulturalEventList() {
         Member member = memberJwtService.getMember();
         JPAQuery<CulturalEvent> culturalEventJPAQuery = queryFactory.selectFrom(culturalEvent);
@@ -119,7 +146,7 @@ public class CulturalEventRepositoryImpl implements CulturalEventRepositoryCusto
         return weight.asc();
     }
 
-    public List<Long> requestRecommend(Double latitude, Double longitude, List<CulturalEvent> culturalEvents) {
+    private List<Long> requestRecommend(Double latitude, Double longitude, List<CulturalEvent> culturalEvents) {
         // Example logic to generate recommended IDs, should be replaced with actual implementation
         return Arrays.asList(200L, 201L, 301L);
     }

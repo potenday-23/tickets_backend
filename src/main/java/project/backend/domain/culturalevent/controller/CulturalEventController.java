@@ -9,6 +9,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import project.backend.domain.culturalevent.dto.CulturalEventListDto;
 import project.backend.domain.culturalevent.dto.CulturalEventRetrieveDto;
+import project.backend.domain.culturalevent.dto.CulturalEventSearchListDto;
 import project.backend.domain.culturalevent.entity.CulturalEvent;
 import project.backend.domain.culturalevent.mapper.CulturalEventMapper;
 import project.backend.domain.culturalevent.service.CulturalEventService;
@@ -59,6 +60,19 @@ public class CulturalEventController {
             dto.setIsLiked(member);
         });
         return ResponseEntity.status(HttpStatus.OK).body(culturalEventResponseDtoList);
+    }
+
+    @ApiOperation(value = "문화생활 검색 리스트 조회")
+    @GetMapping("/search")
+    public ResponseEntity getCulturalEventSearchList(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "") String keyword
+            ) {
+        // Response
+        List<CulturalEvent> culturalEventList = culturalEventService.getCulturalEventSearchList(page, size, keyword);
+        List<CulturalEventSearchListDto> CulturalEventSearchListDtoList = culturalEventMapper.culturalEventToCulturalEventSearchListDtos(culturalEventList);
+        return ResponseEntity.status(HttpStatus.OK).body(CulturalEventSearchListDtoList);
     }
 
     @ApiOperation(value = "문화생활 객체 조회")

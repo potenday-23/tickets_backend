@@ -3,20 +3,28 @@ package project.backend.global.config;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.io.ClassPathResource;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 
 @Configuration
 public class FirebaseConfig {
 
+    @Value("${firebase.key}")
+    private String fcmSecretKey;
+
     @Bean
     public FirebaseApp initializeFirebaseApp() throws IOException {
-        ClassPathResource resource = new ClassPathResource("firebase-service-key.json");
-        InputStream serviceAccount = resource.getInputStream();
+        if (fcmSecretKey == null) {
+            throw new IOException("FCM_SECRET environment variable is not set.");
+        }
+
+        ByteArrayInputStream serviceAccount = new ByteArrayInputStream(fcmSecretKey.getBytes());
 
         FirebaseOptions options = new FirebaseOptions.Builder()
                 .setCredentials(GoogleCredentials.fromStream(serviceAccount))

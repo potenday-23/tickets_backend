@@ -8,5 +8,7 @@ import java.util.List;
 public interface CulturalEventRepositoryCustom {
     List<CulturalEvent> getCulturalEventList(int page, int size, List<CategoryTitle> categories, String ordering, Boolean isOpened, Double latitude, Double longitude);
 
+    List<CulturalEvent> getCulturalEventSearchList(int page, int size, String keyword);
+
     List<CulturalEvent> getMemberCulturalEventList();
 }

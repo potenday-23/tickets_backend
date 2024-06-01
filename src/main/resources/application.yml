@@ -77,3 +77,6 @@ server:
 swagger:
   host: www.ticats.site
   protocol: https
+
+firebase:
+  key: ${FCM_SECRET}

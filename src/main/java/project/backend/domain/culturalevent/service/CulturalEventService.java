@@ -38,6 +38,10 @@ public class CulturalEventService {
         return culturalEventRepository.getCulturalEventList(page, size, categories, ordering, isOpened, latitude, longitude);
     }
 
+    public List<CulturalEvent> getCulturalEventSearchList(int page, int size, String keyword) {
+        return culturalEventRepository.getCulturalEventSearchList(page, size, keyword);
+    }
+
     public CulturalEvent getCulturalEvent(Long id) {
         return verifiedCulturalEvent(id);
     }
