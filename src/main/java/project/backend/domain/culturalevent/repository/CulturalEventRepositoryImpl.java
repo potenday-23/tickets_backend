@@ -31,7 +31,7 @@ public class CulturalEventRepositoryImpl implements CulturalEventRepositoryCusto
     private final MemberJwtService memberJwtService;
 
     @Override
-    public List<CulturalEvent> getCulturalEventList(int page, int size, List<CategoryTitle> categories, String ordering, Boolean isOpened, Double latitude, Double longitude) {
+    public List<CulturalEvent> getCulturalEventList(int page, int size, List<CategoryTitle> categories, String ordering, Boolean isOpened, Double latitude, Double longitude, String keyword) {
         // 현재 시간
         LocalDateTime now = LocalDateTime.now();
         ZonedDateTime zonedDateTime = now.atZone(ZoneId.systemDefault());
@@ -82,6 +82,11 @@ public class CulturalEventRepositoryImpl implements CulturalEventRepositoryCusto
         // category 있을 경우
         if (!(categories == null || categories.contains(CategoryTitle.ALL))) {
             culturalEventJPAQuery.where(culturalEvent.culturalEventCategory.title.in(categories));
+        }
+
+        // keyword 검색
+        if (keyword != null && !keyword.isEmpty()) {
+            culturalEventJPAQuery.where(culturalEvent.title.contains(keyword));
         }
 
         // page, size 적용

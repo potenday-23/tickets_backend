@@ -21,14 +21,18 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-@Entity
 @Getter
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
+@Entity
+@Table(name = "cultural_event", indexes = {
+        @Index(name = "idx_title", columnList = "title")
+})
 public class CulturalEvent extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long id;
 
+    @Column(nullable = false)
     public String title;
 
     public String thumbnailImageUrl;

@@ -46,13 +46,14 @@ public class CulturalEventController {
             @RequestParam(required = false) Boolean isOpened,
             @RequestParam(required = false) Double latitude,
             @RequestParam(required = false) Double longitude,
-            @RequestParam(required = false) List<CategoryTitle> categories
+            @RequestParam(required = false) List<CategoryTitle> categories,
+            @RequestParam(required = false) String keyword
     ) {
         // Member
         Member member = memberJwtService.getMember();
 
         // Response
-        List<CulturalEvent> culturalEventList = culturalEventService.getCulturalEventList(page, size, categories, ordering, isOpened, latitude, longitude);
+        List<CulturalEvent> culturalEventList = culturalEventService.getCulturalEventList(page, size, categories, ordering, isOpened, latitude, longitude, keyword);
         List<CulturalEventListDto> culturalEventResponseDtoList = culturalEventMapper
                 .culturalEventToCulturalEventListDtos(culturalEventList);
         culturalEventResponseDtoList.forEach(dto -> {
