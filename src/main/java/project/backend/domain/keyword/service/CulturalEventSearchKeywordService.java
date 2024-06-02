@@ -2,6 +2,7 @@ package project.backend.domain.keyword.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import project.backend.domain.keyword.dto.CulturalEventPopularKeywordListDto;
@@ -26,6 +27,7 @@ public class CulturalEventSearchKeywordService {
 
     private final CulturalEventSearchKeywordRepository culturalEventSearchKeywordRepository;
     private final MemberJwtService memberJwtService;
+    private List<CulturalEventPopularKeywordListDto> cachedPopularKeywords;
 
 
     /**
@@ -97,7 +99,7 @@ public class CulturalEventSearchKeywordService {
     public List<CulturalEventPopularKeywordListDto> getCulturalEventPopularKeywordList() {
         // Variables
         LocalDateTime oneHourAgo = LocalDateTime.now().minusHours(1);
-        PageRequest pageRequest = PageRequest.of(0, 7); // 첫 번째 페이지, 7개의 결과
+        PageRequest pageRequest = PageRequest.of(0, 7);
 
         // Get Keywords
         List<Object[]> topKeywords = culturalEventSearchKeywordRepository.findTopKeywordsWithinOneHour(oneHourAgo, pageRequest);
@@ -109,7 +111,30 @@ public class CulturalEventSearchKeywordService {
     }
 
 
-    // 키워드 검증
+    /**
+     * 정각마다 실행
+     */
+    @Scheduled(cron = "0 0 * * * *")  // 매 정각마다 실행
+    public void cachePopularKeywords() {
+        cachedPopularKeywords = getCulturalEventPopularKeywordList();
+    }
+
+    /**
+     * 캐시된 인기 검색어 리스트
+     * @return List
+     */
+    public List<CulturalEventPopularKeywordListDto> getCachedPopularKeywords() {
+        if (cachedPopularKeywords == null || cachedPopularKeywords.isEmpty()) {
+            cachePopularKeywords();
+        }
+        return cachedPopularKeywords;
+    }
+
+    /**
+     * 키워드 객체 검증
+     * @param id
+     * @return CulturalEventSearchKeyword
+     */
     private CulturalEventSearchKeyword verifiedCulturalEventSearchKeyword(Long id) {
         return culturalEventSearchKeywordRepository.findById(id).orElseThrow(() -> new BusinessException(ErrorCode.NOTICE_NOT_FOUND));
     }

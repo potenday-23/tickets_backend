@@ -155,7 +155,7 @@ public class CulturalEventController {
     @ApiOperation(value = "문화생활 인기 검색어 리스트 조회")
     @GetMapping("/popular-keywords")
     public ResponseEntity<List<CulturalEventPopularKeywordListDto>> getCulturalEventPopularKeywordList() {
-        List<CulturalEventPopularKeywordListDto> culturalEventSearchKeywordListDtoList = culturalEventSearchKeywordService.getCulturalEventPopularKeywordList();
+        List<CulturalEventPopularKeywordListDto> culturalEventSearchKeywordListDtoList = culturalEventSearchKeywordService.getCachedPopularKeywords();
         return ResponseEntity.status(HttpStatus.OK).body(culturalEventSearchKeywordListDtoList);
     }
 }
