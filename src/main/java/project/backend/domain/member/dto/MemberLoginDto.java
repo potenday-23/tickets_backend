@@ -13,7 +13,7 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 public class MemberLoginDto {
     @NotNull(message = "socialId는 필수값입니다.")
-    @Schema(description = "소셜 아이디", example = "3149019856", required = true)
+    @Schema(description = "소셜 아이디", example = "A123456", required = true)
     public String socialId;
 
     @NotNull(message = "socialType은 필수값입니다.")
