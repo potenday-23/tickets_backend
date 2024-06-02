@@ -15,7 +15,9 @@ import project.backend.domain.culturalevent.mapper.CulturalEventMapper;
 import project.backend.domain.culturalevent.service.CulturalEventService;
 import project.backend.domain.culturalevnetcategory.entity.CategoryTitle;
 import project.backend.domain.culturalevnetinfo.service.CulturalEventInfoService;
+import project.backend.domain.keyword.dto.CulturalEventSearchKeywordListDto;
 import project.backend.domain.keyword.entity.CulturalEventSearchKeyword;
+import project.backend.domain.keyword.mapper.CulturalEventSearchKeywordMapper;
 import project.backend.domain.keyword.service.CulturalEventSearchKeywordService;
 import project.backend.domain.member.entity.Member;
 import project.backend.domain.ticketingsite.mapper.TicketingSiteMapper;
@@ -23,6 +25,7 @@ import project.backend.domain.member.service.MemberJwtService;
 
 import javax.validation.constraints.Positive;
 import java.util.List;
+import java.util.stream.IntStream;
 
 @Api(tags = "A. 문화생활")
 @RestController
@@ -36,6 +39,7 @@ public class CulturalEventController {
     private final TicketingSiteMapper ticketingSiteMapper;
     private final MemberJwtService memberJwtService;
     private final CulturalEventSearchKeywordService culturalEventSearchKeywordService;
+    private final CulturalEventSearchKeywordMapper culturalEventSearchKeywordMapper;
 
     @ApiOperation(value = "문화생활 리스트 조회",
             notes = "`ordering` : ticketOpenDate(오픈 다가온 순) | -point(인기순) | -updatedDate(최근순) | recommend(추천순) | endDate(공연마감순)\n" +
@@ -77,7 +81,7 @@ public class CulturalEventController {
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(defaultValue = "") String keyword
-            ) {
+    ) {
         // Response
         List<CulturalEvent> culturalEventList = culturalEventService.getCulturalEventSearchList(page, size, keyword);
         List<CulturalEventSearchListDto> CulturalEventSearchListDtoList = culturalEventMapper.culturalEventToCulturalEventSearchListDtos(culturalEventList);
@@ -119,6 +123,25 @@ public class CulturalEventController {
     public ResponseEntity unLikeCulturalEvent(@Positive @PathVariable Long id) {
         culturalEventService.unLike(id);
         return ResponseEntity.status(HttpStatus.OK).body(null);
+    }
+
+
+    @ApiOperation(value = "문화생활 최근 검색어")
+    @GetMapping("/recent-keywords")
+    public ResponseEntity<List<CulturalEventSearchKeywordListDto>> getCulturalEventRecentKeywordList() {
+        // Get Recent Keywords
+        Member member = memberJwtService.getMember();
+        List<CulturalEventSearchKeyword> culturalEventRecentKeywordList = culturalEventSearchKeywordService.getCulturalEventRecentKeywordList(member);
+
+        // Get Dto List
+        List<CulturalEventSearchKeywordListDto> culturalEventSearchKeywordListDtoList = culturalEventSearchKeywordMapper
+                .culturalEventSearchKeywordToCulturalEventSearchKeywordListDto(culturalEventRecentKeywordList);
+
+        // Set Ordering
+        IntStream.range(0, culturalEventSearchKeywordListDtoList.size())
+                .forEach(i -> culturalEventSearchKeywordListDtoList.get(i).setOrdering(i + 1));
+
+        return ResponseEntity.status(HttpStatus.OK).body(culturalEventSearchKeywordListDtoList);
     }
 }
 

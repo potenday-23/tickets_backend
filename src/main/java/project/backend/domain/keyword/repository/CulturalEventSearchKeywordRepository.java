@@ -1,17 +1,15 @@
 package project.backend.domain.keyword.repository;
 
-import io.lettuce.core.dynamic.annotation.Param;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 import project.backend.domain.keyword.entity.CulturalEventSearchKeyword;
 import project.backend.domain.member.entity.Member;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface CulturalEventSearchKeywordRepository extends JpaRepository<CulturalEventSearchKeyword, Long> {
 
-    List<CulturalEventSearchKeyword> findCulturalEventSearchKeywordsByIsRecentFalseAndMember(Member member);
+    List<CulturalEventSearchKeyword> findByIsRecentTrueAndMemberOrderByUpdatedDateDesc(Member member);
 
-    @Query("SELECT CASE WHEN COUNT(c) > 0 THEN true ELSE false END FROM CulturalEventSearchKeyword c WHERE c.isRecent = false AND c.member = :member AND c.keyword = :keyword")
-    Boolean existsByIsRecentFalseAndMemberAndKeyword(@Param("member") Member member, @Param("keyword") String keyword);
+    Optional<CulturalEventSearchKeyword> findFirstByMemberAndKeywordAndIsRecentTrue(Member member, String keyword);
 }

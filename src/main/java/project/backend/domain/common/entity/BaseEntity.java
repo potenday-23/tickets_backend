@@ -12,18 +12,18 @@ import javax.persistence.MappedSuperclass;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-@MappedSuperclass // todo : 이거 왜 쓰는가
+@MappedSuperclass
 @Getter
 @Setter
-@EntityListeners(AuditingEntityListener.class) // todo : 이건 또 왜 쓰는가
-public abstract class BaseEntity { // todo : abstract 에 대해서 좀 더 알아보기
+@EntityListeners(AuditingEntityListener.class)
+public abstract class BaseEntity {
 
     @CreatedDate
-    @Column(name = "created_date", updatable = false) // todo : 이건 머임
+    @Column(name = "created_date", updatable = false)
     private LocalDateTime createdDate;
 
     @LastModifiedDate
-    @Column(name = "updated_date", updatable = false)
-    private LocalDateTime updatedDate; //todo : 왜 private 인 것일까?
+    @Column(name = "updated_date", updatable = true)
+    private LocalDateTime updatedDate;
 
 }
