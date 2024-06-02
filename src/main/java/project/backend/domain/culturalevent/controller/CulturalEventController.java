@@ -15,6 +15,7 @@ import project.backend.domain.culturalevent.mapper.CulturalEventMapper;
 import project.backend.domain.culturalevent.service.CulturalEventService;
 import project.backend.domain.culturalevnetcategory.entity.CategoryTitle;
 import project.backend.domain.culturalevnetinfo.service.CulturalEventInfoService;
+import project.backend.domain.keyword.dto.CulturalEventPopularKeywordListDto;
 import project.backend.domain.keyword.dto.CulturalEventSearchKeywordListDto;
 import project.backend.domain.keyword.entity.CulturalEventSearchKeyword;
 import project.backend.domain.keyword.mapper.CulturalEventSearchKeywordMapper;
@@ -126,7 +127,7 @@ public class CulturalEventController {
     }
 
 
-    @ApiOperation(value = "문화생활 최근 검색어")
+    @ApiOperation(value = "문화생활 최근 검색어 리스트 조회")
     @GetMapping("/recent-keywords")
     public ResponseEntity<List<CulturalEventSearchKeywordListDto>> getCulturalEventRecentKeywordList() {
         // Get Recent Keywords
@@ -149,6 +150,13 @@ public class CulturalEventController {
     public ResponseEntity deleteCulturalEventRecentKeyword(@Positive @PathVariable Long id) {
         culturalEventSearchKeywordService.deleteCulturalEventSearchKeyword(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
+    }
+
+    @ApiOperation(value = "문화생활 인기 검색어 리스트 조회")
+    @GetMapping("/popular-keywords")
+    public ResponseEntity<List<CulturalEventPopularKeywordListDto>> getCulturalEventPopularKeywordList() {
+        List<CulturalEventPopularKeywordListDto> culturalEventSearchKeywordListDtoList = culturalEventSearchKeywordService.getCulturalEventPopularKeywordList();
+        return ResponseEntity.status(HttpStatus.OK).body(culturalEventSearchKeywordListDtoList);
     }
 }
 

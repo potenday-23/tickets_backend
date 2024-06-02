@@ -1,8 +1,10 @@
 package project.backend.domain.keyword.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import project.backend.domain.keyword.dto.CulturalEventPopularKeywordListDto;
 import project.backend.domain.keyword.entity.CulturalEventSearchKeyword;
 import project.backend.domain.keyword.repository.CulturalEventSearchKeywordRepository;
 import project.backend.domain.member.entity.Member;
@@ -15,6 +17,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Service
 @RequiredArgsConstructor
@@ -86,9 +89,25 @@ public class CulturalEventSearchKeywordService {
         culturalEventSearchKeyword.isRecent = false;
     }
 
+    /**
+     * 시간별 인기 검색어 리스트
+     *
+     * @return List
+     */
+    public List<CulturalEventPopularKeywordListDto> getCulturalEventPopularKeywordList() {
+        // Variables
+        LocalDateTime oneHourAgo = LocalDateTime.now().minusHours(1);
+        PageRequest pageRequest = PageRequest.of(0, 7); // 첫 번째 페이지, 7개의 결과
 
-    // 인기 키워드 생성(1시간 지난 키워드(is_deleted 중에서) 삭제)
-    // TODO : 아직 개발하지 않았음.
+        // Get Keywords
+        List<Object[]> topKeywords = culturalEventSearchKeywordRepository.findTopKeywordsWithinOneHour(oneHourAgo, pageRequest);
+
+        // Make Dto List
+        return IntStream.range(0, topKeywords.size())
+                .mapToObj(i -> CulturalEventPopularKeywordListDto.builder().ordering(i + 1).keyword((String) topKeywords.get(i)[0]).build())
+                .collect(Collectors.toList());
+    }
+
 
     // 키워드 검증
     private CulturalEventSearchKeyword verifiedCulturalEventSearchKeyword(Long id) {
