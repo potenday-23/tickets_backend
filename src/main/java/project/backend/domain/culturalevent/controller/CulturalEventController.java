@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import project.backend.domain.culturalevent.dto.CulturalEventDetailListDto;
 import project.backend.domain.culturalevent.dto.CulturalEventListDto;
 import project.backend.domain.culturalevent.dto.CulturalEventRetrieveDto;
 import project.backend.domain.culturalevent.dto.CulturalEventSearchListDto;
@@ -47,7 +48,7 @@ public class CulturalEventController {
                     "`latitude` : 입력시 추천순 정렬에 반경 50km 이내 문화생활 적용\n" +
                     "`longitude` : 입력시 추천순 정렬에 반경 50km 이내 문화생활 적용")
     @GetMapping
-    public ResponseEntity getCulturalEventList(
+    public ResponseEntity<CulturalEventDetailListDto> getCulturalEventList(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(required = false) String ordering,
@@ -65,15 +66,26 @@ public class CulturalEventController {
             culturalEventSearchKeywordService.createCulturalEventSearchKeyword(member, keyword);
         }
 
-        // Get Cultural Event
-        List<CulturalEvent> culturalEventList = culturalEventService.getCulturalEventList(page, size, categories, ordering, isOpened, latitude, longitude, keyword);
+        // Get Cultural Event List Dto
+        List<CulturalEvent> culturalEventList = culturalEventService
+                .getCulturalEventList(page, size, categories, ordering, isOpened, latitude, longitude, keyword);
         List<CulturalEventListDto> culturalEventResponseDtoList = culturalEventMapper
                 .culturalEventToCulturalEventListDtos(culturalEventList);
         culturalEventResponseDtoList.forEach(dto -> {
             dto.setIsOpened();
             dto.setIsLiked(member);
         });
-        return ResponseEntity.status(HttpStatus.OK).body(culturalEventResponseDtoList);
+
+        // Get Cultural Event Detail List
+        CulturalEventDetailListDto culturalEventDetailListDto = CulturalEventDetailListDto
+                .builder()
+                .searchKeyword(keyword)
+                .resultKeyword(keyword)
+                .isKeywordSame(true)
+                .culturalEvents(culturalEventResponseDtoList)
+                .build();
+
+        return ResponseEntity.status(HttpStatus.OK).body(culturalEventDetailListDto);
     }
 
     @ApiOperation(value = "문화생활 검색 리스트 조회")
