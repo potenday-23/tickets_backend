@@ -11,7 +11,9 @@ import project.backend.domain.ticket.entity.Ticket;
 import project.backend.global.error.exception.BusinessException;
 import project.backend.global.error.exception.ErrorCode;
 
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -20,14 +22,33 @@ public class CulturalEventSearchKeywordService {
 
     private final CulturalEventSearchKeywordRepository culturalEventSearchKeywordRepository;
 
-    // 사용자, 키워드 등록
+
+    /**
+     * 사용자 검색어 등록
+     *
+     * @param member
+     * @param keyword
+     */
     public void createCulturalEventSearchKeyword(Member member, String keyword) {
         if (!culturalEventSearchKeywordRepository.existsByIsRecentFalseAndMemberAndKeyword(member, keyword)) {
             CulturalEventSearchKeyword culturalEventSearchKeyword = CulturalEventSearchKeyword.builder()
                     .keyword(keyword).build();
-
             culturalEventSearchKeyword.setMember(member);
             culturalEventSearchKeywordRepository.save(culturalEventSearchKeyword);
+
+            // 저장 후 키워드가 10개 초과한다면 11번째 키워드 이후를 isRecent False로 변경하기
+            List<CulturalEventSearchKeyword> keywordList = member.getCulturalEventSearchKeywordList()
+                    .stream()
+                    .filter(searchKeyword -> searchKeyword.isRecent)
+                    .sorted(Comparator.comparing(CulturalEventSearchKeyword::getCreatedDate).reversed())
+                    .collect(Collectors.toList());
+
+            if (keywordList.size() > 10) {
+                keywordList.subList(10, keywordList.size()).forEach(searchKeyword -> {
+                    searchKeyword.isRecent = false;
+                    culturalEventSearchKeywordRepository.save(searchKeyword);
+                });
+            }
         }
     }
 
