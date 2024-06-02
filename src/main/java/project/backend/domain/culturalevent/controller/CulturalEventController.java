@@ -143,6 +143,13 @@ public class CulturalEventController {
 
         return ResponseEntity.status(HttpStatus.OK).body(culturalEventSearchKeywordListDtoList);
     }
+
+    @ApiOperation(value = "문화생활 최근 검색어 삭제")
+    @DeleteMapping("/recent-keywords/{id}")
+    public ResponseEntity deleteCulturalEventRecentKeyword(@Positive @PathVariable Long id) {
+        culturalEventSearchKeywordService.deleteCulturalEventSearchKeyword(id);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
+    }
 }
 
 

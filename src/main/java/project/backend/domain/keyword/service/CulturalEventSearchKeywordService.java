@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import project.backend.domain.keyword.entity.CulturalEventSearchKeyword;
 import project.backend.domain.keyword.repository.CulturalEventSearchKeywordRepository;
 import project.backend.domain.member.entity.Member;
+import project.backend.domain.member.service.MemberJwtService;
 import project.backend.global.error.exception.BusinessException;
 import project.backend.global.error.exception.ErrorCode;
 
@@ -21,6 +22,7 @@ import java.util.stream.Collectors;
 public class CulturalEventSearchKeywordService {
 
     private final CulturalEventSearchKeywordRepository culturalEventSearchKeywordRepository;
+    private final MemberJwtService memberJwtService;
 
 
     /**
@@ -68,10 +70,20 @@ public class CulturalEventSearchKeywordService {
         return culturalEventSearchKeywordRepository.findByIsRecentTrueAndMemberOrderByUpdatedDateDesc(member);
     }
 
-    // 키워드 삭제
+    /**
+     * 최근 검색어 삭제
+     *
+     * @param id
+     */
     public void deleteCulturalEventSearchKeyword(Long id) {
+        // 내가 검색한 키워드인지 확인
+        Member member = memberJwtService.getMember();
         CulturalEventSearchKeyword culturalEventSearchKeyword = verifiedCulturalEventSearchKeyword(id);
-        culturalEventSearchKeyword.isRecent = true;
+
+        if (member != culturalEventSearchKeyword.getMember()) {
+            throw new BusinessException(ErrorCode.CULTURAL_EVENT_SEARCH_KEYWORD_DELETE_FAIL);
+        }
+        culturalEventSearchKeyword.isRecent = false;
     }
 
 

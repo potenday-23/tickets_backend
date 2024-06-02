@@ -48,10 +48,10 @@ public enum ErrorCode {
     CULTURAL_EVENT_CATEGORY_NOT_FOUND(404, "CEC001", "문화생활 카테고리를 찾을 수 없습니다."),
 
     // Traffic
-    VERSION_NOT_FOUND(404, "V001", "버전을 찾을 수 없습니다.")
+    VERSION_NOT_FOUND(404, "V001", "버전을 찾을 수 없습니다."),
 
-
-    ;
+    // Cultural Event Search Keyword
+    CULTURAL_EVENT_SEARCH_KEYWORD_DELETE_FAIL(400, "CESK001", "내 최근 검색어만 삭제할 수 있습니다.");
 
     private final String code;
     private final String message;
