@@ -10,7 +10,8 @@ import java.util.List;
 
 public interface CulturalEventSearchKeywordRepository extends JpaRepository<CulturalEventSearchKeyword, Long> {
 
-    List<CulturalEventSearchKeyword> findCulturalEventSearchKeywordsByIsDeletedFalseAndMember(Member member);
-    @Query("SELECT CASE WHEN COUNT(c) > 0 THEN true ELSE false END FROM CulturalEventSearchKeyword c WHERE c.isDeleted = false AND c.member = :member AND c.keyword = :keyword")
-    Boolean existsByIsDeletedFalseAndMemberAndKeyword(@Param("member") Member member, @Param("keyword") String keyword);
+    List<CulturalEventSearchKeyword> findCulturalEventSearchKeywordsByIsRecentFalseAndMember(Member member);
+
+    @Query("SELECT CASE WHEN COUNT(c) > 0 THEN true ELSE false END FROM CulturalEventSearchKeyword c WHERE c.isRecent = false AND c.member = :member AND c.keyword = :keyword")
+    Boolean existsByIsRecentFalseAndMemberAndKeyword(@Param("member") Member member, @Param("keyword") String keyword);
 }

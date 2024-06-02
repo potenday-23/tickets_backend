@@ -19,7 +19,7 @@ public class CulturalEventSearchKeyword extends BaseEntity {
 
     public String keyword;
 
-    public Boolean isDeleted;
+    public Boolean isRecent;
 
     @ManyToOne(fetch = FetchType.LAZY)
     public Member member;
@@ -27,7 +27,7 @@ public class CulturalEventSearchKeyword extends BaseEntity {
     @Builder
     public CulturalEventSearchKeyword(String keyword) {
         this.keyword = keyword;
-        this.isDeleted = false;
+        this.isRecent = true;
     }
 
     public void setMember(Member member) {

@@ -22,7 +22,7 @@ public class CulturalEventSearchKeywordService {
 
     // 사용자, 키워드 등록
     public void createCulturalEventSearchKeyword(Member member, String keyword) {
-        if (!culturalEventSearchKeywordRepository.existsByIsDeletedFalseAndMemberAndKeyword(member, keyword)) {
+        if (!culturalEventSearchKeywordRepository.existsByIsRecentFalseAndMemberAndKeyword(member, keyword)) {
             CulturalEventSearchKeyword culturalEventSearchKeyword = CulturalEventSearchKeyword.builder()
                     .keyword(keyword).build();
 
@@ -34,12 +34,12 @@ public class CulturalEventSearchKeywordService {
     // 키워드 삭제
     public void deleteCulturalEventSearchKeyword(Long id) {
         CulturalEventSearchKeyword culturalEventSearchKeyword = verifiedCulturalEventSearchKeyword(id);
-        culturalEventSearchKeyword.isDeleted = true;
+        culturalEventSearchKeyword.isRecent = true;
     }
 
     // 사용자 키워드 목록 조회
     public List<CulturalEventSearchKeyword> getCulturalEventSearchKeywordList(Member member) {
-        return culturalEventSearchKeywordRepository.findCulturalEventSearchKeywordsByIsDeletedFalseAndMember(member);
+        return culturalEventSearchKeywordRepository.findCulturalEventSearchKeywordsByIsRecentFalseAndMember(member);
     }
 
 
