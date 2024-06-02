@@ -1,7 +1,6 @@
 package project.backend.domain.culturalevent.service;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import project.backend.domain.culturalevent.entity.CulturalEvent;
@@ -19,7 +18,6 @@ import project.backend.global.error.exception.ErrorCode;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 

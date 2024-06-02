@@ -15,6 +15,8 @@ import project.backend.domain.culturalevent.mapper.CulturalEventMapper;
 import project.backend.domain.culturalevent.service.CulturalEventService;
 import project.backend.domain.culturalevnetcategory.entity.CategoryTitle;
 import project.backend.domain.culturalevnetinfo.service.CulturalEventInfoService;
+import project.backend.domain.keyword.entity.CulturalEventSearchKeyword;
+import project.backend.domain.keyword.service.CulturalEventSearchKeywordService;
 import project.backend.domain.member.entity.Member;
 import project.backend.domain.ticketingsite.mapper.TicketingSiteMapper;
 import project.backend.domain.member.service.MemberJwtService;
@@ -33,6 +35,7 @@ public class CulturalEventController {
     private final CulturalEventInfoService culturalEventInfoService;
     private final TicketingSiteMapper ticketingSiteMapper;
     private final MemberJwtService memberJwtService;
+    private final CulturalEventSearchKeywordService culturalEventSearchKeywordService;
 
     @ApiOperation(value = "문화생활 리스트 조회",
             notes = "`ordering` : ticketOpenDate(오픈 다가온 순) | -point(인기순) | -updatedDate(최근순) | recommend(추천순) | endDate(공연마감순)\n" +
@@ -52,7 +55,12 @@ public class CulturalEventController {
         // Member
         Member member = memberJwtService.getMember();
 
-        // Response
+        // Save Search Keyword
+        if (keyword != null) {
+            culturalEventSearchKeywordService.createCulturalEventSearchKeyword(member, keyword);
+        }
+
+        // Get Cultural Event
         List<CulturalEvent> culturalEventList = culturalEventService.getCulturalEventList(page, size, categories, ordering, isOpened, latitude, longitude, keyword);
         List<CulturalEventListDto> culturalEventResponseDtoList = culturalEventMapper
                 .culturalEventToCulturalEventListDtos(culturalEventList);

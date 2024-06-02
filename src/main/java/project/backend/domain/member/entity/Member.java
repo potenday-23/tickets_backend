@@ -4,6 +4,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import project.backend.domain.keyword.entity.CulturalEventSearchKeyword;
 import project.backend.domain.like.entity.CulturalEventLike;
 import project.backend.domain.member.dto.MemberSignupDto;
 import project.backend.domain.memberTicketLike.entity.MemberTicketLike;
@@ -68,6 +69,9 @@ public class Member extends BaseEntity {
 
     @OneToMany(mappedBy = "member", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     public List<CulturalEventVisit> culturalEventVisitList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    public List<CulturalEventSearchKeyword> culturalEventSearchKeywordList = new ArrayList<>();
 
     @Builder
     public Member(SocialType socialType, String socialId, String nickname, String profileUrl, String refreshToken) {
