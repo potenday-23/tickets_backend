@@ -42,7 +42,7 @@ public class CulturalEventSearchKeywordService {
             List<CulturalEventSearchKeyword> keywordList = member.getCulturalEventSearchKeywordList()
                     .stream()
                     .filter(searchKeyword -> searchKeyword.isRecent)
-                    .sorted(Comparator.comparing(CulturalEventSearchKeyword::getCreatedDate).reversed())
+                    .sorted(Comparator.comparing(CulturalEventSearchKeyword::getUpdatedDate).reversed())
                     .collect(Collectors.toList());
 
             if (keywordList.size() > 10) {
