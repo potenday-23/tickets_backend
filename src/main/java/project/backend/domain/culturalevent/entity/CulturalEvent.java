@@ -1,9 +1,6 @@
 package project.backend.domain.culturalevent.entity;
 
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 import project.backend.domain.common.entity.BaseEntity;
 import project.backend.domain.culturaleventevalutaion.entity.CulturalEventEvaluation;
 import project.backend.domain.like.entity.CulturalEventLike;
@@ -22,6 +19,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Getter
+@Setter
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(name = "cultural_event", indexes = {

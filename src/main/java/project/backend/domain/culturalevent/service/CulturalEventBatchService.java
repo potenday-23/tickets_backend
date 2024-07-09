@@ -8,6 +8,7 @@ import org.json.JSONObject;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
@@ -47,6 +48,7 @@ public class CulturalEventBatchService {
     /**
      * CulturalEvent 생성
      */
+    @Scheduled(cron = "0 0 4 * * *") // 매일 새벽 4시에 실행
     public void createCulturalEvents() {
         Map<CategoryTitle, List<String>> interparkGoodsCodeMap = getInterparkGoodsCodeMap();
         for (CategoryTitle categoryTitle : interparkGoodsCodeMap.keySet()) {
@@ -90,6 +92,9 @@ public class CulturalEventBatchService {
             ticketingSite.setCulturalEvent(culturalEvent);
         });
 
+        // Sentiment & Topic 추출
+        setKeywordSentiment(culturalEvent, goodsCode);
+
         // 저장
         CulturalEvent savedCulturalEvent = culturalEventRepository.save(culturalEvent);
 
@@ -123,8 +128,8 @@ public class CulturalEventBatchService {
                 List<String> goodsCodeList = new ArrayList<>();
                 UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(baseUrl)
                         .queryParam("genre", categoryTitle.getType())
-                        .queryParam("page", "2")
-                        .queryParam("pageSize", "20");
+                        .queryParam("page", "1")
+                        .queryParam("pageSize", "1000");
 
                 ResponseEntity<String> response = restTemplate.exchange(
                         uriBuilder.toUriString(),
@@ -175,11 +180,26 @@ public class CulturalEventBatchService {
     /**
      * 기대평 기반 감정 저장
      */
-    public void setKeywordSentiment(String goodsCode) {
-        // GET 하는 내용
+    public void setKeywordSentiment(CulturalEvent culturalEvent, String goodsCode) {
+        RestTemplate restTemplate = new RestTemplate();
+        String keywordSentimentUrl = "http://13.125.32.85:8080/api/keyword";
+        UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(keywordSentimentUrl)
+                .queryParam("goods_code", goodsCode);
 
+        ResponseEntity<Map<String, Object>> response = restTemplate.exchange(
+                uriBuilder.toUriString(),
+                HttpMethod.GET,
+                null,
+                new ParameterizedTypeReference<Map<String, Object>>() {
+                });
+
+        Map<String, Object> responseBody = response.getBody();
+        String topic = (String) responseBody.get("topic");
+        String sentiment = (String) responseBody.get("sentiment");
+
+        culturalEvent.setTopic(topic);
+        culturalEvent.setSentiment(sentiment);
     }
-
 }
 
 
