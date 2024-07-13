@@ -34,10 +34,10 @@ import java.util.stream.Collectors;
 public class MemberController {
 
     private final MemberService memberService;
-    private final MemberMapper memberMapper;
     private final JwtService jwtService;
     private final ImageService imageService;
     private final LogoutTokenService logoutTokenService;
+    private final MemberMapper memberMapper;
     private final CategoryService categoryService;
 
     @ApiOperation(value = "로그인")

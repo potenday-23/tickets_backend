@@ -35,11 +35,10 @@ public class MemberService {
      * @param socialType
      * @return Member
      */
-    public Member getMemberBySocial(String socialId, SocialType socialType, String email) {
-
-        Member member = memberRepository.findFirstBySocialIdAndSocialType(socialId, socialType)
-                .orElseGet(() -> createMember(socialId, socialType));
-        if (email != null && member.email == null) {
+    public Member getMemberBySocial(String socialId, String socialType, String email) {
+        Member member = memberRepository.findFirstBySocialIdAndSocialType(socialId, SocialType.valueOf(socialType))
+                .orElseGet(() -> createMember(socialId, SocialType.valueOf(socialType)));
+        if (email != null) {
             member.email = email;
             memberRepository.save(member);
         }
