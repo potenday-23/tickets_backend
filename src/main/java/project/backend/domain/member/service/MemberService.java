@@ -72,7 +72,9 @@ public class MemberService {
      */
     public Member setMemberInfo(MemberInfoDto memberInfoDto) {
         // 닉네임 유효성 검사
-        validateNickname(memberInfoDto.nickname);
+        if (memberInfoDto.nickname != null) {
+            validateNickname(memberInfoDto.nickname);
+        }
 
         // 추가 정보 입력
         Member member = memberJwtService.getMember();
