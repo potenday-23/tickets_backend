@@ -12,8 +12,4 @@ public interface MemberMapper {
     MemberResponseDto memberToMemberResponseDto(Member member);
 
     MemberRetrieveDto memberToMemberRetrieveDto(Member member);
-
-    MemberMyPageResponseDto MemberToMemberMyPageResponseDto(Member member);
-
-    List<MemberResponseDto> membersToMemberResponseDtos(List<Member> member);
 }

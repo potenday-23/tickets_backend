@@ -3,28 +3,18 @@ package project.backend.domain.member.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import project.backend.domain.category.service.CategoryService;
 import project.backend.domain.member.dto.*;
 import project.backend.domain.member.entity.SocialType;
 import project.backend.domain.member.entity.Member;
-import project.backend.domain.member.mapper.MemberMapper;
 import project.backend.domain.member.repository.MemberRepository;
-import project.backend.domain.onboardingmembercategory.service.OnboardingMemberCategoryService;
-import project.backend.domain.ticket.repository.TicketRepository;
 import project.backend.global.error.exception.BusinessException;
 import project.backend.global.error.exception.ErrorCode;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 @Transactional
 public class MemberService {
     private final MemberRepository memberRepository;
-    private final MemberMapper memberMapper;
-    private final CategoryService categoryService;
-    private final OnboardingMemberCategoryService onboardingMemberCategoryService;
-    private final TicketRepository ticketRepository;
     private final MemberJwtService memberJwtService;
 
 
@@ -104,20 +94,9 @@ public class MemberService {
         memberRepository.save(member);
     }
 
-
-    @Transactional(readOnly = true)
-    public Member getMemberBySocialIdAndSocialType(String socialId, SocialType socialType) {
-        return memberRepository.findFirstBySocialIdAndSocialType(socialId, socialType).orElseThrow(() -> new BusinessException(ErrorCode.MEMBER_NOT_FOUND));
-    }
-
     @Transactional(readOnly = true)
     public Member getMember(Long id) {
         return verifiedMember(id);
-    }
-
-    @Transactional(readOnly = true)
-    public List<Member> getMemberList() {
-        return memberRepository.findAll();
     }
 
     public Member patchMember(Long id, MemberPatchRequestDto memberPatchRequestDto) {
@@ -125,37 +104,6 @@ public class MemberService {
         member.patchMember(memberPatchRequestDto);
         memberRepository.save(member);
         return member;
-    }
-
-    public Member onboardingMember(Long id, List<String> categorys) {
-        Member member = verifiedMember(id);
-        onboardingMemberCategoryService.deleteOnboardingMemberCategoryByMember(member);
-        for (String category : categorys) {
-            onboardingMemberCategoryService.createOnboardingMemberCategory(member, categoryService.verifiedCategory(category));
-        }
-        return member;
-    }
-
-    public List<MemberStatisticsResponseDto> getMemberStatistics(Member member, String month) {
-        return ticketRepository.getStatisticsList(member, month);
-    }
-
-    public List<MemberYearStatisticsResponseDto> getMemberYearStatistics(Member member) {
-        return ticketRepository.getYearStatisticsList(member);
-    }
-
-    public MemberMyPageResponseDto getMyPage(Member member) {
-        // 통계
-        MemberStatisticsResponseDto memberStatisticsResponseDto = ticketRepository.getStatisticsList(member, null).get(0);
-        String statistics = memberStatisticsResponseDto.getCategory() + " " + memberStatisticsResponseDto.getCategoryPercent() + "%";
-
-        // 응답
-        MemberMyPageResponseDto memberMyPageResponseDto = memberMapper.MemberToMemberMyPageResponseDto(member);
-        memberMyPageResponseDto.setMyTicketCount(member.getTickets().size());
-        memberMyPageResponseDto.setMyStatistics(statistics);
-        memberMyPageResponseDto.setMyLikeCount(member.getMemberTicketLikes().size());
-
-        return memberMyPageResponseDto;
     }
 
     public void deleteMember(Long id) {
