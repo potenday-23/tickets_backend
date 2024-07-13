@@ -76,13 +76,13 @@ public class MemberService {
     /**
      * 회원가입
      *
-     * @param memberSignupDto
+     * @param memberInfoDto
      * @return Member
      */
-    public Member setMemberSignup(MemberSignupDto memberSignupDto) {
+    public Member setMemberSignup(MemberInfoDto memberInfoDto) {
         Member member = memberJwtService.getMember();
 
-        member.signupMember(memberSignupDto);
+        member.signupMember(memberInfoDto);
         memberRepository.save(member);
 
         return member;

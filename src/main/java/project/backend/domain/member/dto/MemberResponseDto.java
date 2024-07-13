@@ -15,7 +15,7 @@ import java.util.List;
 public class MemberResponseDto {
     public Long id;
     public String nickname;
-    public String profileUrl;
+    public String profileImageUrl;
     public Agree marketingAgree;
     public Agree pushAgree;
     public LocalDateTime createdDate;

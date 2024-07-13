@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.URL;
 import project.backend.domain.member.entity.Gender;
 
 import javax.validation.constraints.Email;
@@ -15,7 +16,7 @@ import java.time.LocalDate;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class MemberSignupDto {
+public class MemberInfoDto {
     @NotNull(message = "nickname은 필수값입니다.")
     @Size(min = 2, max = 10, message = "닉네임은 최소 2글자에서 최대 10글자까지 작성이 가능해요.")
     @Pattern(regexp = "^[a-zA-Z가-힣]*$", message = "닉네임에는 영어, 한글만 사용이 가능해요.")
@@ -37,4 +38,8 @@ public class MemberSignupDto {
 
     @Schema(description = "마케팅 정보 수신 및 이용 동의", example = "true", required = false)
     public Boolean isMarketingAgree;
+
+    @Schema(description = "프로필 이미지 url", example = "true", required = false)
+    @URL(message = "유효하지 않은 url 입니다.")
+    public String profileImageUrl;
 }

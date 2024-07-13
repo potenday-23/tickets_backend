@@ -56,10 +56,10 @@ public class MemberController {
         return new ResponseEntity<>(memberRetrieveDto, HttpStatus.OK);
     }
 
-    @ApiOperation(value = "회원가입 정보 작성")
-    @PostMapping("/signup")
+    @ApiOperation(value = "유저 정보 작성")
+    @PostMapping("/info")
     @PreAuthorize("isAuthenticated()")
-    public ResponseEntity signup(@Valid @RequestBody MemberSignupDto request) {
+    public ResponseEntity signup(@Valid @RequestBody MemberInfoDto request) {
         // TODO : 닉네임 중복 체크
         Member member = memberService.setMemberSignup(request);
 
@@ -209,7 +209,7 @@ public class MemberController {
             request = MemberPatchRequestDto.builder().build();
         }
         if (profileImage != null) {
-            request.setProfileUrl(imageService.updateImage(profileImage, "Member", "profileUrl"));
+            request.setProfileImageUrl(imageService.updateImage(profileImage, "Member", "profileUrl"));
         }
         if (categorys != null) {
             categorys = categorys.stream().distinct().collect(Collectors.toList());
