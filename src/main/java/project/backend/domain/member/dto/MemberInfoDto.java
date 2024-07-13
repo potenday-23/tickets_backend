@@ -17,29 +17,27 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 public class MemberInfoDto {
-    @NotNull(message = "nickname은 필수값입니다.")
     @Size(min = 2, max = 10, message = "닉네임은 최소 2글자에서 최대 10글자까지 작성이 가능해요.")
     @Pattern(regexp = "^[a-zA-Z가-힣]*$", message = "닉네임에는 영어, 한글만 사용이 가능해요.")
-    @Schema(description = "닉네임", example = "티켓팅하는고양이", required = true)
+    @Schema(description = "닉네임", example = "티켓팅하는고양이", required = false)
     public String nickname;
 
     @Email(message = "유효한 이메일 형식을 입력해야 합니다.")
     @Size(max = 40, message = "이메일은 최대 40글자까지 작성이 가능해요.")
-    @Schema(description = "이메일", example = "ticats@gmail.com", required = true)
+    @Schema(description = "이메일", example = "ticats@gmail.com", required = false)
     public String email;
 
-    @NotNull(message = "birthday는 필수값입니다.")
-    @Schema(description = "생년월일", example = "2000-10-20", required = true)
+    @Schema(description = "생년월일", example = "2000-10-20", required = false)
     public LocalDate birthday;
 
-    @NotNull(message = "nickname은 필수값입니다.")
-    @Schema(description = "성별", example = "FEMALE", required = true)
+    @Schema(description = "성별", example = "FEMALE", required = false)
     public Gender gender;
 
     @Schema(description = "마케팅 정보 수신 및 이용 동의", example = "true", required = false)
     public Boolean isMarketingAgree;
 
-    @Schema(description = "프로필 이미지 url", example = "true", required = false)
+    @Schema(description = "프로필 이미지 url",
+            example = "https://ticats.s3.ap-northeast-2.amazonaws.com/Media/media_url/25910d53-9887-49c8-8e47-c183597c0cd3.jpeg", required = false)
     @URL(message = "유효하지 않은 url 입니다.")
     public String profileImageUrl;
 }

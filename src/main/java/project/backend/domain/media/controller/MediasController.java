@@ -19,7 +19,7 @@ import project.backend.domain.media.service.MediaService;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Api(tags = "C. 미디어 API")
+@Api(tags = "C. 미디어")
 @RestController
 @RequestMapping("/api/medias")
 @RequiredArgsConstructor

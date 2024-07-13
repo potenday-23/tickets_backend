@@ -8,15 +8,11 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import project.backend.domain.media.dto.MediaDto;
 import project.backend.domain.media.entity.Media;
 import project.backend.domain.media.mapper.MediaMapper;
 import project.backend.domain.media.service.MediaService;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
-@Api(tags = "C. 미디어 API")
+@Api(tags = "C. 미디어")
 @RestController
 @RequestMapping("/api/media")
 @RequiredArgsConstructor

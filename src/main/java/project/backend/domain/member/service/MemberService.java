@@ -67,8 +67,9 @@ public class MemberService {
      * @return
      */
     @Transactional(readOnly = true)
-    public void verifiedNickname(String nickname) {
-        if (nickname != null && memberRepository.findAllByNickname(nickname).size() > 0) {
+    public void validateNickname(String nickname) {
+        Member member = memberJwtService.getMember();
+        if (memberRepository.findByNicknameAndIdNot(nickname, member.id).isPresent()) {
             throw new BusinessException(ErrorCode.NICKNAME_DUPLICATE);
         }
     }
@@ -79,9 +80,12 @@ public class MemberService {
      * @param memberInfoDto
      * @return Member
      */
-    public Member setMemberSignup(MemberInfoDto memberInfoDto) {
-        Member member = memberJwtService.getMember();
+    public Member setMemberInfo(MemberInfoDto memberInfoDto) {
+        // 닉네임 유효성 검사
+        validateNickname(memberInfoDto.nickname);
 
+        // 추가 정보 입력
+        Member member = memberJwtService.getMember();
         member.signupMember(memberInfoDto);
         memberRepository.save(member);
 
@@ -90,6 +94,7 @@ public class MemberService {
 
     /**
      * FCM 토큰 등록
+     *
      * @param fcmToken
      * @return Member
      */

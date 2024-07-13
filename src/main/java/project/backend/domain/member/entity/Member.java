@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import project.backend.domain.keyword.entity.CulturalEventSearchKeyword;
 import project.backend.domain.like.entity.CulturalEventLike;
 import project.backend.domain.member.dto.MemberInfoDto;
+import project.backend.domain.member.repository.MemberRepository;
 import project.backend.domain.memberTicketLike.entity.MemberTicketLike;
 import project.backend.domain.common.entity.BaseEntity;
 import project.backend.domain.onboardingmembercategory.entity.OnboardingMemberCategory;
@@ -91,13 +92,15 @@ public class Member extends BaseEntity {
     }
 
     public Member signupMember(MemberInfoDto memberInfoDto) {
-        this.nickname = memberInfoDto.nickname;
-        this.email = memberInfoDto.email;
-        this.birthday = memberInfoDto.birthday;
-        this.gender = memberInfoDto.gender;
-        this.isMarketingAgree = memberInfoDto.isMarketingAgree != null ? memberInfoDto.isMarketingAgree : false;
-        this.isSignup = true;
-        this.profileImageUrl = memberInfoDto.profileImageUrl;
+        this.nickname = memberInfoDto.nickname != null ? memberInfoDto.nickname : this.nickname;
+        this.email = memberInfoDto.email != null ? memberInfoDto.email : this.email;
+        this.birthday = memberInfoDto.birthday != null ? memberInfoDto.birthday : this.birthday;
+        this.gender = memberInfoDto.gender != null ? memberInfoDto.gender : this.gender;
+        this.isMarketingAgree = memberInfoDto.isMarketingAgree != null ? memberInfoDto.isMarketingAgree : this.isMarketingAgree;
+        this.profileImageUrl = memberInfoDto.profileImageUrl != null ? memberInfoDto.profileImageUrl : this.profileImageUrl;
+
+        this.isSignup = this.nickname != null && this.email != null && this.birthday != null && this.gender != null;
+
         return this;
     }
 }
