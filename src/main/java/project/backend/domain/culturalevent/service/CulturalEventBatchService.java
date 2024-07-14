@@ -17,7 +17,6 @@ import project.backend.domain.culturalevent.dto.CulturalEventCreateDto;
 import project.backend.domain.culturalevent.entity.CulturalEvent;
 import project.backend.domain.culturalevent.mapper.CulturalEventMapper;
 import project.backend.domain.culturalevent.repository.CulturalEventRepository;
-import project.backend.domain.culturaleventevalutaion.service.CulturalEventEvaluationService;
 import project.backend.domain.culturalevnetcategory.entity.CategoryTitle;
 import project.backend.domain.culturalevnetcategory.entity.CulturalEventCategory;
 import project.backend.domain.culturalevnetcategory.service.CulturalEventCategoryService;
@@ -43,7 +42,6 @@ public class CulturalEventBatchService {
     private final CulturalEventCategoryService culturalEventCategoryService;
     private final CulturalEventInfoService culturalEventInfoService;
     private final TicketingSiteService ticketingSiteService;
-    private final CulturalEventEvaluationService culturalEventEvaluationService;
 
     /**
      * CulturalEvent 생성
@@ -97,9 +95,6 @@ public class CulturalEventBatchService {
 
         // 저장
         CulturalEvent savedCulturalEvent = culturalEventRepository.save(culturalEvent);
-
-        // CulturalEventEvaluation 연관관계 매핑
-        culturalEventEvaluationService.createCulturalEventEvaluations(goodsCode, savedCulturalEvent);
 
         // CulturalEventInfo 연관관계 매핑
         List<String> imageUrlList = culturalEventInfoService.extractImageUrlList(culturalEventCreateDto.getInformation());

@@ -6,7 +6,6 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import project.backend.domain.category.dto.CategoryPatchRequestDto;
 import project.backend.domain.common.entity.BaseEntity;
-import project.backend.domain.memberTicketLike.entity.MemberTicketLike;
 import project.backend.domain.onboardingmembercategory.entity.OnboardingMemberCategory;
 import project.backend.domain.ticket.entity.Ticket;
 

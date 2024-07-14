@@ -13,7 +13,7 @@ import project.backend.domain.culturalevnetcategory.service.CulturalEventCategor
 
 import java.util.List;
 
-@Api(tags = "A. 문화생활 - 카테고리")
+@Api(tags = "CulturalEvent - 문화생활 카테고리")
 @RestController
 @RequestMapping("/api/categories/cultural-events")
 @RequiredArgsConstructor

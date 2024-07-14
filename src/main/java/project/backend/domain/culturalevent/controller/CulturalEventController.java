@@ -29,7 +29,7 @@ import javax.validation.constraints.Positive;
 import java.util.List;
 import java.util.stream.IntStream;
 
-@Api(tags = "A. 문화생활")
+@Api(tags = "CulturalEvent - 문화생활")
 @RestController
 @RequestMapping("/api/cultural-events")
 @RequiredArgsConstructor

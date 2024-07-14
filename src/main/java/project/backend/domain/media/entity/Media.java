@@ -1,28 +1,43 @@
 package project.backend.domain.media.entity;
 
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 import project.backend.domain.common.entity.BaseEntity;
+import project.backend.domain.place.entity.Place;
+import project.backend.domain.ticket.entity.Ticket;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.Optional;
 
 @Entity
 @Getter
+@Setter
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
 public class Media extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long id;
 
-    public String media_url;
+    public String mediaUrl;
+
+    public Integer ordering;
+
+    public Boolean isThumbnail;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    public Ticket ticket;
 
     @Builder
-    public Media(String media_url){
-        this.media_url = media_url;
+    public Media(String mediaUrl) {
+        this.mediaUrl = mediaUrl;
+    }
+
+    public void setTicket(Ticket ticket) {
+        if (this.ticket != null) {
+            if (this.ticket.getMedias().contains(this)) {
+                this.ticket.getMedias().remove(this);
+            }
+        }
+        this.ticket = Optional.ofNullable(ticket).orElse(this.ticket);
+        this.ticket.getMedias().add(this);
     }
 }

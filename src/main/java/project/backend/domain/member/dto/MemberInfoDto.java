@@ -37,7 +37,7 @@ public class MemberInfoDto {
     public Boolean isMarketingAgree;
 
     @Schema(description = "프로필 이미지 url",
-            example = "https://ticats.s3.ap-northeast-2.amazonaws.com/Media/media_url/25910d53-9887-49c8-8e47-c183597c0cd3.jpeg", required = false)
+            example = "https://ticats.s3.ap-northeast-2.amazonaws.com/Media/mediaUrl/25910d53-9887-49c8-8e47-c183597c0cd3.jpeg", required = false)
     @URL(message = "유효하지 않은 url 입니다.")
     public String profileImageUrl;
 }

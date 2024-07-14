@@ -7,8 +7,6 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class MediaDto {
+public class MediaCreateDto {
     private String mediaUrl;
-    private Integer ordering;
-    private Boolean isThumbnail;
 }

@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import project.backend.domain.common.entity.BaseEntity;
 import project.backend.domain.culturalevent.entity.CulturalEvent;
+import project.backend.domain.ticket.entity.Ticket;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -29,6 +30,9 @@ public class Place extends BaseEntity {
 
     @OneToMany(mappedBy = "place", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     public List<CulturalEvent> culturalEvents = new ArrayList<>();
+
+    @OneToMany(mappedBy = "place", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    public List<Ticket> tickets = new ArrayList<>();
 
     @Builder
     public Place(String name, String address, Double latitude, Double longitude) {
