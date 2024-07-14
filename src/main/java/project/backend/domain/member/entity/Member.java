@@ -6,7 +6,8 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import project.backend.domain.keyword.entity.CulturalEventSearchKeyword;
 import project.backend.domain.like.entity.CulturalEventLike;
-import project.backend.domain.member.dto.MemberSignupDto;
+import project.backend.domain.member.dto.MemberInfoDto;
+import project.backend.domain.member.repository.MemberRepository;
 import project.backend.domain.memberTicketLike.entity.MemberTicketLike;
 import project.backend.domain.common.entity.BaseEntity;
 import project.backend.domain.onboardingmembercategory.entity.OnboardingMemberCategory;
@@ -45,7 +46,7 @@ public class Member extends BaseEntity {
 
     public LocalDateTime nicknameChangeDate;
 
-    public String profileUrl;
+    public String profileImageUrl;
 
     public String refreshToken;
 
@@ -74,29 +75,32 @@ public class Member extends BaseEntity {
     public List<CulturalEventSearchKeyword> culturalEventSearchKeywordList = new ArrayList<>();
 
     @Builder
-    public Member(SocialType socialType, String socialId, String nickname, String profileUrl, String refreshToken) {
+    public Member(SocialType socialType, String socialId, String nickname, String profileImageUrl, String refreshToken) {
         this.socialType = socialType;
         this.socialId = socialId;
         this.nickname = nickname;
-        this.profileUrl = profileUrl;
+        this.profileImageUrl = profileImageUrl;
         this.refreshToken = refreshToken;
     }
 
     // Patch
     public Member patchMember(MemberPatchRequestDto memberPatchRequestDto) {
         this.nickname = Optional.ofNullable(memberPatchRequestDto.getNickname()).orElse(this.nickname);
-        this.profileUrl = Optional.ofNullable(memberPatchRequestDto.getProfileUrl()).orElse(this.profileUrl);
+        this.profileImageUrl = Optional.ofNullable(memberPatchRequestDto.getProfileImageUrl()).orElse(this.profileImageUrl);
         this.refreshToken = Optional.ofNullable(memberPatchRequestDto.getRefreshToken()).orElse(this.refreshToken);
         return this;
     }
 
-    public Member signupMember(MemberSignupDto memberSignupDto) {
-        this.nickname = memberSignupDto.nickname;
-        this.email = memberSignupDto.email;
-        this.birthday = memberSignupDto.birthday;
-        this.gender = memberSignupDto.gender;
-        this.isMarketingAgree = memberSignupDto.isMarketingAgree != null ? memberSignupDto.isMarketingAgree : false;
-        this.isSignup = true;
+    public Member signupMember(MemberInfoDto memberInfoDto) {
+        this.nickname = memberInfoDto.nickname != null ? memberInfoDto.nickname : this.nickname;
+        this.email = memberInfoDto.email != null ? memberInfoDto.email : this.email;
+        this.birthday = memberInfoDto.birthday != null ? memberInfoDto.birthday : this.birthday;
+        this.gender = memberInfoDto.gender != null ? memberInfoDto.gender : this.gender;
+        this.isMarketingAgree = memberInfoDto.isMarketingAgree != null ? memberInfoDto.isMarketingAgree : this.isMarketingAgree;
+        this.profileImageUrl = memberInfoDto.profileImageUrl != null ? memberInfoDto.profileImageUrl : this.profileImageUrl;
+
+        this.isSignup = this.nickname != null && this.email != null && this.birthday != null && this.gender != null;
+
         return this;
     }
 }

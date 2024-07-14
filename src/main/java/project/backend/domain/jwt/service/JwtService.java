@@ -129,7 +129,7 @@ public class JwtService {
 
             //dto에 저장하기
             kakaoUserInfo.setKakaoId(element.getAsJsonObject().get("id").getAsString());
-            kakaoUserInfo.setProfileUrl(element.getAsJsonObject().get("properties").getAsJsonObject().get("profile_image").getAsString());
+            kakaoUserInfo.setProfileImageUrl(element.getAsJsonObject().get("properties").getAsJsonObject().get("profile_image").getAsString());
 
         } catch (IOException e) {
             e.printStackTrace();

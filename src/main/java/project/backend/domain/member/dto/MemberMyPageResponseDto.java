@@ -14,7 +14,7 @@ import java.util.List;
 public class MemberMyPageResponseDto {
     public Long id;
     public String nickname;
-    public String profileUrl;
+    public String profileImageUrl;
     public Integer myTicketCount;
     public String myStatistics;
     public Integer myLikeCount;

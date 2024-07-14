@@ -9,5 +9,5 @@ import lombok.*;
 @Builder
 public class KakaoUserInfo {
     private String kakaoId;
-    private String profileUrl;
+    private String profileImageUrl;
 }

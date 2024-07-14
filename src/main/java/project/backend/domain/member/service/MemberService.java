@@ -3,28 +3,18 @@ package project.backend.domain.member.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import project.backend.domain.category.service.CategoryService;
 import project.backend.domain.member.dto.*;
 import project.backend.domain.member.entity.SocialType;
 import project.backend.domain.member.entity.Member;
-import project.backend.domain.member.mapper.MemberMapper;
 import project.backend.domain.member.repository.MemberRepository;
-import project.backend.domain.onboardingmembercategory.service.OnboardingMemberCategoryService;
-import project.backend.domain.ticket.repository.TicketRepository;
 import project.backend.global.error.exception.BusinessException;
 import project.backend.global.error.exception.ErrorCode;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 @Transactional
 public class MemberService {
     private final MemberRepository memberRepository;
-    private final MemberMapper memberMapper;
-    private final CategoryService categoryService;
-    private final OnboardingMemberCategoryService onboardingMemberCategoryService;
-    private final TicketRepository ticketRepository;
     private final MemberJwtService memberJwtService;
 
 
@@ -35,11 +25,10 @@ public class MemberService {
      * @param socialType
      * @return Member
      */
-    public Member getMemberBySocial(String socialId, SocialType socialType, String email) {
-
-        Member member = memberRepository.findFirstBySocialIdAndSocialType(socialId, socialType)
-                .orElseGet(() -> createMember(socialId, socialType));
-        if (email != null && member.email == null) {
+    public Member getMemberBySocial(String socialId, String socialType, String email) {
+        Member member = memberRepository.findFirstBySocialIdAndSocialType(socialId, SocialType.valueOf(socialType))
+                .orElseGet(() -> createMember(socialId, SocialType.valueOf(socialType)));
+        if (email != null) {
             member.email = email;
             memberRepository.save(member);
         }
@@ -68,8 +57,9 @@ public class MemberService {
      * @return
      */
     @Transactional(readOnly = true)
-    public void verifiedNickname(String nickname) {
-        if (nickname != null && memberRepository.findAllByNickname(nickname).size() > 0) {
+    public void validateNickname(String nickname) {
+        Member member = memberJwtService.getMember();
+        if (memberRepository.findByNicknameAndIdNot(nickname, member.id).isPresent()) {
             throw new BusinessException(ErrorCode.NICKNAME_DUPLICATE);
         }
     }
@@ -77,13 +67,18 @@ public class MemberService {
     /**
      * 회원가입
      *
-     * @param memberSignupDto
+     * @param memberInfoDto
      * @return Member
      */
-    public Member setMemberSignup(MemberSignupDto memberSignupDto) {
-        Member member = memberJwtService.getMember();
+    public Member setMemberInfo(MemberInfoDto memberInfoDto) {
+        // 닉네임 유효성 검사
+        if (memberInfoDto.nickname != null) {
+            validateNickname(memberInfoDto.nickname);
+        }
 
-        member.signupMember(memberSignupDto);
+        // 추가 정보 입력
+        Member member = memberJwtService.getMember();
+        member.signupMember(memberInfoDto);
         memberRepository.save(member);
 
         return member;
@@ -91,6 +86,7 @@ public class MemberService {
 
     /**
      * FCM 토큰 등록
+     *
      * @param fcmToken
      * @return Member
      */
@@ -100,20 +96,9 @@ public class MemberService {
         memberRepository.save(member);
     }
 
-
-    @Transactional(readOnly = true)
-    public Member getMemberBySocialIdAndSocialType(String socialId, SocialType socialType) {
-        return memberRepository.findFirstBySocialIdAndSocialType(socialId, socialType).orElseThrow(() -> new BusinessException(ErrorCode.MEMBER_NOT_FOUND));
-    }
-
     @Transactional(readOnly = true)
     public Member getMember(Long id) {
         return verifiedMember(id);
-    }
-
-    @Transactional(readOnly = true)
-    public List<Member> getMemberList() {
-        return memberRepository.findAll();
     }
 
     public Member patchMember(Long id, MemberPatchRequestDto memberPatchRequestDto) {
@@ -121,37 +106,6 @@ public class MemberService {
         member.patchMember(memberPatchRequestDto);
         memberRepository.save(member);
         return member;
-    }
-
-    public Member onboardingMember(Long id, List<String> categorys) {
-        Member member = verifiedMember(id);
-        onboardingMemberCategoryService.deleteOnboardingMemberCategoryByMember(member);
-        for (String category : categorys) {
-            onboardingMemberCategoryService.createOnboardingMemberCategory(member, categoryService.verifiedCategory(category));
-        }
-        return member;
-    }
-
-    public List<MemberStatisticsResponseDto> getMemberStatistics(Member member, String month) {
-        return ticketRepository.getStatisticsList(member, month);
-    }
-
-    public List<MemberYearStatisticsResponseDto> getMemberYearStatistics(Member member) {
-        return ticketRepository.getYearStatisticsList(member);
-    }
-
-    public MemberMyPageResponseDto getMyPage(Member member) {
-        // 통계
-        MemberStatisticsResponseDto memberStatisticsResponseDto = ticketRepository.getStatisticsList(member, null).get(0);
-        String statistics = memberStatisticsResponseDto.getCategory() + " " + memberStatisticsResponseDto.getCategoryPercent() + "%";
-
-        // 응답
-        MemberMyPageResponseDto memberMyPageResponseDto = memberMapper.MemberToMemberMyPageResponseDto(member);
-        memberMyPageResponseDto.setMyTicketCount(member.getTickets().size());
-        memberMyPageResponseDto.setMyStatistics(statistics);
-        memberMyPageResponseDto.setMyLikeCount(member.getMemberTicketLikes().size());
-
-        return memberMyPageResponseDto;
     }
 
     public void deleteMember(Long id) {

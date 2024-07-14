@@ -6,6 +6,7 @@ import project.backend.domain.member.entity.SocialType;
 import project.backend.global.annotation.ValidEnum;
 
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @Builder
@@ -13,14 +14,17 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 public class MemberLoginDto {
     @NotNull(message = "socialId는 필수값입니다.")
+    @NotBlank(message = "socialId는 필수값입니다.")
     @Schema(description = "소셜 아이디", example = "A123456", required = true)
     public String socialId;
 
     @NotNull(message = "socialType은 필수값입니다.")
-    @Schema(description = "소셜 유형", example = "KAKAO", required = true)
-    public SocialType socialType;
+    @Schema(description = "소셜 유형", example = "KAKAO", required = true, allowableValues = {"KAKAO", "APPLE", "GOOGLE"})
+    @ValidEnum(enumClass = SocialType.class)
+    public String socialType;
 
     @Email(message = "유효한 이메일 형식을 입력해야 합니다.")
     @Schema(description = "이메일", example = "ticats@gmail.com")
     public String email;
 }
+

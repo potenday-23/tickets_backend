@@ -3,6 +3,7 @@ package project.backend.domain.member.dto;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
 import project.backend.domain.member.entity.Agree;
+import project.backend.domain.member.entity.Gender;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -18,6 +19,7 @@ public class MemberRetrieveDto {
     public String email;
     public String nickname;
     public LocalDate birthday;
+    public Gender gender;
     public Boolean isMarketingAgree;
     public Boolean isSignup;
 

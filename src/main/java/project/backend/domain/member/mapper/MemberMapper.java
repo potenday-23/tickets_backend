@@ -9,15 +9,5 @@ import java.util.List;
 
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface MemberMapper {
-    Member memberPostRequestDtoToMember(MemberPostRequestDto memberPostRequestDto);
-
-    Member memberPatchRequestDtoToMember(MemberPatchRequestDto memberPatchRequestDto);
-
-    MemberResponseDto memberToMemberResponseDto(Member member);
-
     MemberRetrieveDto memberToMemberRetrieveDto(Member member);
-
-    MemberMyPageResponseDto MemberToMemberMyPageResponseDto(Member member);
-
-    List<MemberResponseDto> membersToMemberResponseDtos(List<Member> member);
 }
