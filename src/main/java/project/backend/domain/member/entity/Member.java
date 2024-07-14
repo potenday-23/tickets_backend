@@ -7,8 +7,6 @@ import lombok.RequiredArgsConstructor;
 import project.backend.domain.keyword.entity.CulturalEventSearchKeyword;
 import project.backend.domain.like.entity.CulturalEventLike;
 import project.backend.domain.member.dto.MemberInfoDto;
-import project.backend.domain.member.repository.MemberRepository;
-import project.backend.domain.memberTicketLike.entity.MemberTicketLike;
 import project.backend.domain.common.entity.BaseEntity;
 import project.backend.domain.onboardingmembercategory.entity.OnboardingMemberCategory;
 import project.backend.domain.ticket.entity.Ticket;
@@ -57,10 +55,7 @@ public class Member extends BaseEntity {
     public Boolean isMarketingAgree = false;
 
     @OneToMany(mappedBy = "member", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
-    private List<Ticket> tickets = new ArrayList<>();
-
-    @OneToMany(mappedBy = "member", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
-    public List<MemberTicketLike> memberTicketLikes = new ArrayList<>();
+    public List<Ticket> tickets = new ArrayList<>();
 
     @OneToMany(mappedBy = "member", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     public List<OnboardingMemberCategory> onboardingMemberCategories = new ArrayList<>();

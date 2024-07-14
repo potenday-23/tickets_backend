@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-import project.backend.domain.media.dto.MediaDto;
+import project.backend.domain.media.dto.MediaCreateDto;
 import project.backend.domain.media.entity.Media;
 import project.backend.domain.media.mapper.MediaMapper;
 import project.backend.domain.media.service.MediaService;
@@ -19,7 +19,7 @@ import project.backend.domain.media.service.MediaService;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Api(tags = "C. 미디어")
+@Api(tags = "Media - 미디어")
 @RestController
 @RequestMapping("/api/medias")
 @RequiredArgsConstructor
@@ -36,8 +36,8 @@ public class MediasController {
         List<Media> medias = files.stream()
                 .map(mediaService::createMedia)
                 .collect(Collectors.toList());
-        List<MediaDto> mediaDtos = medias.stream()
-                .map(mediaMapper::mediaToMediaDto)
+        List<MediaCreateDto> mediaDtos = medias.stream()
+                .map(mediaMapper::mediaToMediaCreateDto)
                 .collect(Collectors.toList());
         return ResponseEntity.status(HttpStatus.CREATED).body(mediaDtos);
     }

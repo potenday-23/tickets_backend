@@ -12,7 +12,7 @@ import project.backend.domain.media.entity.Media;
 import project.backend.domain.media.mapper.MediaMapper;
 import project.backend.domain.media.service.MediaService;
 
-@Api(tags = "C. 미디어")
+@Api(tags = "Media - 미디어")
 @RestController
 @RequestMapping("/api/media")
 @RequiredArgsConstructor
@@ -27,6 +27,6 @@ public class MediaController {
             @RequestPart(value = "file", required = true) MultipartFile file
     ) {
         Media media = mediaService.createMedia(file);
-        return ResponseEntity.status(HttpStatus.CREATED).body(mediaMapper.mediaToMediaDto(media));
+        return ResponseEntity.status(HttpStatus.CREATED).body(mediaMapper.mediaToMediaCreateDto(media));
     }
 }

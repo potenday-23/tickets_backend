@@ -7,11 +7,11 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public interface TicketRepositoryCustom {
-    List<Ticket> getTotalTicketList(List<String> categorys, List<LocalDateTime> startAndEndList, String search);
-    List<Ticket> getTotalAndMyTicketList(List<String> categorys, List<LocalDateTime> startAndEndList, String search, Member member);
-
-    List<Ticket> getMyTicketList(List<String> categorys, List<LocalDateTime> startAndEndList, String search, Member member);
-
-    List<MemberStatisticsResponseDto> getStatisticsList(Member member, String month);
-    List<MemberYearStatisticsResponseDto> getYearStatisticsList(Member member);
+//    List<Ticket> getTotalTicketList(List<String> categorys, List<LocalDateTime> startAndEndList, String search);
+//    List<Ticket> getTotalAndMyTicketList(List<String> categorys, List<LocalDateTime> startAndEndList, String search, Member member);
+//
+//    List<Ticket> getMyTicketList(List<String> categorys, List<LocalDateTime> startAndEndList, String search, Member member);
+//
+//    List<MemberStatisticsResponseDto> getStatisticsList(Member member, String month);
+//    List<MemberYearStatisticsResponseDto> getYearStatisticsList(Member member);
 }

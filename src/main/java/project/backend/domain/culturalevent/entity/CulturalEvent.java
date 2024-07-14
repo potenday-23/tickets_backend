@@ -2,7 +2,6 @@ package project.backend.domain.culturalevent.entity;
 
 import lombok.*;
 import project.backend.domain.common.entity.BaseEntity;
-import project.backend.domain.culturaleventevalutaion.entity.CulturalEventEvaluation;
 import project.backend.domain.like.entity.CulturalEventLike;
 import project.backend.domain.culturalevnetcategory.entity.CulturalEventCategory;
 import project.backend.domain.culturalevnetinfo.entity.CulturalEventInfo;
@@ -72,9 +71,6 @@ public class CulturalEvent extends BaseEntity {
 
     @OneToMany(mappedBy = "culturalEvent", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     public List<TicketingSite> ticketingSiteList = new ArrayList<>();
-
-    @OneToMany(mappedBy = "culturalEvent", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
-    public List<CulturalEventEvaluation> culturalEventEvaluationList = new ArrayList<>();
 
     @OneToMany(mappedBy = "culturalEvent", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     public List<CulturalEventLike> culturalEventLikeList = new ArrayList<>();

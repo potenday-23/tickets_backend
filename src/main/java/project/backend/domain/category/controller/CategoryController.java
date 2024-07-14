@@ -13,18 +13,9 @@ import project.backend.domain.category.dto.CategoryPostRequestDto;
 import project.backend.domain.category.entity.Category;
 import project.backend.domain.category.mapper.CategoryMapper;
 import project.backend.domain.category.service.CategoryService;
-import project.backend.domain.ticket.dto.TicketPostRequestDto;
-import project.backend.domain.ticket.entity.Ticket;
-import project.backend.global.error.exception.BusinessException;
-import project.backend.global.error.exception.ErrorCode;
 import project.backend.global.s3.service.ImageService;
 
 import javax.validation.Valid;
-import javax.validation.constraints.Positive;
-
-import java.awt.image.BufferedImage;
-
-import static project.backend.global.validator.LocalDateTimeValidation.convertStringToLocalDateTime;
 
 @RestController
 @RequestMapping("/api/categorys")
