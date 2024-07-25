@@ -94,7 +94,7 @@ public class CulturalEventBatchService {
         setKeywordSentiment(culturalEvent, goodsCode);
 
         // 저장
-        CulturalEvent savedCulturalEvent = culturalEventRepository.save(culturalEvent);
+        culturalEventRepository.save(culturalEvent);
 
         // CulturalEventInfo 연관관계 매핑
         List<String> imageUrlList = culturalEventInfoService.extractImageUrlList(culturalEventCreateDto.getInformation());
@@ -176,24 +176,28 @@ public class CulturalEventBatchService {
      * 기대평 기반 감정 저장
      */
     public void setKeywordSentiment(CulturalEvent culturalEvent, String goodsCode) {
-        RestTemplate restTemplate = new RestTemplate();
-        String keywordSentimentUrl = "http://13.125.32.85:8080/api/keyword";
-        UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(keywordSentimentUrl)
-                .queryParam("goods_code", goodsCode);
+        try {
+            RestTemplate restTemplate = new RestTemplate();
+            String keywordSentimentUrl = "http://13.125.32.85:8000/api/keyword";
+            UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(keywordSentimentUrl)
+                    .queryParam("goods_code", goodsCode);
 
-        ResponseEntity<Map<String, Object>> response = restTemplate.exchange(
-                uriBuilder.toUriString(),
-                HttpMethod.GET,
-                null,
-                new ParameterizedTypeReference<Map<String, Object>>() {
-                });
+            ResponseEntity<Map<String, Object>> response = restTemplate.exchange(
+                    uriBuilder.toUriString(),
+                    HttpMethod.GET,
+                    null,
+                    new ParameterizedTypeReference<Map<String, Object>>() {
+                    });
 
-        Map<String, Object> responseBody = response.getBody();
-        String topic = (String) responseBody.get("topic");
-        String sentiment = (String) responseBody.get("sentiment");
+            Map<String, Object> responseBody = response.getBody();
+            String topic = (String) responseBody.get("topic");
+            String sentiment = (String) responseBody.get("sentiment");
 
-        culturalEvent.setTopic(topic);
-        culturalEvent.setSentiment(sentiment);
+            culturalEvent.setTopic(topic);
+            culturalEvent.setSentiment(sentiment);
+        } catch (Exception e) {
+            System.out.println("실패");
+        }
     }
 }
 
