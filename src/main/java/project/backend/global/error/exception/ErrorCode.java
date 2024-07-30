@@ -35,6 +35,10 @@ public enum ErrorCode {
     TICKET_VIEW_FAIL(403, "T003", "내 티켓만 조회할 수 있습니다."),
     TICKET_PATCH_FAIL(403, "T004", "내 티켓만 수정할 수 있습니다."),
 
+    // Ticket
+    TICKET_FOLDER_NOT_FOUND(404, "TF001", "티켓폴더를 찾을 수 없습니다."),
+    TICKET_FOLDER_ADD_AUTH(403, "T002", "내 티켓폴더만 추가할 수 있습니다."),
+
     // Category
     CATEGORY_NOT_FOUND(400, "CA001", "카테고리를 찾을 수 없습니다."),
 

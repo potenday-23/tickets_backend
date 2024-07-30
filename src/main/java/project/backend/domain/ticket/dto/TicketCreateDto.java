@@ -46,7 +46,9 @@ public class TicketCreateDto {
 
     @Size(max = 500, message = "Review must be up to 500 characters")
     @Schema(description = "리뷰", example = "정말 재미있었어요")
-    private String review;
+    public String review;
+
+    public Long ticketFolderId;
 
     public List<MediaDto> medias;
 }
