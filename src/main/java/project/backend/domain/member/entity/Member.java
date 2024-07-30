@@ -6,11 +6,13 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import project.backend.domain.keyword.entity.CulturalEventSearchKeyword;
 import project.backend.domain.like.entity.CulturalEventLike;
+import project.backend.domain.member.MemberListener;
 import project.backend.domain.member.dto.MemberInfoDto;
 import project.backend.domain.common.entity.BaseEntity;
 import project.backend.domain.onboardingmembercategory.entity.OnboardingMemberCategory;
 import project.backend.domain.ticket.entity.Ticket;
 import project.backend.domain.member.dto.MemberPatchRequestDto;
+import project.backend.domain.ticketfolder.entity.TicketFolder;
 import project.backend.domain.visit.entity.CulturalEventVisit;
 
 import javax.persistence.*;
@@ -22,6 +24,7 @@ import java.util.Optional;
 
 @Entity
 @Getter
+@EntityListeners(MemberListener.class)
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
 public class Member extends BaseEntity {
     @Id
@@ -69,6 +72,8 @@ public class Member extends BaseEntity {
     @OneToMany(mappedBy = "member", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     public List<CulturalEventSearchKeyword> culturalEventSearchKeywordList = new ArrayList<>();
 
+    @OneToMany(mappedBy = "member", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    public List<TicketFolder> ticketFolderList = new ArrayList<>();
     @Builder
     public Member(SocialType socialType, String socialId, String nickname, String profileImageUrl, String refreshToken) {
         this.socialType = socialType;

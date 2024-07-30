@@ -2,6 +2,7 @@ package project.backend.domain.ticketfolder.entity;
 
 import lombok.*;
 import project.backend.domain.common.entity.BaseEntity;
+import project.backend.domain.member.entity.Member;
 import project.backend.domain.ticket.entity.Ticket;
 
 import javax.persistence.*;
@@ -21,12 +22,16 @@ public class TicketFolder extends BaseEntity {
     public Boolean isDefault;
     public String title;
 
-    @OneToMany(mappedBy = "ticket_folder", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    @ManyToOne(fetch = FetchType.LAZY)
+    public Member member;
+
+    @OneToMany(mappedBy = "ticketFolder", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     public List<Ticket> tickets = new ArrayList<>();
 
     @Builder
-    public TicketFolder(Boolean isDefault, String title) {
+    public TicketFolder(Boolean isDefault, String title, Member member) {
         this.isDefault = isDefault;
         this.title = title;
+        this.member = member;
     }
 }
