@@ -9,6 +9,7 @@ import project.backend.domain.common.entity.BaseEntity;
 import project.backend.domain.media.entity.Media;
 import project.backend.domain.place.entity.Place;
 import project.backend.domain.member.entity.Member;
+import project.backend.domain.ticketfolder.entity.TicketFolder;
 import project.backend.domain.ticketingsite.entity.TicketingSite;
 
 import javax.persistence.*;
@@ -41,6 +42,9 @@ public class Ticket extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     public Place place;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    public TicketFolder ticketFolder;
 
     @OneToMany(mappedBy = "ticket", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     public List<Media> medias = new ArrayList<>();
@@ -90,5 +94,15 @@ public class Ticket extends BaseEntity {
         }
         this.place = Optional.ofNullable(place).orElse(this.place);
         this.place.getTickets().add(this);
+    }
+
+    public void setTicketFolder(TicketFolder ticketFolder) {
+        if (this.ticketFolder != null) {
+            if (this.ticketFolder.getTickets().contains(this)) {
+                this.ticketFolder.getTickets().remove(this);
+            }
+        }
+        this.ticketFolder = Optional.ofNullable(ticketFolder).orElse(this.ticketFolder);
+        this.ticketFolder.getTickets().add(this);
     }
 }

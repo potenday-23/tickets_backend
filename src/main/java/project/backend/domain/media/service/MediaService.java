@@ -20,7 +20,6 @@ import java.util.Optional;
 @Transactional
 public class MediaService {
     private final MediaRepository mediaRepository;
-    private final MediaMapper mediaMapper;
     private final ImageService imageService;
 
     public Media createMedia(MultipartFile file) {
@@ -30,16 +29,9 @@ public class MediaService {
         return media;
     }
 
-    public Media setOrderThumbnail(MediaDto mediaDto) {
-        Media media;
-        Optional<Media> optionalMedia = mediaRepository.findFirstByMediaUrl(mediaDto.getMediaUrl());
-        if (optionalMedia.isPresent()) {
-            media = optionalMedia.get();
-        } else {
-            media = Media.builder().mediaUrl(mediaDto.getMediaUrl()).build();
-        }
+    public Media setMediaOrdering(MediaDto mediaDto) {
+        Media media = Media.builder().mediaUrl(mediaDto.getMediaUrl()).build();
         media.setOrdering(mediaDto.getOrdering());
-        media.setIsThumbnail(mediaDto.getIsThumbnail());
         return mediaRepository.save(media);
     }
 }

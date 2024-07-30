@@ -45,7 +45,7 @@ public class TicketService {
 
         // Media 연결
         for (MediaDto mediaDto : ticketCreateDto.medias) {
-            media = mediaService.setOrderThumbnail(mediaDto);
+            media = mediaService.setMediaOrdering(mediaDto);
             media.setTicket(ticket);
         }
         ticket.setMember(memberJwtService.getMember());
