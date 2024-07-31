@@ -18,21 +18,29 @@ import project.backend.domain.member.service.MemberJwtService;
 import project.backend.domain.ticket.dto.TicketCreateDto;
 import project.backend.domain.ticket.entity.Ticket;
 import project.backend.domain.ticket.repository.TicketRepository;
+import project.backend.domain.ticketfolder.entity.TicketFolder;
+import project.backend.domain.ticketfolder.repository.TicketFolderRepository;
 import project.backend.global.error.exception.BusinessException;
 import project.backend.global.error.exception.ErrorCode;
 
 import java.io.IOException;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 @Transactional
 public class TicketService {
     private final TicketRepository ticketRepository;
+    private final TicketFolderRepository ticketFolderRepository;
     private final MediaService mediaService;
     private final MemberJwtService memberJwtService;
 
     public Ticket createTicket(TicketCreateDto ticketCreateDto) {
-        Media media;
+
+        Member member = memberJwtService.getMember();
+        TicketFolder ticketFolder = ticketFolderRepository.findById(ticketCreateDto.getTicketFolderId())
+                .orElseThrow(() -> new BusinessException(ErrorCode.TICKET_FOLDER_NOT_FOUND));
+
         Ticket ticket = Ticket.builder()
                 .title(ticketCreateDto.getTitle())
                 .mainImageUrl(ticketCreateDto.getMainImageUrl())
@@ -45,13 +53,20 @@ public class TicketService {
 
         // Media 연결
         for (MediaDto mediaDto : ticketCreateDto.medias) {
-            media = mediaService.setOrderThumbnail(mediaDto);
+            Media media = mediaService.setMediaOrdering(mediaDto);
             media.setTicket(ticket);
         }
-        ticket.setMember(memberJwtService.getMember());
-        ticketRepository.save(ticket);
 
-        return ticket;
+        // Ticket Folder 연결
+        if (ticketFolder.getMember() != member) {
+            throw new BusinessException(ErrorCode.TICKET_FOLDER_ADD_AUTH);
+        }
+        ticket.setTicketFolder(ticketFolder);
+
+        // Member 연결
+        ticket.setMember(member);
+
+        return ticketRepository.save(ticket);
     }
 
     public Ticket getTicket(Long id) {

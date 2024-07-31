@@ -1,6 +1,8 @@
 package project.backend.domain.ticket.dto;
 
 import lombok.*;
+import project.backend.domain.ticketfolder.dto.TicketFolderRetrieveDto;
+
 import java.time.LocalDateTime;
 
 @Getter
@@ -19,4 +21,5 @@ public class TicketRetrieveDto {
     public Integer price;
     private String review;
     public String mediasData;
+    public TicketFolderRetrieveDto ticketFolder;
 }

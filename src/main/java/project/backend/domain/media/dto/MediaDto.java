@@ -10,5 +10,4 @@ import lombok.*;
 public class MediaDto {
     private String mediaUrl;
     private Integer ordering;
-    private Boolean isThumbnail;
 }

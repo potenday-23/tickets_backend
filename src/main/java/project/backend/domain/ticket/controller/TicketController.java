@@ -28,7 +28,7 @@ public class TicketController {
     private final TicketService ticketService;
     private final TicketMapper ticketMapper;
 
-    @ApiOperation(value = "티켓 생성하기")
+    @ApiOperation(value = "티켓 생성")
     @PreAuthorize("isAuthenticated()")
     @PostMapping
     public ResponseEntity create(@Valid @RequestBody TicketCreateDto ticketCreateDto) {
