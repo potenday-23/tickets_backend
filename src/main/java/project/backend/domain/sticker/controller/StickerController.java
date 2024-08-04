@@ -13,7 +13,7 @@ import project.backend.domain.sticker.service.StickerService;
 
 import java.util.List;
 
-@Api(tags = "스티커 API")
+@Api(tags = "Sticker - 스티커")
 @RestController
 @RequestMapping("/api/stickers")
 @RequiredArgsConstructor
