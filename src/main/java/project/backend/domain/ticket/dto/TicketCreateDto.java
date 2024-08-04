@@ -3,6 +3,7 @@ package project.backend.domain.ticket.dto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import project.backend.domain.media.dto.MediaDto;
+import project.backend.domain.place.dto.PlaceCreateDto;
 
 import javax.validation.constraints.*;
 import java.time.LocalDate;
@@ -14,8 +15,6 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class TicketCreateDto {
-    // TODO(sprint4) : Category, place 연결 미구현 상태
-
     @NotBlank
     @NotNull(message = "문화생활의 제목을 입력해주세요")
     @Size(min = 1, max = 20, message = "1자 ~ 20자 사이만 입력 가능합니다.")
@@ -51,4 +50,6 @@ public class TicketCreateDto {
     public Long ticketFolderId;
 
     public List<MediaDto> medias;
+
+    public PlaceCreateDto place;
 }

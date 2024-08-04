@@ -23,7 +23,7 @@ import project.backend.domain.culturalevnetcategory.service.CulturalEventCategor
 import project.backend.domain.culturalevnetinfo.dto.CulturalEventInfoCreateDto;
 import project.backend.domain.culturalevnetinfo.entity.CulturalEventInfo;
 import project.backend.domain.culturalevnetinfo.service.CulturalEventInfoService;
-import project.backend.domain.place.dto.PlaceCreateDto;
+import project.backend.domain.place.dto.CrawlPlaceCreateDto;
 import project.backend.domain.place.entity.Place;
 import project.backend.domain.place.service.PlaceService;
 import project.backend.domain.ticketingsite.entity.TicketingSite;
@@ -76,8 +76,8 @@ public class CulturalEventBatchService {
             culturalEvent = culturalEventMapper.culturalEventCreateDtoToCulturalEvent(culturalEventCreateDto);
         }
         // Place 연관관계 매핑
-        PlaceCreateDto placeCreateDto = placeService.getPlaceCreateDtoFromPlaceCode(culturalEventCreateDto.getPlaceCode());
-        Place place = placeService.createPlace(placeCreateDto);
+        CrawlPlaceCreateDto placeCreateDto = placeService.getCrawlPlaceCreateDtoFromPlaceCode(culturalEventCreateDto.getPlaceCode());
+        Place place = placeService.createCrawlPlace(placeCreateDto);
         culturalEvent.setPlace(place);
 
         // CulturalEventCategory 연관관계 매핑
