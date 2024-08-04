@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class TicketRetrieveDto {
-    // TODO(sprint4) : Category, place 연결 미구현 상태
+    // TODO(sprint4) : place 연결 미구현 상태
     public Long id;
     public String title;
     public String mainImageUrl;
