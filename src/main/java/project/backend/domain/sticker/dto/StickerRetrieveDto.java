@@ -8,6 +8,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class StickerRetrieveDto {
+    public Long id;
     public String title;
-    public String content;
+    public String imageUrl;
 }
