@@ -7,7 +7,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PlaceRetrieveDto {
-    private String title;
+    private String name;
     private String address;
     private Double latitude;
     private Double longitude;

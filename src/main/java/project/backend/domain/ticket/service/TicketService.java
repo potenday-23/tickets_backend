@@ -15,6 +15,8 @@ import project.backend.domain.media.entity.Media;
 import project.backend.domain.media.service.MediaService;
 import project.backend.domain.member.entity.Member;
 import project.backend.domain.member.service.MemberJwtService;
+import project.backend.domain.place.entity.Place;
+import project.backend.domain.place.service.PlaceService;
 import project.backend.domain.ticket.dto.TicketCreateDto;
 import project.backend.domain.ticket.entity.Ticket;
 import project.backend.domain.ticket.repository.TicketRepository;
@@ -34,6 +36,7 @@ public class TicketService {
     private final TicketFolderRepository ticketFolderRepository;
     private final MediaService mediaService;
     private final MemberJwtService memberJwtService;
+    private final PlaceService placeService;
 
     public Ticket createTicket(TicketCreateDto ticketCreateDto) {
 
@@ -50,6 +53,10 @@ public class TicketService {
                 .seat(ticketCreateDto.getSeat())
                 .price(ticketCreateDto.getPrice())
                 .build();
+
+        // Place 연결
+        Place place = placeService.createPlace(ticketCreateDto.getPlace());
+        ticket.setPlace(place);
 
         // Media 연결
         for (MediaDto mediaDto : ticketCreateDto.medias) {
