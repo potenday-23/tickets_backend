@@ -1,9 +1,8 @@
-package project.backend.domain.culturalevnetcategory.repository;
+package project.backend.domain.culturaleventcategory.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import project.backend.domain.culturalevnetcategory.entity.CategoryTitle;
-import project.backend.domain.culturalevnetcategory.entity.CulturalEventCategory;
-import project.backend.domain.place.entity.Place;
+import project.backend.domain.culturaleventcategory.entity.CategoryTitle;
+import project.backend.domain.culturaleventcategory.entity.CulturalEventCategory;
 
 import java.util.Optional;
 

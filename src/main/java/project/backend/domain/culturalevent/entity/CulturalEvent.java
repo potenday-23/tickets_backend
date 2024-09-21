@@ -3,7 +3,7 @@ package project.backend.domain.culturalevent.entity;
 import lombok.*;
 import project.backend.domain.common.entity.BaseEntity;
 import project.backend.domain.like.entity.CulturalEventLike;
-import project.backend.domain.culturalevnetcategory.entity.CulturalEventCategory;
+import project.backend.domain.culturaleventcategory.entity.CulturalEventCategory;
 import project.backend.domain.culturalevnetinfo.entity.CulturalEventInfo;
 import project.backend.domain.member.entity.Member;
 import project.backend.domain.place.entity.Place;

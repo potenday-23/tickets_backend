@@ -1,15 +1,12 @@
-package project.backend.domain.culturalevnetcategory.service;
+package project.backend.domain.culturaleventcategory.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
-import project.backend.domain.category.entity.Category;
-import project.backend.domain.culturalevnetcategory.entity.CategoryTitle;
-import project.backend.domain.culturalevnetcategory.entity.CulturalEventCategory;
-import project.backend.domain.culturalevnetcategory.repository.CulturalEventCategoryRepository;
-import project.backend.domain.quit.entity.Quit;
-import project.backend.domain.quit.repository.QuitRepository;
+import project.backend.domain.culturaleventcategory.entity.CategoryTitle;
+import project.backend.domain.culturaleventcategory.entity.CulturalEventCategory;
+import project.backend.domain.culturaleventcategory.repository.CulturalEventCategoryRepository;
 
 import java.util.ArrayList;
 import java.util.List;

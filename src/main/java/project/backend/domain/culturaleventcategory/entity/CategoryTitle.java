@@ -1,4 +1,4 @@
-package project.backend.domain.culturalevnetcategory.entity;
+package project.backend.domain.culturaleventcategory.entity;
 
 import lombok.Getter;
 

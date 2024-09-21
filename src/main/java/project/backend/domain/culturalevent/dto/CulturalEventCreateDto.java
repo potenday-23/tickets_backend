@@ -3,7 +3,7 @@ package project.backend.domain.culturalevent.dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.*;
-import project.backend.domain.culturalevnetcategory.entity.CategoryTitle;
+import project.backend.domain.culturaleventcategory.entity.CategoryTitle;
 import project.backend.global.config.CustomDateDeserializer;
 import project.backend.global.config.CustomDateTimeDeserializer;
 

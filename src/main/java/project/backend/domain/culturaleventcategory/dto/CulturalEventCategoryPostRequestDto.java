@@ -1,9 +1,7 @@
-package project.backend.domain.culturalevnetcategory.dto;
+package project.backend.domain.culturaleventcategory.dto;
 
 import lombok.*;
-import project.backend.domain.culturalevnetcategory.entity.CategoryTitle;
-
-import javax.persistence.Column;
+import project.backend.domain.culturaleventcategory.entity.CategoryTitle;
 
 @Getter
 @Setter

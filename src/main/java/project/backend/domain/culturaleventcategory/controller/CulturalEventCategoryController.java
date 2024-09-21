@@ -1,4 +1,4 @@
-package project.backend.domain.culturalevnetcategory.controller;
+package project.backend.domain.culturaleventcategory.controller;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -6,10 +6,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import project.backend.domain.culturalevnetcategory.dto.CulturalEventCategoryListDto;
-import project.backend.domain.culturalevnetcategory.entity.CulturalEventCategory;
-import project.backend.domain.culturalevnetcategory.mapper.CulturalEventCategoryMapper;
-import project.backend.domain.culturalevnetcategory.service.CulturalEventCategoryService;
+import project.backend.domain.culturaleventcategory.dto.CulturalEventCategoryListDto;
+import project.backend.domain.culturaleventcategory.entity.CulturalEventCategory;
+import project.backend.domain.culturaleventcategory.mapper.CulturalEventCategoryMapper;
+import project.backend.domain.culturaleventcategory.service.CulturalEventCategoryService;
 
 import java.util.List;
 

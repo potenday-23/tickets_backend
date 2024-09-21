@@ -1,6 +1,5 @@
 package project.backend.domain.culturalevent.repository;
 
-import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.CaseBuilder;
 import com.querydsl.core.types.dsl.NumberTemplate;
@@ -11,7 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import project.backend.domain.culturalevent.entity.CulturalEvent;
-import project.backend.domain.culturalevnetcategory.entity.CategoryTitle;
+import project.backend.domain.culturaleventcategory.entity.CategoryTitle;
 import project.backend.domain.member.entity.Member;
 import project.backend.domain.member.service.MemberJwtService;
 

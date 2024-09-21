@@ -14,7 +14,7 @@ import project.backend.domain.culturalevent.dto.CulturalEventSearchListDto;
 import project.backend.domain.culturalevent.entity.CulturalEvent;
 import project.backend.domain.culturalevent.mapper.CulturalEventMapper;
 import project.backend.domain.culturalevent.service.CulturalEventService;
-import project.backend.domain.culturalevnetcategory.entity.CategoryTitle;
+import project.backend.domain.culturaleventcategory.entity.CategoryTitle;
 import project.backend.domain.culturalevnetinfo.service.CulturalEventInfoService;
 import project.backend.domain.keyword.dto.CulturalEventPopularKeywordListDto;
 import project.backend.domain.keyword.dto.CulturalEventSearchKeywordListDto;

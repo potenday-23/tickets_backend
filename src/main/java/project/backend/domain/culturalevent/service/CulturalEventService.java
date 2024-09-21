@@ -7,7 +7,7 @@ import project.backend.domain.culturalevent.entity.CulturalEvent;
 import project.backend.domain.culturalevent.repository.CulturalEventRepository;
 import project.backend.domain.like.entity.CulturalEventLike;
 import project.backend.domain.like.repository.CulturalEventLikeRepository;
-import project.backend.domain.culturalevnetcategory.entity.CategoryTitle;
+import project.backend.domain.culturaleventcategory.entity.CategoryTitle;
 import project.backend.domain.member.entity.Member;
 import project.backend.domain.member.service.MemberJwtService;
 import project.backend.domain.notification.service.NotificationService;

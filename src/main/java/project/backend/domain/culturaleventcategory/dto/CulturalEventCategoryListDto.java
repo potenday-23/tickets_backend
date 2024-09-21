@@ -1,4 +1,4 @@
-package project.backend.domain.culturalevnetcategory.dto;
+package project.backend.domain.culturaleventcategory.dto;
 import lombok.*;
 
 @Getter

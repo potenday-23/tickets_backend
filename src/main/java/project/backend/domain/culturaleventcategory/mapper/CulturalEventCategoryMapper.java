@@ -1,11 +1,11 @@
-package project.backend.domain.culturalevnetcategory.mapper;
+package project.backend.domain.culturaleventcategory.mapper;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
-import project.backend.domain.culturalevnetcategory.dto.CulturalEventCategoryListDto;
-import project.backend.domain.culturalevnetcategory.entity.CulturalEventCategory;
+import project.backend.domain.culturaleventcategory.dto.CulturalEventCategoryListDto;
+import project.backend.domain.culturaleventcategory.entity.CulturalEventCategory;
 
 import java.util.List;
 

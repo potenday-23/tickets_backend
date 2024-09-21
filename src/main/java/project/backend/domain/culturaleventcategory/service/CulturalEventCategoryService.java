@@ -1,14 +1,14 @@
-package project.backend.domain.culturalevnetcategory.service;
+package project.backend.domain.culturaleventcategory.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import project.backend.domain.culturalevnetcategory.dto.CulturalEventCategoryPostRequestDto;
-import project.backend.domain.culturalevnetcategory.entity.CategoryTitle;
-import project.backend.domain.culturalevnetcategory.entity.CulturalEventCategory;
-import project.backend.domain.culturalevnetcategory.mapper.CulturalEventCategoryMapper;
-import project.backend.domain.culturalevnetcategory.repository.CulturalEventCategoryRepository;
+import project.backend.domain.culturaleventcategory.dto.CulturalEventCategoryPostRequestDto;
+import project.backend.domain.culturaleventcategory.entity.CategoryTitle;
+import project.backend.domain.culturaleventcategory.entity.CulturalEventCategory;
+import project.backend.domain.culturaleventcategory.mapper.CulturalEventCategoryMapper;
+import project.backend.domain.culturaleventcategory.repository.CulturalEventCategoryRepository;
 import project.backend.global.error.exception.BusinessException;
 import project.backend.global.error.exception.ErrorCode;
 
