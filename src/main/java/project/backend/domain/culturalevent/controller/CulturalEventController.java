@@ -62,7 +62,7 @@ public class CulturalEventController {
         Member member = memberJwtService.getMember();
 
         // Save Search Keyword
-        if (keyword != null) {
+        if (keyword != null && member != null) {
             culturalEventSearchKeywordService.createCulturalEventSearchKeyword(member, keyword);
         }
 

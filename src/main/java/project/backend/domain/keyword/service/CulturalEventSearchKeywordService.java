@@ -39,7 +39,7 @@ public class CulturalEventSearchKeywordService {
     public void createCulturalEventSearchKeyword(Member member, String keyword) {
         Optional<CulturalEventSearchKeyword> culturalEventSearchKeywordOptional = culturalEventSearchKeywordRepository.findFirstByMemberAndKeywordAndIsRecentTrue(member, keyword);
 
-        if (culturalEventSearchKeywordOptional.isEmpty()) {
+        if (!culturalEventSearchKeywordOptional.isPresent()) {
             CulturalEventSearchKeyword culturalEventSearchKeyword = CulturalEventSearchKeyword.builder()
                     .keyword(keyword).build();
             culturalEventSearchKeyword.setMember(member);
