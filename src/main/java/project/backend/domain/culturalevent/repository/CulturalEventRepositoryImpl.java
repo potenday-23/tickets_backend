@@ -30,7 +30,7 @@ public class CulturalEventRepositoryImpl implements CulturalEventRepositoryCusto
     private final MemberJwtService memberJwtService;
 
     @Override
-    public List<CulturalEvent> getCulturalEventList(int page, int size, List<CategoryTitle> categories, String ordering, Boolean isOpened, Double latitude, Double longitude, String keyword) {
+    public List<CulturalEvent> getCulturalEventList(int page, int size, List<CategoryTitle> categories, String ordering, Boolean isProgress, Boolean isOpened, Double latitude, Double longitude, String keyword) {
         // 현재 시간
         LocalDateTime now = LocalDateTime.now();
         ZonedDateTime zonedDateTime = now.atZone(ZoneId.systemDefault());
@@ -68,6 +68,20 @@ public class CulturalEventRepositoryImpl implements CulturalEventRepositoryCusto
 //                culturalEventJPAQuery.orderBy(orderSpecifier);
             }
         }
+
+        // isProgress 있을 경우
+        if (isProgress != null) {
+            Date nowDate = new Date();  // 현재 시간을 한 번 가져옵니다.
+
+            if (isProgress) {
+                // 공연이 진행 중인 경우 (시작일이 현재 시간 이전이고 종료일이 현재 시간 이후일 때)
+                culturalEventJPAQuery.where(culturalEvent.startDate.before(nowDate).and(culturalEvent.endDate.after(nowDate)));
+            } else {
+                // 공연이 끝난 경우 (시작일이 현재 시간 이전일 때)
+                culturalEventJPAQuery.where(culturalEvent.startDate.after(nowDate));
+            }
+        }
+
 
         // isOpened 있을 경우
         if (isOpened != null) {

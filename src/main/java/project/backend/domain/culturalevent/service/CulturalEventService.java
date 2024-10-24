@@ -32,8 +32,8 @@ public class CulturalEventService {
     private final CulturalEventVisitRepository culturalEventVisitRepository;
     private final NotificationService notificationService;
 
-    public List<CulturalEvent> getCulturalEventList(int page, int size, List<CategoryTitle> categories, String ordering, Boolean isOpened, Double latitude, Double longitude, String keyword) {
-        return culturalEventRepository.getCulturalEventList(page, size, categories, ordering, isOpened, latitude, longitude, keyword);
+    public List<CulturalEvent> getCulturalEventList(int page, int size, List<CategoryTitle> categories, String ordering, Boolean isProgress, Boolean isOpened, Double latitude, Double longitude, String keyword) {
+        return culturalEventRepository.getCulturalEventList(page, size, categories, ordering, isProgress, isOpened, latitude, longitude, keyword);
     }
 
     public List<CulturalEvent> getCulturalEventSearchList(int page, int size, String keyword) {
@@ -71,7 +71,7 @@ public class CulturalEventService {
         CulturalEvent culturalEvent = getCulturalEvent(id);
         Optional<CulturalEventLike> culturalEventLikeOptional = culturalEvent.findMemberLike(member);
 
-        if (culturalEventLikeOptional.isEmpty()) {
+        if (!culturalEventLikeOptional.isPresent()) {
             return;
         }
 

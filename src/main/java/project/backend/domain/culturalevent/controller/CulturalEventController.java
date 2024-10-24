@@ -52,7 +52,9 @@ public class CulturalEventController {
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(required = false) String ordering,
+            @RequestParam(required = false) Boolean isProgress,
             @RequestParam(required = false) Boolean isOpened,
+            @RequestParam(required = false) Long recommendCriteria,
             @RequestParam(required = false) Double latitude,
             @RequestParam(required = false) Double longitude,
             @RequestParam(required = false) List<CategoryTitle> categories,
@@ -68,7 +70,7 @@ public class CulturalEventController {
 
         // Get Cultural Event List Dto
         List<CulturalEvent> culturalEventList = culturalEventService
-                .getCulturalEventList(page, size, categories, ordering, isOpened, latitude, longitude, keyword);
+                .getCulturalEventList(page, size, categories, ordering, isProgress, isOpened, latitude, longitude, keyword);
         List<CulturalEventListDto> culturalEventResponseDtoList = culturalEventMapper
                 .culturalEventToCulturalEventListDtos(culturalEventList);
         culturalEventResponseDtoList.forEach(dto -> {
